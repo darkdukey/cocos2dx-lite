@@ -17,14 +17,12 @@
 #endif
 
 ProjectConfig::ProjectConfig()
-    : _isWelcome(false)
-    , _scriptFile("$(PROJDIR)/scripts/main.lua")
+    : _scriptFile("$(PROJDIR)/src/main.lua")
     , _writablePath("")
     , _packagePath("")
     , _frameSize(960, 640)
     , _frameScale(1.0f)
     , _showConsole(true)
-    , _loadPrecompiledFramework(false)
     , _writeDebugLogToFile(true)
     , _windowOffset(0, 0)
     , _debuggerType(kCCLuaDebuggerNone)
@@ -33,54 +31,6 @@ ProjectConfig::ProjectConfig()
     , _isRetinaDisplay(false)
 {
     normalize();
-}
-
-bool ProjectConfig::isWelcome() const
-{
-    return _isWelcome;
-}
-
-void ProjectConfig::resetToWelcome()
-{
-    _isWelcome = true;
-    auto path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-    path.append("quick/welcome");
-    //path.append("quick/samples/ccsloader");
-    SimulatorConfig::makeNormalizePath(&path);
-    setProjectDir(path);
-    setWritablePath(path);
-    setScriptFile("$(PROJDIR)/scripts/main.lua");
-    setFrameSize(cocos2d::Size(960, 640));
-    setFrameScale(1.0f);
-    setLoadPrecompiledFramework(false);
-    setPackagePath("");
-    setShowConsole(false);
-    setWindowOffset(cocos2d::Vec2::ZERO);
-    setWriteDebugLogToFile(false);
-    _isAppMenu = false;
-    _isResizeWindow = false;
-    _isRetinaDisplay = true;
-}
-
-void ProjectConfig::resetToCreator()
-{
-    _isWelcome = true;
-    auto path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-    path.append("quick/creator");
-    SimulatorConfig::makeNormalizePath(&path);
-    setProjectDir(path);
-    setWritablePath(path);
-    setScriptFile("$(PROJDIR)/scripts/main.lua");
-    setFrameSize(cocos2d::Size(960, 640));
-    setFrameScale(1.0f);
-    setLoadPrecompiledFramework(false);
-    setPackagePath("");
-    setShowConsole(false);
-    setWindowOffset(cocos2d::Vec2::ZERO);
-    setWriteDebugLogToFile(false);
-    _isAppMenu = true;
-    _isResizeWindow = true;
-    _isRetinaDisplay = true;
 }
 
 string ProjectConfig::getProjectDir() const
@@ -248,16 +198,6 @@ void ProjectConfig::setShowConsole(bool showConsole)
     _showConsole = showConsole;
 }
 
-bool ProjectConfig::isLoadPrecompiledFramework() const
-{
-    return _loadPrecompiledFramework;
-}
-
-void ProjectConfig::setLoadPrecompiledFramework(bool load)
-{
-    _loadPrecompiledFramework = load;
-}
-
 bool ProjectConfig::isWriteDebugLogToFile() const
 {
     return _writeDebugLogToFile;
@@ -302,13 +242,7 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
     {
         string arg = *it;
 
-        if (arg.compare("-quick") == 0)
-        {
-            ++it;
-            if (it == args.end()) break;
-            SimulatorConfig::getInstance()->setQuickCocos2dxRootPath((*it).c_str());
-        }
-        else if (arg.compare("-workdir") == 0)
+        if (arg.compare("-workdir") == 0)
         {
             ++it;
             if (it == args.end()) break;
@@ -382,14 +316,6 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
         {
             setShowConsole(false);
         }
-        else if (arg.compare("-load-framework") == 0)
-        {
-            setLoadPrecompiledFramework(true);
-        }
-        else if (arg.compare("-disable-load-framework") == 0)
-        {
-            setLoadPrecompiledFramework(false);
-        }
         else if (arg.compare("-offset") == 0)
         {
             ++it;
@@ -433,16 +359,6 @@ void ProjectConfig::parseCommandLine(const vector<string> &args)
 string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfigAll */) const
 {
     stringstream buff;
-
-    if (mask & kProjectConfigQuickRootPath)
-    {
-        auto path = SimulatorConfig::getInstance()->getQuickCocos2dxRootPath();
-        if (path.length())
-        {
-            buff << " -quick ";
-            buff << path;
-        }
-    }
 
     if (mask & kProjectConfigProjectDir)
     {
@@ -526,18 +442,6 @@ string ProjectConfig::makeCommandLine(unsigned int mask /* = kProjectConfigAll *
         }
     }
 
-    if (mask & kProjectConfigLoadPrecompiledFramework)
-    {
-        if (isLoadPrecompiledFramework())
-        {
-            buff << " -load-framework";
-        }
-        else
-        {
-            buff << " -disable-load-framework";
-        }
-    }
-
     if (mask & kProjectConfigWindowOffset)
     {
         if (_windowOffset.x != 0 && _windowOffset.y != 0)
@@ -601,7 +505,6 @@ bool ProjectConfig::validate() const
 void ProjectConfig::dump()
 {
     CCLOG("Project Config:");
-    CCLOG("    quick root path: %s", SimulatorConfig::getInstance()->getQuickCocos2dxRootPath().c_str());
     CCLOG("    project dir: %s", _projectDir.c_str());
     CCLOG("    writable path: %s", _writablePath.length() ? _writablePath.c_str() : "-");
     CCLOG("    script file: %s", _scriptFile.c_str());

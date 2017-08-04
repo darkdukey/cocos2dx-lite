@@ -88,6 +88,7 @@ else
 end
 
 device.language = language_
+device.resRootPath = cc.FileUtils:getInstance():getDefaultResourceRootPath()
 device.writablePath = cc.FileUtils:getInstance():getWritablePath()
 device.directorySeparator = "/"
 device.pathSeparator = ":"
@@ -96,6 +97,7 @@ if device.platform == "windows" then
     device.pathSeparator = ";"
 end
 
+printInfo("# device.defaultResRootPath    = " .. device.resRootPath)
 printInfo("# device.platform              = " .. device.platform)
 printInfo("# device.model                 = " .. device.model)
 printInfo("# device.language              = " .. device.language)

@@ -40,10 +40,6 @@ public:
     static const int DEFAULT_WIDTH = 640;
     static const int DEFAULT_HEIGHT = 960;
 
-    bool isWelcome() const;
-    void resetToWelcome();
-    void resetToCreator();
-
     string getProjectDir() const;
     void setProjectDir(const string &projectDir);
 
@@ -75,8 +71,6 @@ public:
     bool isShowConsole() const;
     void setShowConsole(bool showConsole);
 
-    bool isLoadPrecompiledFramework() const;
-    void setLoadPrecompiledFramework(bool load);
 
     bool isWriteDebugLogToFile() const;
     void setWriteDebugLogToFile(bool writeDebugLogToFile);
@@ -99,7 +93,6 @@ public:
     void dump();
 
 private:
-    bool _isWelcome;
     string _projectDir;
     string _scriptFile;
     string _packagePath;
@@ -107,7 +100,6 @@ private:
     cocos2d::Size _frameSize;
     float _frameScale;
     bool _showConsole;
-    bool _loadPrecompiledFramework;
     bool _writeDebugLogToFile;
     bool _restartProcess;
     cocos2d::Vec2 _windowOffset;

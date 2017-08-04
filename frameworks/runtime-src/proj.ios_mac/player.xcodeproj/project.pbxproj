@@ -57,12 +57,8 @@
 		9FA752341D32119800F05F08 /* SimulatorConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FA7522F1D32119800F05F08 /* SimulatorConfig.cpp */; };
 		9FA7525F1D32169600F05F08 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FA752531D32169600F05F08 /* AppController.mm */; };
 		9FA752601D32169600F05F08 /* AppControllerBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FA752551D32169600F05F08 /* AppControllerBridge.mm */; };
-		9FA752611D32169600F05F08 /* CreateNewProjectDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA752561D32169600F05F08 /* CreateNewProjectDialog.xib */; };
-		9FA752621D32169600F05F08 /* CreateNewProjectDialogController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FA752581D32169600F05F08 /* CreateNewProjectDialogController.mm */; };
 		9FA752631D32169600F05F08 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA752591D32169600F05F08 /* MainMenu.xib */; };
 		9FA752641D32169600F05F08 /* NSApplication+SheetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA7525B1D32169600F05F08 /* NSApplication+SheetAdditions.m */; };
-		9FA752651D32169600F05F08 /* ProjectConfigDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA7525C1D32169600F05F08 /* ProjectConfigDialog.xib */; };
-		9FA752661D32169600F05F08 /* ProjectConfigDialogController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FA7525E1D32169600F05F08 /* ProjectConfigDialogController.mm */; };
 		9FF504841A5E87B100AFDA55 /* ConsoleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FF504811A5E87B100AFDA55 /* ConsoleWindow.xib */; };
 		9FF504851A5E87B100AFDA55 /* ConsoleWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF504831A5E87B100AFDA55 /* ConsoleWindowController.m */; };
 		C03781B918BF655400FE4F13 /* res in Resources */ = {isa = PBXBuildFile; fileRef = C03781B718BF655400FE4F13 /* res */; };
@@ -195,15 +191,9 @@
 		9FA752531D32169600F05F08 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppController.mm; sourceTree = "<group>"; };
 		9FA752541D32169600F05F08 /* AppControllerBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppControllerBridge.h; sourceTree = "<group>"; };
 		9FA752551D32169600F05F08 /* AppControllerBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppControllerBridge.mm; sourceTree = "<group>"; };
-		9FA752561D32169600F05F08 /* CreateNewProjectDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateNewProjectDialog.xib; sourceTree = "<group>"; };
-		9FA752571D32169600F05F08 /* CreateNewProjectDialogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateNewProjectDialogController.h; sourceTree = "<group>"; };
-		9FA752581D32169600F05F08 /* CreateNewProjectDialogController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CreateNewProjectDialogController.mm; sourceTree = "<group>"; };
 		9FA752591D32169600F05F08 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		9FA7525A1D32169600F05F08 /* NSApplication+SheetAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+SheetAdditions.h"; sourceTree = "<group>"; };
 		9FA7525B1D32169600F05F08 /* NSApplication+SheetAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+SheetAdditions.m"; sourceTree = "<group>"; };
-		9FA7525C1D32169600F05F08 /* ProjectConfigDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectConfigDialog.xib; sourceTree = "<group>"; };
-		9FA7525D1D32169600F05F08 /* ProjectConfigDialogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectConfigDialogController.h; sourceTree = "<group>"; };
-		9FA7525E1D32169600F05F08 /* ProjectConfigDialogController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProjectConfigDialogController.mm; sourceTree = "<group>"; };
 		9FF504811A5E87B100AFDA55 /* ConsoleWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConsoleWindow.xib; sourceTree = "<group>"; };
 		9FF504821A5E87B100AFDA55 /* ConsoleWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleWindowController.h; sourceTree = "<group>"; };
 		9FF504831A5E87B100AFDA55 /* ConsoleWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleWindowController.m; sourceTree = "<group>"; };
@@ -314,15 +304,9 @@
 				9FA752531D32169600F05F08 /* AppController.mm */,
 				9FA752541D32169600F05F08 /* AppControllerBridge.h */,
 				9FA752551D32169600F05F08 /* AppControllerBridge.mm */,
-				9FA752561D32169600F05F08 /* CreateNewProjectDialog.xib */,
-				9FA752571D32169600F05F08 /* CreateNewProjectDialogController.h */,
-				9FA752581D32169600F05F08 /* CreateNewProjectDialogController.mm */,
 				9FA752591D32169600F05F08 /* MainMenu.xib */,
 				9FA7525A1D32169600F05F08 /* NSApplication+SheetAdditions.h */,
 				9FA7525B1D32169600F05F08 /* NSApplication+SheetAdditions.m */,
-				9FA7525C1D32169600F05F08 /* ProjectConfigDialog.xib */,
-				9FA7525D1D32169600F05F08 /* ProjectConfigDialogController.h */,
-				9FA7525E1D32169600F05F08 /* ProjectConfigDialogController.mm */,
 				9FF504811A5E87B100AFDA55 /* ConsoleWindow.xib */,
 				9FF504821A5E87B100AFDA55 /* ConsoleWindowController.h */,
 				9FF504831A5E87B100AFDA55 /* ConsoleWindowController.m */,
@@ -569,10 +553,8 @@
 			files = (
 				C03781BA18BF655400FE4F13 /* res in Resources */,
 				C03781BC18BF655400FE4F13 /* src in Resources */,
-				9FA752611D32169600F05F08 /* CreateNewProjectDialog.xib in Resources */,
 				9FF504841A5E87B100AFDA55 /* ConsoleWindow.xib in Resources */,
 				5023817617EBBE3400990C9B /* Icon.icns in Resources */,
-				9FA752651D32169600F05F08 /* ProjectConfigDialog.xib in Resources */,
 				9FA752631D32169600F05F08 /* MainMenu.xib in Resources */,
 				C05D1C131923449100B808A4 /* config.json in Resources */,
 			);
@@ -633,8 +615,6 @@
 				9FA752321D32119800F05F08 /* ProjectConfig.cpp in Sources */,
 				9FA752601D32169600F05F08 /* AppControllerBridge.mm in Sources */,
 				5023813317EBBCE400990C9B /* AppDelegate.cpp in Sources */,
-				9FA752661D32169600F05F08 /* ProjectConfigDialogController.mm in Sources */,
-				9FA752621D32169600F05F08 /* CreateNewProjectDialogController.mm in Sources */,
 				9FA7525F1D32169600F05F08 /* AppController.mm in Sources */,
 				9FF504851A5E87B100AFDA55 /* ConsoleWindowController.m in Sources */,
 				C07828F818B4D72E00BD2287 /* main.m in Sources */,

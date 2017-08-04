@@ -43,13 +43,6 @@ public:
     SimulatorScreenSize getScreenSize(int index) const;
     int checkScreenSize(const cocos2d::Size &size) const;
 
-    // set quick-cocos2d-x root path
-    void setQuickCocos2dxRootPath(const string &path);
-    string getQuickCocos2dxRootPath() const;
-
-    // get precompiled framework path
-    string getPrecompiledFrameworkPath() const;
-
     // helper
     static void makeNormalizePath(string *path, const char *directorySeparator = NULL);
 
@@ -59,7 +52,6 @@ private:
     static SimulatorConfig *_instance;
 
     ScreenSizeArray _screenSizeArray;
-    string _quickCocos2dxRootPath;
 };
 
 #endif // __SIMULATOR_CONFIG_H_

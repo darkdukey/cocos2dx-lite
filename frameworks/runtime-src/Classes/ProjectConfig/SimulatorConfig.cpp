@@ -64,40 +64,6 @@ int SimulatorConfig::checkScreenSize(const cocos2d::Size &size) const
     return -1;
 }
 
-
-void SimulatorConfig::setQuickCocos2dxRootPath(const string &path)
-{
-    if (path.length())
-    {
-        _quickCocos2dxRootPath = path;
-        makeNormalizePath(&_quickCocos2dxRootPath);
-        if (_quickCocos2dxRootPath[_quickCocos2dxRootPath.length() - 1] != DIRECTORY_SEPARATOR_CHAR)
-        {
-            _quickCocos2dxRootPath.append(DIRECTORY_SEPARATOR);
-        }
-    }
-}
-
-string SimulatorConfig::getQuickCocos2dxRootPath() const
-{
-    return _quickCocos2dxRootPath;
-}
-
-// load framework
-string SimulatorConfig::getPrecompiledFrameworkPath() const
-{
-    string path = _quickCocos2dxRootPath;
-    path.append("quick");
-    path.append(DIRECTORY_SEPARATOR);
-    path.append("lib");
-    path.append(DIRECTORY_SEPARATOR);
-    path.append("framework_precompiled");
-    path.append(DIRECTORY_SEPARATOR);
-    path.append("framework_precompiled.zip");
-    return path;
-}
-
-
 // helper
 
 void SimulatorConfig::makeNormalizePath(string *path, const char *directorySeparator/* = NULL*/)
