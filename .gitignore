@@ -150,3 +150,6 @@ tests/cpp-tests/Resources/audio
 .d
 player/proj.win32/player.VC.db
 *.opendb
+
+/runtime
+/frameworks/cocos2d-x/cocos/platform/android/libcocos2dx/build
