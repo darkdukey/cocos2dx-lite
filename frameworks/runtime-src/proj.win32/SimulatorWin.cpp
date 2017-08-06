@@ -25,11 +25,11 @@
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 
 // define 1 to open console ui and setup windows system menu, 0 to disable
-#if (CC_CODE_IDE_DEBUG_SUPPORT > 0)
+//#if (CC_CODE_IDE_DEBUG_SUPPORT > 0)
 #define SIMULATOR_WITH_CONSOLE_AND_MENU 1
-#else
-#define SIMULATOR_WITH_CONSOLE_AND_MENU 0
-#endif
+//#else
+//#define SIMULATOR_WITH_CONSOLE_AND_MENU 0
+//#endif
 
 USING_NS_CC;
 
@@ -236,6 +236,10 @@ int SimulatorWin::run()
             _project.setProjectDir(args.at(1));
             //_project.setDebuggerType(kCCRuntimeDebuggerCodeIDE);
         }
+		else
+		{
+			_project.setProjectDir(getCurAppPath() + "/../../");
+		}
     }
 
     // create the application instance

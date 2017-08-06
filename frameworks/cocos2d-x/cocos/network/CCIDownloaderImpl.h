@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include <functional>
 
 #include "base/CCConsole.h"
 
