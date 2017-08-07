@@ -27,6 +27,11 @@ typedef struct _SimulatorScreenSize {
         title  = title_;
         width  = width_;
         height = height_;
+
+		if (width > height)
+		{
+			std::swap(width, height);
+		}
     }
 } SimulatorScreenSize;
 
