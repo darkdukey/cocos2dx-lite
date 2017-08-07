@@ -153,3 +153,7 @@ player/proj.win32/player.VC.db
 
 /runtime
 /frameworks/cocos2d-x/cocos/platform/android/libcocos2dx/build
+frameworks/runtime-src/proj.win32/src/
+frameworks/runtime-src/proj.win32/*.dll
+frameworks/runtime-src/proj.win32/player.VC.db
+frameworks/runtime-src/proj.win32/res/

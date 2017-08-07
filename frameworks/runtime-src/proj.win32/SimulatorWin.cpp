@@ -17,7 +17,11 @@
 #include <shlguid.h>
 #include <shellapi.h>
 
+#include <unordered_map>
+
 #include "SimulatorWin.h"
+
+#include "json/document.h"
 
 #include "glfw3.h"
 #include "glfw3native.h"
@@ -31,7 +35,37 @@
 //#define SIMULATOR_WITH_CONSOLE_AND_MENU 0
 //#endif
 
+#define ID_PORTRAIT 2001
+#define ID_LANDSCAPE 2002
+
+
 USING_NS_CC;
+
+static std::wstring s2ws(const std::string& s)
+{
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
+	return r;
+}
+
+HMENU hViewMenu = NULL;
+
+static void checkMenuItem(HMENU menu, int id, bool checked = true)
+{
+	MENUITEMINFO menuitem;
+	menuitem.cbSize = sizeof(menuitem);
+	menuitem.fMask = MIIM_STATE;
+	menuitem.fState = (checked) ? MFS_CHECKED : MFS_UNCHECKED;
+	if (SetMenuItemInfo(menu, id, MF_BYCOMMAND, &menuitem))
+	{
+
+	}
+}
 
 static WNDPROC g_oldWindowProc = NULL;
 INT_PTR CALLBACK AboutDialogCallback(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -114,6 +148,7 @@ SimulatorWin::SimulatorWin()
     , _hwnd(NULL)
     , _hwndConsole(NULL)
     , _writeDebugLogFile(nullptr)
+	, _projectName("player")
 {
 }
 
@@ -330,8 +365,7 @@ int SimulatorWin::run()
     //ConfigParser::getInstance()->setInitViewSize(frameSize);
     const bool isResize = _project.isResizeWindow();
     std::stringstream title;
-    title << "Cocos2d-x lite - ";;
-    //title << ConfigParser::getInstance()->getInitViewName();
+    title << "Cocos2d-x lite - " << _projectName << "(" << cocos2dVersion() << ") " << frameRect.size.width << "x" << frameRect.size.height;
     initGLContextAttrs();
     auto glview = GLViewImpl::createWithRect(title.str(), frameRect, frameScale);
     _hwnd = glview->getWin32Window();
@@ -383,200 +417,59 @@ int SimulatorWin::run()
 
 void SimulatorWin::setupUI()
 {
-#if 0
-    auto menuBar = player::PlayerProtocol::getInstance()->getMenuService();
+	hViewMenu = CreateMenu();
 
-    // FILE
-    menuBar->addItem("FILE_MENU", tr("File"));
-    menuBar->addItem("EXIT_MENU", tr("Exit"), "FILE_MENU");
+	SimulatorConfig *config = SimulatorConfig::getInstance();
+	int current = config->checkScreenSize(_project.getFrameSize());
+	// screen size
+	for (int i = 0; i < config->getScreenSizeCount(); i++)
+	{
+		SimulatorScreenSize size = config->getScreenSize(i);
+		auto index = 3000 + i;
+		AppendMenu(hViewMenu, MF_STRING, index, s2ws(size.title).c_str());
+		if (current == i) 
+		{
+			checkMenuItem(hViewMenu, index);
+		}
+	}
 
-    // VIEW
-    menuBar->addItem("VIEW_MENU", tr("View"));
-    SimulatorConfig *config = SimulatorConfig::getInstance();
-    int current = config->checkScreenSize(_project.getFrameSize());
-    for (int i = 0; i < config->getScreenSizeCount(); i++)
-    {
-        SimulatorScreenSize size = config->getScreenSize(i);
-        std::stringstream menuId;
-        menuId << "VIEWSIZE_ITEM_MENU_" << i;
-        auto menuItem = menuBar->addItem(menuId.str(), size.title.c_str(), "VIEW_MENU");
+	// 
+	AppendMenuW(hViewMenu, MF_SEPARATOR, 0, NULL);
+	AppendMenuW(hViewMenu, MF_STRING, ID_PORTRAIT, L"Portrait");
+	AppendMenuW(hViewMenu, MF_STRING, ID_LANDSCAPE, L"Landscape");
 
-        if (i == current)
-        {
-            menuItem->setChecked(true);
-        }
-    }
+	if (_project.isLandscapeFrame()) {
+		checkMenuItem(hViewMenu, ID_LANDSCAPE);
+	}
+	else {
+		checkMenuItem(hViewMenu, ID_PORTRAIT);
+	}
 
-    menuBar->addItem("DIRECTION_MENU_SEP", "-", "VIEW_MENU");
-    menuBar->addItem("DIRECTION_PORTRAIT_MENU", tr("Portrait"), "VIEW_MENU")
-        ->setChecked(_project.isPortraitFrame());
-    menuBar->addItem("DIRECTION_LANDSCAPE_MENU", tr("Landscape"), "VIEW_MENU")
-        ->setChecked(_project.isLandscapeFrame());
+	// scale
+	AppendMenuW(hViewMenu, MF_SEPARATOR, 0, NULL);
+	AppendMenuW(hViewMenu, MF_STRING, 1100, s2ws("Zoom Out (100%)").c_str());
+	AppendMenuW(hViewMenu, MF_STRING, 1075, s2ws("Zoom Out (75%)").c_str());
+	AppendMenuW(hViewMenu, MF_STRING, 1050, s2ws("Zoom Out (50%)").c_str());
+	AppendMenuW(hViewMenu, MF_STRING, 1025, s2ws("Zoom Out (25%)").c_str());
+	int scale = int(_project.getFrameScale() * 100);
+	checkMenuItem(hViewMenu, 1000 + scale);
 
-    menuBar->addItem("VIEW_SCALE_MENU_SEP", "-", "VIEW_MENU");
-    std::vector<player::PlayerMenuItem*> scaleMenuVector;
-    auto scale100Menu = menuBar->addItem("VIEW_SCALE_MENU_100", tr("Zoom Out").append(" (100%)"), "VIEW_MENU");
-    auto scale75Menu = menuBar->addItem("VIEW_SCALE_MENU_75", tr("Zoom Out").append(" (75%)"), "VIEW_MENU");
-    auto scale50Menu = menuBar->addItem("VIEW_SCALE_MENU_50", tr("Zoom Out").append(" (50%)"), "VIEW_MENU");
-    auto scale25Menu = menuBar->addItem("VIEW_SCALE_MENU_25", tr("Zoom Out").append(" (25%)"), "VIEW_MENU");
-    int frameScale = int(_project.getFrameScale() * 100);
-    if (frameScale == 100)
-    {
-        scale100Menu->setChecked(true);
-    }
-    else if (frameScale == 75)
-    {
-        scale75Menu->setChecked(true);
-    }
-    else if (frameScale == 50)
-    {
-        scale50Menu->setChecked(true);
-    }
-    else if (frameScale == 25)
-    {
-        scale25Menu->setChecked(true);
-    }
-    else
-    {
-        scale100Menu->setChecked(true);
-    }
+	HMENU menu = GetSystemMenu(_hwnd, FALSE);
+	AppendMenuW(menu, MF_POPUP, (UINT_PTR)hViewMenu, L"&View");
 
-    scaleMenuVector.push_back(scale100Menu);
-    scaleMenuVector.push_back(scale75Menu);
-    scaleMenuVector.push_back(scale50Menu);
-    scaleMenuVector.push_back(scale25Menu);
-
-    // About
-    menuBar->addItem("HELP_MENU", tr("Help"));
-    menuBar->addItem("ABOUT_MENUITEM", tr("About"), "HELP_MENU");
-
-    menuBar->addItem("REFRESH_MENU_SEP", "-", "VIEW_MENU");
-    menuBar->addItem("REFRESH_MENU", tr("Refresh"), "VIEW_MENU");
-
-    HWND &hwnd = _hwnd;
-    ProjectConfig &project = _project;
-    auto dispatcher = Director::getInstance()->getEventDispatcher();
-    dispatcher->addEventListenerWithFixedPriority(EventListenerCustom::create("APP.EVENT", [&project, &hwnd, scaleMenuVector](EventCustom* event){
-        auto menuEvent = dynamic_cast<AppEvent*>(event);
-        if (menuEvent)
-        {
-            rapidjson::Document dArgParse;
-            dArgParse.Parse<0>(menuEvent->getDataString().c_str());
-            if (dArgParse.HasMember("name"))
-            {
-                string strcmd = dArgParse["name"].GetString();
-
-                if (strcmd == "menuClicked")
-                {
-                    player::PlayerMenuItem *menuItem = static_cast<player::PlayerMenuItem*>(menuEvent->getUserData());
-                    if (menuItem)
-                    {
-                        if (menuItem->isChecked())
-                        {
-                            return;
-                        }
-
-                        string data = dArgParse["data"].GetString();
-
-                        if ((data == "CLOSE_MENU") || (data == "EXIT_MENU"))
-                        {
-                            _instance->quit();
-                        }
-                        else if (data == "REFRESH_MENU")
-                        {
-                            _instance->relaunch();
-                        }
-                        else if (data.find("VIEW_SCALE_MENU_") == 0) // begin with VIEW_SCALE_MENU_
-                        {
-                            string tmp = data.erase(0, strlen("VIEW_SCALE_MENU_"));
-                            float scale = atof(tmp.c_str()) / 100.0f;
-                            project.setFrameScale(scale);
-
-                            auto glview = static_cast<GLViewImpl*>(Director::getInstance()->getOpenGLView());
-                            glview->setFrameZoomFactor(scale);
-
-                            // update scale menu state
-                            for (auto &it : scaleMenuVector)
-                            {
-                                it->setChecked(false);
-                            }
-                            menuItem->setChecked(true);
-
-                            // update window size
-                            RECT rect;
-                            GetWindowRect(hwnd, &rect);
-                            MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top + GetSystemMetrics(SM_CYMENU), FALSE);
-
-                            // fix: can not update window on some windows system
-                            ::SendMessage(hwnd, WM_MOVE, NULL, NULL);
-                        }
-                        else if (data.find("VIEWSIZE_ITEM_MENU_") == 0) // begin with VIEWSIZE_ITEM_MENU_
-                        {
-                            string tmp = data.erase(0, strlen("VIEWSIZE_ITEM_MENU_"));
-                            int index = atoi(tmp.c_str());
-                            SimulatorScreenSize size = SimulatorConfig::getInstance()->getScreenSize(index);
-
-                            if (project.isLandscapeFrame())
-                            {
-                                std::swap(size.width, size.height);
-                            }
-
-                            project.setFrameSize(cocos2d::Size(size.width, size.height));
-                            project.setWindowOffset(cocos2d::Vec2(_instance->getPositionX(), _instance->getPositionY()));
-                            _instance->openProjectWithProjectConfig(project);
-                        }
-                        else if (data == "DIRECTION_PORTRAIT_MENU")
-                        {
-                            project.changeFrameOrientationToPortait();
-                            _instance->openProjectWithProjectConfig(project);
-                        }
-                        else if (data == "DIRECTION_LANDSCAPE_MENU")
-                        {
-                            project.changeFrameOrientationToLandscape();
-                            _instance->openProjectWithProjectConfig(project);
-                        }
-                        else if (data == "ABOUT_MENUITEM")
-                        {
-                            onHelpAbout();
-                        }
-
-                    }
-                }
-            }
-        }
-    }), 1);
-
-    AppDelegate *app = _app;
-    auto listener = EventListenerCustom::create(kAppEventDropName, [&project, app](EventCustom* event)
-    {
-        AppEvent *dropEvent = dynamic_cast<AppEvent*>(event);
-        if (dropEvent)
-        {
-            string dirPath = dropEvent->getDataString() + "/";
-            string configFilePath = dirPath + CONFIG_FILE;
-
-            if (FileUtils::getInstance()->isDirectoryExist(dirPath) &&
-                FileUtils::getInstance()->isFileExist(configFilePath))
-            {
-                // parse config.json
-                ConfigParser::getInstance()->readConfig(configFilePath);
-
-                project.setProjectDir(dirPath);
-                project.setScriptFile(ConfigParser::getInstance()->getEntryFile());
-                project.setWritablePath(dirPath);
-
-                RuntimeEngine::getInstance()->setProjectConfig(project);
-            }
-        }
-    });
-    dispatcher->addEventListenerWithFixedPriority(listener, 1);
-#endif
+	AppendMenuW(menu, MF_STRING, ID_HELP_ABOUT, s2ws("About").c_str());
+	AppendMenuW(menu, MF_STRING, 30, s2ws("Documents").c_str());
 }
 
 void SimulatorWin::setZoom(float frameScale)
 {
     _project.setFrameScale(frameScale);
     cocos2d::Director::getInstance()->getOpenGLView()->setFrameZoomFactor(frameScale);
+}
+
+ProjectConfig &SimulatorWin::getProjectConfig()
+{
+	return _project;
 }
 
 // debug log
@@ -614,16 +507,19 @@ void SimulatorWin::parseCocosProjectConfig(ProjectConfig &config)
 
         tmpConfig.parseCommandLine(args);
     }
-
+	else 
+	{
 #if (COCOS2D_DEBUG > 0)
-    if (tmpConfig.getProjectDir().empty()) {
-        tmpConfig.setProjectDir(getApplicationPath() + "/../../");
-        tmpConfig.setScriptFile("src/main.lua");
-    }
+		if (tmpConfig.getProjectDir().empty()) {
+			tmpConfig.setProjectDir(getApplicationPath() + "/../../");
+			tmpConfig.setScriptFile("src/main.lua");
+		}
 #endif
+	}
 
     // set project directory as search root path
     FileUtils::getInstance()->setDefaultResourceRootPath(tmpConfig.getProjectDir().c_str());
+	readConfig();
 }
 
 //
@@ -641,25 +537,6 @@ std::string SimulatorWin::convertPathFormatToUnixStyle(const std::string& path)
         }
     }
     return ret;
-}
-
-//
-// @return: C:/Users/win8/Documents/
-//
-std::string SimulatorWin::getUserDocumentPath()
-{
-    TCHAR filePath[MAX_PATH];
-    SHGetSpecialFolderPath(NULL, filePath, CSIDL_PERSONAL, FALSE);
-    int length = 2 * wcslen(filePath);
-    char* tempstring = new char[length + 1];
-    wcstombs(tempstring, filePath, length + 1);
-    string userDocumentPath(tempstring);
-    delete [] tempstring;
-
-    userDocumentPath = convertPathFormatToUnixStyle(userDocumentPath);
-    userDocumentPath.append("/");
-
-    return userDocumentPath;
 }
 
 //
@@ -721,6 +598,71 @@ std::string SimulatorWin::getApplicationPath()
     return workdir;
 }
 
+void SimulatorWin::readConfig(const string &filepath)
+{
+	string fullPathFile = filepath;
+
+	// read config file
+	string fileContent = FileUtils::getInstance()->getStringFromFile(fullPathFile);
+
+	if (fileContent.empty())
+		return;
+
+	rapidjson::Document _docRootjson;
+
+	if (_docRootjson.Parse<0>(fileContent.c_str()).HasParseError()) {
+		cocos2d::log("read json file %s failed because of %d", fullPathFile.c_str(), _docRootjson.GetParseError());
+		return;
+	}
+
+	if (_docRootjson.HasMember("init_cfg"))
+	{
+		if (_docRootjson["init_cfg"].IsObject())
+		{
+			const rapidjson::Value& objectInitView = _docRootjson["init_cfg"];
+			if (objectInitView.HasMember("width") && objectInitView.HasMember("height"))
+			{
+				_project.setFrameSize(cocos2d::Size(objectInitView["width"].GetUint(), objectInitView["height"].GetUint()));
+			}
+			if (objectInitView.HasMember("name") && objectInitView["name"].IsString())
+			{
+				_projectName = objectInitView["name"].GetString();
+			}
+			if (objectInitView.HasMember("isLandscape") && objectInitView["isLandscape"].IsBool())
+			{
+				_project.changeFrameOrientationToLandscape();
+			}
+			if (objectInitView.HasMember("entry") && objectInitView["entry"].IsString())
+			{
+				_project.setScriptFile(objectInitView["entry"].GetString());
+			}
+		}
+	}
+	if (_docRootjson.HasMember("simulator_screen_size"))
+	{
+		const rapidjson::Value& ArrayScreenSize = _docRootjson["simulator_screen_size"];
+		if (ArrayScreenSize.IsArray())
+		{
+			ScreenSizeArray screenSizeArray;
+			
+			for (int i = 0; i < ArrayScreenSize.Size(); i++)
+			{
+				const rapidjson::Value& objectScreenSize = ArrayScreenSize[i];
+				if (objectScreenSize.HasMember("title") && objectScreenSize.HasMember("width") && objectScreenSize.HasMember("height"))
+				{
+					screenSizeArray.push_back(SimulatorScreenSize(objectScreenSize["title"].GetString(), objectScreenSize["width"].GetUint(), objectScreenSize["height"].GetUint()));
+				}
+			}
+
+			if (!screenSizeArray.empty())
+			{
+				SimulatorConfig::getInstance()->setScreenArray(screenSizeArray);
+			}
+		}
+	}
+}
+
+
 LRESULT CALLBACK SimulatorWin::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     if (!_instance) return 0;
@@ -734,24 +676,49 @@ LRESULT CALLBACK SimulatorWin::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, L
         {
             // menu
             WORD menuId = LOWORD(wParam);
-            //auto menuService = dynamic_cast<player::PlayerMenuServiceWin*> (player::PlayerProtocol::getInstance()->getMenuService());
-            //auto menuItem = menuService->getItemByCommandId(menuId);
-            //if (menuItem)
-            //{
-            //    AppEvent event("APP.EVENT", APP_EVENT_MENU);
-
-            //    std::stringstream buf;
-            //    buf << "{\"data\":\"" << menuItem->getMenuId().c_str() << "\"";
-            //    buf << ",\"name\":" << "\"menuClicked\"" << "}";
-            //    event.setDataString(buf.str());
-            //    event.setUserData(menuItem);
-            //    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-            //}
-
             if (menuId == ID_HELP_ABOUT)
             {
                 onHelpAbout();
             }
+			else if (menuId == 30) 
+			{
+				cocos2d::Application::getInstance()->openURL("https://github.com/c0i/cocos2dx-lite");
+			}
+			else if (menuId >= 3000 && menuId < (3000+SimulatorConfig::getInstance()->getScreenSizeCount()))
+			{ // screen size
+				int index = menuId - 3000;
+				auto size = SimulatorConfig::getInstance()->getScreenSize(index);
+				if (SimulatorWin::getInstance()->getProjectConfig().isLandscapeFrame()) 
+				{
+					std::swap(size.width, size.height);
+				}
+				_instance->getProjectConfig().setFrameSize(cocos2d::Size(size.width, size.height));
+				_instance->relaunch();
+			}
+			else if (menuId >= 2000) { //
+				if (menuId == ID_PORTRAIT) 
+				{
+					_instance->getProjectConfig().changeFrameOrientationToPortait();
+					_instance->relaunch();
+				}
+				else if (menuId == ID_LANDSCAPE) 
+				{
+					_instance->getProjectConfig().changeFrameOrientationToLandscape();
+					_instance->relaunch();
+				}
+			}
+			else if (menuId >= 1000) 
+			{
+				checkMenuItem(hViewMenu, 1100, false);
+				checkMenuItem(hViewMenu, 1075, false);
+				checkMenuItem(hViewMenu, 1050, false);
+				checkMenuItem(hViewMenu, 1025, false);
+				checkMenuItem(hViewMenu, menuId);
+
+				float scale = (menuId - 1000) / 100.0f;
+				_instance->setZoom(scale);
+			}
+
         }
         break;
     }

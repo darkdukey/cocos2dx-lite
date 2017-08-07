@@ -29,6 +29,11 @@ SimulatorConfig::SimulatorConfig()
     _screenSizeArray.push_back(SimulatorScreenSize("Android (1080x1920)", 1080, 1920));
 }
 
+void SimulatorConfig::setScreenArray(const ScreenSizeArray& array)
+{
+	_screenSizeArray = array;
+}
+
 int SimulatorConfig::getScreenSizeCount() const
 {
     return (int)_screenSizeArray.size();

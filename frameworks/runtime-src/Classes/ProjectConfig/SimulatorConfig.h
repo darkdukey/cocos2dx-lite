@@ -39,6 +39,7 @@ public:
     static SimulatorConfig *getInstance();
 
     // predefined screen size
+	void setScreenArray(const ScreenSizeArray& array);
     int getScreenSizeCount() const;
     SimulatorScreenSize getScreenSize(int index) const;
     int checkScreenSize(const cocos2d::Size &size) const;

@@ -22,10 +22,15 @@ public:
 
     virtual int getPositionX();
     virtual int getPositionY();
+
+	void setZoom(float frameScale);
+
+	ProjectConfig &getProjectConfig();
 protected:
     SimulatorWin();
 
     static SimulatorWin *_instance;
+	std::string _projectName;
     ProjectConfig _project;
     HWND _hwnd;
     HWND _hwndConsole;
@@ -34,15 +39,14 @@ protected:
 
     // 
     void setupUI();
-    void setZoom(float frameScale);
 
     // debug log
     void writeDebugLog(const char *log);
     void parseCocosProjectConfig(ProjectConfig &config);
 
     // helper
+	void readConfig(const string &filepath = "config.json");
     std::string convertPathFormatToUnixStyle(const std::string& path);
-    std::string getUserDocumentPath();
     std::string getApplicationExePath();
     std::string getApplicationPath();
     static char* convertTCharToUtf8(const TCHAR* src);
