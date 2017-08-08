@@ -630,3 +630,15 @@ function string.formatnumberthousands(num)
     end
     return formatted
 end
+
+function string.tohex( str )
+     local len = string.len(str)
+     local hex = ""
+
+     for i = 1, len do
+         local ord = string.byte(str, i)
+         hex = hex .. string.format("%02x", ord)
+     end
+
+     return hex
+end

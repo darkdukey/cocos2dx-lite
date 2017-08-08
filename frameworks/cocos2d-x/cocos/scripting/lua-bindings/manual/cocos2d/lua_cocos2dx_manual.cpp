@@ -3665,12 +3665,10 @@ static int tolua_cocos2dx_FileUtils_getStringFromFile(lua_State* tolua_S)
         std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "cc.FileUtils:getStringFromFile"); arg0 = arg0_tmp.c_str();
         if (ok)
         {
-            std::string fullPathName = FileUtils::getInstance()->fullPathForFilename(arg0);
-            __String* contentsOfFile = __String::createWithContentsOfFile(fullPathName.c_str());
-            if (nullptr != contentsOfFile)
+            auto data = FileUtils::getInstance()->getDataFromFile(arg0);
+            if (!data.isNull())
             {
-                const char* tolua_ret = contentsOfFile->getCString();
-                tolua_pushstring(tolua_S, tolua_ret);
+                lua_pushlstring(tolua_S, reinterpret_cast<const char*>(data.getBytes()), static_cast<size_t>(data.getSize()));
             }
             return 1;
         }

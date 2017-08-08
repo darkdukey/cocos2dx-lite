@@ -51,6 +51,7 @@ require("cocos.framework.extends.UITextField")
 end
 
 require("cocos.framework.package_support")
+require('cocos.framework.shortcodes')
 
 -- register the build-in packages
 cc.register("event", require("cocos.framework.components.event"))
