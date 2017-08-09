@@ -67,7 +67,27 @@ LOCAL_SRC_FILES := ../manual/CCLuaBridge.cpp \
 LOCAL_CJSON_SRC_FILES := ../../../../external/lua/cjson/fpconv.c \
                          ../../../../external/lua/cjson/lua_cjson.c \
                          ../../../../external/lua/cjson/strbuf.c
+
 LOCAL_SRC_FILES += $(LOCAL_CJSON_SRC_FILES)
+
+# luasocket
+LOCAL_SRC_FILES += ../../../../external/lua/luasocket/auxiliar.c \
+                   ../../../../external/lua/luasocket/buffer.c \
+                   ../../../../external/lua/luasocket/except.c \
+                   ../../../../external/lua/luasocket/inet.c \
+                   ../../../../external/lua/luasocket/io.c \
+                   ../../../../external/lua/luasocket/luasocket.c \
+                   ../../../../external/lua/luasocket/luasocket_scripts.c \
+                   ../../../../external/lua/luasocket/mime.c \
+                   ../../../../external/lua/luasocket/options.c \
+                   ../../../../external/lua/luasocket/select.c \
+                   ../../../../external/lua/luasocket/serial.c \
+                   ../../../../external/lua/luasocket/tcp.c \
+                   ../../../../external/lua/luasocket/timeout.c \
+                   ../../../../external/lua/luasocket/udp.c \
+                   ../../../../external/lua/luasocket/unix.c \
+                   ../../../../external/lua/luasocket/usocket.c \
+                   ../../../../external/lua/luasocket/compat.c
 
 #Component
 # LOCAL_SRC_FILES += ../manual/CCComponentLua.cpp

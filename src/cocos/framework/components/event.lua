@@ -10,6 +10,7 @@ local EXPORTED_METHODS = {
     "removeAllEventListeners",
     "hasEventListener",
     "dumpAllEventListeners",
+    'on',
 }
 
 function Event:init_()

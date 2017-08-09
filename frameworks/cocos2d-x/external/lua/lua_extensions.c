@@ -14,10 +14,10 @@ extern "C" {
 //// lpack
 //#include "lpack/lpack.h"
 
-//// socket
-//#include "socket/luasocket.h"
-//#include "socket/mime.h"
-//#include "socket/socket_scripts.h"
+// socket
+#include "luasocket/luasocket.h"
+#include "luasocket/mime.h"
+#include "luasocket/luasocket_scripts.h"
 
 //// filesystem
 //#include "filesystem/lfs.h"
@@ -31,8 +31,8 @@ static luaL_Reg luax_exts[] = {
     {"cjson", luaopen_cjson_safe},
 //    {"zlib", luaopen_zlib},
 //    {"pack", luaopen_pack},
-//    {"socket.core", luaopen_socket_core},
-//    {"mime.core", luaopen_mime_core},
+   {"socket.core", luaopen_socket_core},
+   {"mime.core", luaopen_mime_core},
 //    {"lfs", luaopen_lfs},
 
 #if CC_SQLITE_ENABLED > 0

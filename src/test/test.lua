@@ -42,19 +42,21 @@ dump(ret_body_data)
 
 
 
---[[
+-- [[
 
 print("测试网络链接")
-local ip = "192.168.14.129"
-local port = 5000
+local ip = "192.168.2.105"
+local port = 2017
 
 local NetMgr = require("net.NetMgr")
 local net = NetMgr:getInstance()
 
+net:on(net.EVENT_CONNECTED, function (  )
+    print("发送数据")
+    net:sendPB("PbLogin.MsgLoginReq", {platform = 1, user_id = "sun"})
+end)
 print("链接")
 net:connect(ip, port)
-print("发送数据")
-net:send("PbLogin.MsgLoginReq", {platform = 1, user_id = "sun"})
 
 --]]
 

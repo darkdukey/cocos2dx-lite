@@ -245,6 +245,8 @@
 		9FA752251D320DB000F05F08 /* lua_module_register.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FA752221D320DB000F05F08 /* lua_module_register.cpp */; };
 		9FA752261D320DB000F05F08 /* lua_module_register.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FA752231D320DB000F05F08 /* lua_module_register.h */; };
 		9FA752271D320DB000F05F08 /* lua_module_register.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FA752231D320DB000F05F08 /* lua_module_register.h */; };
+		9FD7D6BD1F3ABB2E00CF8801 /* compat.c in Sources */ = {isa = PBXBuildFile; fileRef = 9FD7D6BC1F3ABB2E00CF8801 /* compat.c */; };
+		9FD7D6BE1F3ABB2E00CF8801 /* compat.c in Sources */ = {isa = PBXBuildFile; fileRef = 9FD7D6BC1F3ABB2E00CF8801 /* compat.c */; };
 		F4FE0D5719ECD00100B8B12B /* luasocket_scripts.c in Sources */ = {isa = PBXBuildFile; fileRef = F4FE0D5519ECD00100B8B12B /* luasocket_scripts.c */; };
 		F4FE0D5819ECD00100B8B12B /* luasocket_scripts.c in Sources */ = {isa = PBXBuildFile; fileRef = F4FE0D5519ECD00100B8B12B /* luasocket_scripts.c */; };
 		F4FE0D5919ECD00100B8B12B /* luasocket_scripts.h in Headers */ = {isa = PBXBuildFile; fileRef = F4FE0D5619ECD00100B8B12B /* luasocket_scripts.h */; };
@@ -375,6 +377,7 @@
 		9FA751FF1D31EDAF00F05F08 /* strbuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strbuf.h; sourceTree = "<group>"; };
 		9FA752221D320DB000F05F08 /* lua_module_register.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_module_register.cpp; sourceTree = "<group>"; };
 		9FA752231D320DB000F05F08 /* lua_module_register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_module_register.h; sourceTree = "<group>"; };
+		9FD7D6BC1F3ABB2E00CF8801 /* compat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compat.c; sourceTree = "<group>"; };
 		C0D9BAFA1974D30000EC35BB /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = ../../../../external/lua/lua/prebuilt/ios/liblua.a; sourceTree = "<group>"; };
 		F4FE0D5519ECD00100B8B12B /* luasocket_scripts.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = luasocket_scripts.c; sourceTree = "<group>"; };
 		F4FE0D5619ECD00100B8B12B /* luasocket_scripts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = luasocket_scripts.h; sourceTree = "<group>"; };
@@ -603,6 +606,7 @@
 		1ABCA20E18CD8F7D0087CE3A /* luasocket */ = {
 			isa = PBXGroup;
 			children = (
+				9FD7D6BC1F3ABB2E00CF8801 /* compat.c */,
 				15415A8719A71A53004F1E71 /* auxiliar.c */,
 				15415A8819A71A53004F1E71 /* auxiliar.h */,
 				15415A8919A71A53004F1E71 /* buffer.c */,
@@ -931,6 +935,7 @@
 				9F296E8B1DDD7DAA006DF478 /* CustomGUIReader.cpp in Sources */,
 				9F296E7A1DDD7D96006DF478 /* lua_cocos2dx_experimental_webview_manual.cpp in Sources */,
 				15C1C2E219874BA100A46ACC /* LuaBasicConversions.cpp in Sources */,
+				9FD7D6BD1F3ABB2E00CF8801 /* compat.c in Sources */,
 				F4FE0D5719ECD00100B8B12B /* luasocket_scripts.c in Sources */,
 				15415AC519A71A53004F1E71 /* select.c in Sources */,
 				15415AD919A71A53004F1E71 /* unix.c in Sources */,
@@ -998,6 +1003,7 @@
 				9F296E8C1DDD7DAA006DF478 /* CustomGUIReader.cpp in Sources */,
 				9F296E7B1DDD7D96006DF478 /* lua_cocos2dx_experimental_webview_manual.cpp in Sources */,
 				15EFA637198B328B000C57D3 /* LuaBasicConversions.cpp in Sources */,
+				9FD7D6BE1F3ABB2E00CF8801 /* compat.c in Sources */,
 				15EFA638198B328B000C57D3 /* CCLuaObjcBridge.mm in Sources */,
 				155C7E1719A71CAF00F08B25 /* lua_xml_http_request.cpp in Sources */,
 				15415ACE19A71A53004F1E71 /* tcp.c in Sources */,

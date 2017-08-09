@@ -348,7 +348,7 @@ static std::string getCurAppPath(void)
     }
 
     // add .app/Contents/Resources to search path
-    FileUtils::getInstance()->addSearchPath([[NSBundle mainBundle] resourcePath].UTF8String);
+    //FileUtils::getInstance()->addSearchPath([[NSBundle mainBundle] resourcePath].UTF8String);
 
     [self adjustEditMenuIndex];
 
