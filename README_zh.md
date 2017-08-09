@@ -18,3 +18,9 @@ cocos2dx-lite
 
 提供这么多功能是有代价的，就是仓库很大。
 
+
+## 使用工具
+
+  1. [pidcat](https://github.com/JakeWharton/pidcat) 更方便的 android 日志
+  2. [sprite-sheet-packer](https://github.com/amakaseev/sprite-sheet-packer) 图集打包
+  3. [ImageOptim](https://github.com/ImageOptim/ImageOptim) 图片优化
