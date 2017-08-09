@@ -5,7 +5,6 @@ local tcp = require 'cocos.framework.net.SocketTCP'
 local headerSize = 2
 
 local NetMgr = class("NetMgr", tcp)
-NetMgr.EVENT_CONNECTED = tcp.EVENT_CONNECTED
 
 function NetMgr:ctor()
     NetMgr.super.ctor(self)
