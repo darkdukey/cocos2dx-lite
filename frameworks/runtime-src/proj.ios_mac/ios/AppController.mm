@@ -31,6 +31,10 @@
 #import "RootViewController.h"
 #import "platform/ios/CCEAGLView-ios.h"
 
+// sdks
+#import "UMMobClick/MobClick.h"
+
+
 @implementation AppController
 
 #pragma mark -
@@ -41,6 +45,12 @@ static AppDelegate s_sharedApplication;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // umeng analytics
+    UMConfigInstance.appKey = @"598b1c3c9f06fd0c250015f9";
+    UMConfigInstance.channelId = @"App Store";
+    UMConfigInstance.eSType = E_UM_GAME;
+    [MobClick startWithConfigure:UMConfigInstance];
+    
 
     cocos2d::Application *app = cocos2d::Application::getInstance();
     app->initGLContextAttrs();
