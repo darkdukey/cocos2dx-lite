@@ -40,6 +40,9 @@ public:
     static const int DEFAULT_WIDTH = 640;
     static const int DEFAULT_HEIGHT = 960;
 
+    string getProjectName() const;
+    void setProjectName(const std::string &projectName);
+
     string getProjectDir() const;
     void setProjectDir(const string &projectDir);
 
@@ -93,6 +96,7 @@ public:
     void dump();
 
 private:
+    string _projectName;
     string _projectDir;
     string _scriptFile;
     string _packagePath;

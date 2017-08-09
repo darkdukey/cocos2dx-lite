@@ -7,6 +7,7 @@
 #include "glfw3native.h"
 
 #include "cocos2d.h"
+#include "json/document.h"
 #include "audio/include/SimpleAudioEngine.h"
 //#include "CCLuaEngine.h"
 
@@ -122,6 +123,20 @@ static std::string getCurAppPath(void)
         [itemZoom25 setState:NSOnState];
     }
 
+    int w = _project.getFrameSize().width;
+    int h = _project.getFrameSize().height;
+    if (w > h) std::swap(w, h);
+    for (int i = 0; i < SimulatorConfig::getInstance()->getScreenSizeCount(); i++)
+    {
+        auto screen = SimulatorConfig::getInstance()->getScreenSize(i);
+        NSMenuItem *item = [menuScreen itemWithTag:i];
+        [item setState:NSOffState];
+        if (w == screen.width && h == screen.height)
+        {
+            [item setState:NSOnState];
+        }
+    }
+#if 0
     NSArray *recents = [[NSUserDefaults standardUserDefaults] arrayForKey:@"recents"];
     NSMenu *menuRecents = [[[[[_window menu] itemWithTitle:@"File"] submenu] itemWithTitle:@"Open Recent"] submenu];
     while (true)
@@ -139,10 +154,20 @@ static std::string getCurAppPath(void)
                                                 keyEquivalent:@""] autorelease];
         [menuRecents insertItem:item atIndex:0];
     }
+#endif
 
-    [_window setTitle:[NSString stringWithFormat:@"quick player (%0.0f%%)", _project.getFrameScale() * 100]];
+    [_window setTitle:[NSString stringWithFormat:@"%s", [self getTitle].c_str()]];
 }
 
+- (std::string) getTitle
+{
+    stringstream buf;
+    buf << _project.getProjectName() << " "
+    << _project.getFrameSize().width << "x" << _project.getFrameSize().height
+    << " " << (_project.getFrameScale() * 100) << "%"
+    << " " << cocos2dVersion();
+    return buf.str();
+}
 - (void) updateOpenRect
 {
     NSMutableArray *recents = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"recents"]];
@@ -219,31 +244,89 @@ static std::string getCurAppPath(void)
 
 - (void) updateProjectFromCommandLineArgs:(ProjectConfig*)config
 {
+    ProjectConfig tmpConfig;
     NSArray *nsargs = [[NSProcessInfo processInfo] arguments];
     long n = [nsargs count];
+    vector<string> args;
     if (n >= 2)
     {
-        vector<string> args;
         for (int i = 0; i < [nsargs count]; ++i)
         {
             string arg = [[nsargs objectAtIndex:i] cStringUsingEncoding:NSUTF8StringEncoding];
-            if (arg.length()) args.push_back(arg);
+            if (!arg.empty())
+                args.push_back(arg);
         }
 
-        if (args.size() && args.at(1).at(0) == '/')
-        {
-            // for Code IDE before RC2
-            config->setProjectDir(args.at(1));
-            config->setDebuggerType(kCCLuaDebuggerCodeIDE);
-        }
-        config->parseCommandLine(args);
+        tmpConfig.parseCommandLine(args);
     }
 
-    if (config->getProjectDir().empty())
+    if (tmpConfig.getProjectDir().empty())
     {
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
         config->setProjectDir(getCurAppPath() + "/../../../");
 #endif
+    }
+
+    FileUtils::getInstance()->setDefaultResourceRootPath(config->getProjectDir());
+    [self readConfig:"config.json"];
+    config->parseCommandLine(args);
+}
+
+- (void) readConfig:(const string &)filepath
+{
+    string fullPathFile = filepath;
+    string fileContent = FileUtils::getInstance()->getStringFromFile(fullPathFile);
+
+    if(fileContent.empty())
+        return;
+
+    rapidjson::Document docRootjson;
+    if (docRootjson.Parse<0>(fileContent.c_str()).HasParseError()) {
+        cocos2d::log("read json file %s failed because of %d", fullPathFile.c_str(), docRootjson.GetParseError());
+        return;
+    }
+
+    if (docRootjson.HasMember("init_cfg"))
+    {
+        if(docRootjson["init_cfg"].IsObject())
+        {
+            const rapidjson::Value& objectInitView = docRootjson["init_cfg"];
+            if (objectInitView.HasMember("width") && objectInitView.HasMember("height"))
+            {
+                _project.setFrameSize(cocos2d::Size(objectInitView["width"].GetUint(),
+                                                    objectInitView["height"].GetUint()));
+            }
+            if (objectInitView.HasMember("name") && objectInitView["name"].IsString())
+            {
+                _project.setProjectName(objectInitView["name"].GetString());
+            }
+            if (objectInitView.HasMember("entry") && objectInitView["entry"].IsString())
+            {
+                _project.setScriptFile(objectInitView["entry"].GetString());
+            }
+        }
+    }
+    if (docRootjson.HasMember("simulator_screen_size"))
+    {
+        const rapidjson::Value& ArrayScreenSize = docRootjson["simulator_screen_size"];
+        if (ArrayScreenSize.IsArray())
+        {
+            ScreenSizeArray array;
+            for (int i = 0; i < ArrayScreenSize.Size(); i++)
+            {
+                const rapidjson::Value& objectScreenSize = ArrayScreenSize[i];
+                if (objectScreenSize.HasMember("title") && objectScreenSize.HasMember("width") && objectScreenSize.HasMember("height"))
+                {
+                    array.push_back(SimulatorScreenSize(objectScreenSize["title"].GetString(),
+                                                        objectScreenSize["width"].GetUint(),
+                                                        objectScreenSize["height"].GetUint()));
+                }
+            }
+            if (!array.empty())
+            {
+                SimulatorConfig::getInstance()->setScreenArray(array);
+            }
+        }
     }
 }
 
@@ -265,6 +348,7 @@ static std::string getCurAppPath(void)
 
 - (void) relaunch
 {
+    NSLog(@"%@", [self makeCommandLineArgsFromProjectConfig]);
     [self relaunch:[self makeCommandLineArgsFromProjectConfig]];
 }
 
@@ -314,8 +398,7 @@ static std::string getCurAppPath(void)
     cocos2d::Size frameSize = _project.getFrameSize();
 
     const cocos2d::Rect frameRect = cocos2d::Rect(0, 0, frameSize.width, frameSize.height);
-    NSString *title = [NSString stringWithFormat:@"quick (%s)", cocos2dVersion()];
-    GLViewImpl *eglView = GLViewImpl::createWithRect([title UTF8String], frameRect, frameScale, _project.isResizeWindow());
+    GLViewImpl *eglView = GLViewImpl::createWithRect([self getTitle], frameRect, frameScale, _project.isResizeWindow());
 
     auto director = Director::getInstance();
     director->setOpenGLView(eglView);
@@ -324,7 +407,7 @@ static std::string getCurAppPath(void)
     [NSApp setDelegate:self];
     [_window center];
 
-    if (_project.getProjectDir().length())
+    if (!_project.getProjectDir().empty())
     {
         [self setZoom:_project.getFrameScale()];
         Vec2 pos = _project.getWindowOffset();
@@ -333,6 +416,20 @@ static std::string getCurAppPath(void)
             [_window setFrameOrigin:NSMakePoint(pos.x, pos.y)];
         }
     }
+
+    // create screen array
+    NSMenu *menuScreen = [[[_window menu] itemWithTitle:@"Screen"] submenu];
+    for (int i = SimulatorConfig::getInstance()->getScreenSizeCount() - 1; i; i--)
+    {
+        auto screenItem = SimulatorConfig::getInstance()->getScreenSize(i);
+        NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:[NSString stringWithUTF8String:screenItem.title.c_str()]
+                                                       action:@selector(onClicked:)
+                                                keyEquivalent:@""] autorelease];
+        [item setTag:i];
+        [menuScreen insertItem:item atIndex:0];
+    }
+
+    [self updateUI];
 }
 
 - (void) startup
@@ -346,9 +443,6 @@ static std::string getCurAppPath(void)
             [self writeDebugLogToFile:_project.getDebugLogFilePath()];
         }
     }
-
-    // add .app/Contents/Resources to search path
-    //FileUtils::getInstance()->addSearchPath([[NSBundle mainBundle] resourcePath].UTF8String);
 
     [self adjustEditMenuIndex];
 
@@ -449,6 +543,16 @@ static std::string getCurAppPath(void)
         [menuItem setState:NSOffState];
     }
     _isAlwaysOnTop = alwaysOnTop;
+}
+
+-(void) onClicked:(id)sender
+{
+    int index = [sender tag];
+    SimulatorScreenSize screen = SimulatorConfig::getInstance()->getScreenSize(index);
+    if (_project.isLandscapeFrame())
+        std::swap(screen.width, screen.height);
+    _project.setFrameSize(cocos2d::Size(screen.width, screen.height));
+    [self relaunch];
 }
 
 #pragma mark -

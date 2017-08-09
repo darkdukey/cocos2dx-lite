@@ -33,6 +33,15 @@ ProjectConfig::ProjectConfig()
     normalize();
 }
 
+string ProjectConfig::getProjectName() const
+{
+    return _projectName;
+}
+void ProjectConfig::setProjectName(const std::string &projectName)
+{
+    _projectName = projectName;
+}
+
 string ProjectConfig::getProjectDir() const
 {
     return _projectDir;
