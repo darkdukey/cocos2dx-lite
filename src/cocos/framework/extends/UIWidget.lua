@@ -29,12 +29,20 @@ function Widget:onTouch(callback)
         local event = {x = 0, y = 0}
         if state == 0 then
             event.name = "began"
+            local pos = sender:getTouchBeganPosition()
+            event.x, event.y = pos.x, pos.y
         elseif state == 1 then
             event.name = "moved"
+            local pos = sender:getTouchMovePosition()
+            event.x, event.y = pos.x, pos.y
         elseif state == 2 then
             event.name = "ended"
+            local pos = sender:getTouchEndPosition()
+            event.x, event.y = pos.x, pos.y
         else
             event.name = "cancelled"
+            local pos = sender:getTouchEndPosition()
+            event.x, event.y = pos.x, pos.y
         end
         event.target = sender
         callback(event)
