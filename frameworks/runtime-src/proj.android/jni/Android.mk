@@ -19,7 +19,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
 LOCAL_STATIC_LIBRARIES := cocos2d_lua_static
 LOCAL_STATIC_LIBRARIES += cocosdenshion_static
-# LOCAL_STATIC_LIBRARIES += cocos2d_simulator_static
+LOCAL_STATIC_LIBRARIES += lua_modules_static
 
 # _COCOS_LIB_ANDROID_BEGIN
 # _COCOS_LIB_ANDROID_END
@@ -27,7 +27,7 @@ LOCAL_STATIC_LIBRARIES += cocosdenshion_static
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module,scripting/lua-bindings/proj.android)
-# $(call import-module,tools/simulator/libsimulator/proj.android)
+$(call import-module,lua-modules)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END

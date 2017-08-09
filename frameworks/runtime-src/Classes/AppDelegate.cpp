@@ -2,6 +2,8 @@
 #include "audio/include/AudioEngine.h"
 #include "cocos2d.h"
 
+#include "lua-modules/lua_modules.h"
+
 // lua
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
@@ -34,9 +36,9 @@ void AppDelegate::initGLContextAttrs()
 static int register_all_packages()
 {
     //register custom function
-    //auto engine = LuaEngine::getInstance();
-    //LuaStack* stack = engine->getLuaStack();
-    //register_custom_function(stack->getLuaState());
+    auto engine = LuaEngine::getInstance();
+    LuaStack* stack = engine->getLuaStack();
+    preload_lua_modules(stack->getLuaState());
 
     return 0; //flag for packages manager
 }

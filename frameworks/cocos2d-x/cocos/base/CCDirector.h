@@ -74,10 +74,10 @@ enum class MATRIX_STACK_TYPE
 {
     /// Model view matrix stack
     MATRIX_STACK_MODELVIEW,
-    
+
     /// projection matrix stack
     MATRIX_STACK_PROJECTION,
-    
+
     /// texture matrix stack
     MATRIX_STACK_TEXTURE
 };
@@ -85,18 +85,23 @@ enum class MATRIX_STACK_TYPE
 /**
  @brief Class that creates and handles the main Window and manages how
  and when to execute the Scenes.
- 
+
  The Director is also responsible for:
  - initializing the OpenGL context
  - setting the OpenGL buffer depth (default one is 0-bit)
  - setting the projection (default one is 3D)
- 
+
  Since the Director is a singleton, the standard way to use it is by calling:
  _ Director::getInstance()->methodName();
  */
 class CC_DLL Director : public Ref
 {
 public:
+    /** Director will trigger an event before set next scene. */
+    static const char* EVENT_BEFORE_SET_NEXT_SCENE;
+    /** Director will trigger an event after set next scene. */
+    static const char* EVENT_AFTER_SET_NEXT_SCENE;
+
     /** Director will trigger an event when projection type is changed. */
     static const char* EVENT_PROJECTION_CHANGED;
     /** Director will trigger an event before Schedule::update() is invoked. */
@@ -117,19 +122,19 @@ public:
     {
         /// Sets a 2D projection (orthogonal projection).
         _2D,
-        
+
         /// Sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.
         _3D,
-        
+
         /// It calls "updateProjection" on the projection delegate.
         CUSTOM,
-        
+
         /// Default projection is 3D projection.
         DEFAULT = _3D,
     };
-    
-    /** 
-     * Returns a shared instance of the director. 
+
+    /**
+     * Returns a shared instance of the director.
      * @js _getInstance
      */
     static Director* getInstance();
@@ -139,12 +144,12 @@ public:
      * @js NA
      */
     CC_DEPRECATED_ATTRIBUTE static Director* sharedDirector() { return Director::getInstance(); }
-    
+
     /**
      * @js ctor
      */
     Director();
-    
+
     /**
      * @js NA
      * @lua NA
@@ -166,17 +171,17 @@ public:
     inline bool isDisplayStats() { return _displayStats; }
     /** Display the FPS on the bottom-left corner of the screen. */
     inline void setDisplayStats(bool displayStats) { _displayStats = displayStats; }
-    
+
     /** Get seconds per frame. */
     inline float getSecondsPerFrame() { return _secondsPerFrame; }
 
-    /** 
+    /**
      * Get the GLView.
      * @lua NA
      */
     inline GLView* getOpenGLView() { return _openGLView; }
-    /** 
-     * Sets the GLView. 
+    /**
+     * Sets the GLView.
      * @lua NA
      */
     void setOpenGLView(GLView *openGLView);
@@ -189,7 +194,7 @@ public:
 
     /** Whether or not `_nextDeltaTimeZero` is set to 0. */
     inline bool isNextDeltaTimeZero() { return _nextDeltaTimeZero; }
-    /** 
+    /**
      * Sets the delta time between current frame and next frame is 0.
      * This value will be used in Schedule, and will affect all functions that are using frame delta time, such as Actions.
      * This value will take effect only one time.
@@ -201,7 +206,7 @@ public:
 
     /** How many frames were called since the director started */
     inline unsigned int getTotalFrames() { return _totalFrames; }
-    
+
     /** Gets an OpenGL projection.
      * @since v0.8.2
      * @lua NA
@@ -209,10 +214,10 @@ public:
     inline Projection getProjection() { return _projection; }
     /** Sets OpenGL projection. */
     void setProjection(Projection projection);
-    
+
     /** Sets the glViewport.*/
     void setViewport();
-    
+
     /** Whether or not the replaced scene will receive the cleanup message.
      * If the new scene is pushed, then the old scene won't receive the "cleanup" message.
      * If the new scene replaces the old one, the it will receive the "cleanup" message.
@@ -226,12 +231,12 @@ public:
      * @since v0.99.5
      */
     Node* getNotificationNode() const { return _notificationNode; }
-    /** 
+    /**
      * Sets the notification node.
      * @see Director::getNotificationNode()
      */
     void setNotificationNode(Node *node);
-    
+
     // window size
 
     /** Returns the size of the OpenGL view in points. */
@@ -239,29 +244,29 @@ public:
 
     /** Returns the size of the OpenGL view in pixels. */
     Size getWinSizeInPixels() const;
-    
-    /** 
+
+    /**
      * Returns visible size of the OpenGL view in points.
      * The value is equal to `Director::getWinSize()` if don't invoke `GLView::setDesignResolutionSize()`.
      */
     Size getVisibleSize() const;
-    
+
     /** Returns visible origin coordinate of the OpenGL view in points. */
     Vec2 getVisibleOrigin() const;
 
-    /** 
+    /**
      * Converts a screen coordinate to an OpenGL coordinate.
      * Useful to convert (multi) touch coordinates to the current layout (portrait or landscape).
      */
     Vec2 convertToGL(const Vec2& point);
 
-    /** 
+    /**
      * Converts an OpenGL coordinate to a screen coordinate.
      * Useful to convert node points to window points for calls such as glScissor.
      */
     Vec2 convertToUI(const Vec2& point);
 
-    /** 
+    /**
      * Gets the distance between camera and near clipping frame.
      * It is correct for default camera that near clipping frame is same as the screen.
      */
@@ -269,7 +274,7 @@ public:
 
     // Scene Management
 
-    /** 
+    /**
      * Enters the Director's main loop with the given Scene.
      * Call it to run only your FIRST scene.
      * Don't call it if there is already a running scene.
@@ -279,15 +284,15 @@ public:
      */
     void runWithScene(Scene *scene);
 
-    /** 
+    /**
      * Suspends the execution of the running scene, pushing it on the stack of suspended scenes.
      * The new scene will be executed.
-     * Try to avoid big stacks of pushed scenes to reduce memory allocation. 
+     * Try to avoid big stacks of pushed scenes to reduce memory allocation.
      * ONLY call it if there is a running scene.
      */
     void pushScene(Scene *scene);
 
-    /** 
+    /**
      * Pops out a scene from the stack.
      * This scene will replace the running one.
      * The running scene will be deleted. If there are no more scenes in the stack the execution is terminated.
@@ -295,7 +300,7 @@ public:
      */
     void popScene();
 
-    /** 
+    /**
      * Pops out all scenes from the stack until the root scene in the queue.
      * This scene will replace the running one.
      * Internally it will call `popToSceneStackLevel(1)`.
@@ -331,9 +336,9 @@ public:
      * The "delta time" will be 0 (as if the game wasn't paused).
      */
     void resume();
-    
+
     /*
-     * Restart the director. 
+     * Restart the director.
      * @js NA
      */
     void restart();
@@ -375,7 +380,7 @@ public:
 
     /** Enables/disables OpenGL alpha blending. */
     void setAlphaBlending(bool on);
-    
+
     /** Sets clear values for the color buffers,
      * value range of each element is [0.0, 1.0].
      * @js NA
@@ -403,7 +408,7 @@ public:
      * @since v2.0
      */
     Scheduler* getScheduler() const { return _scheduler; }
-    
+
     /** Sets the Scheduler associated with this director.
      * @since v2.0
      */
@@ -413,18 +418,18 @@ public:
      * @since v2.0
      */
     ActionManager* getActionManager() const { return _actionManager; }
-    
+
     /** Sets the ActionManager associated with this director.
      * @since v2.0
      */
     void setActionManager(ActionManager* actionManager);
-    
+
     /** Gets the EventDispatcher associated with this director.
      * @since v3.0
      * @js NA
      */
     EventDispatcher* getEventDispatcher() const { return _eventDispatcher; }
-    
+
     /** Sets the EventDispatcher associated with this director.
      * @since v3.0
      * @js NA
@@ -438,14 +443,14 @@ public:
 
     /* Gets delta time since last tick to main loop. */
 	float getDeltaTime() const;
-    
+
     /**
      *  Gets Frame Rate.
      * @js NA
      */
     float getFrameRate() const { return _frameRate; }
 
-    /** 
+    /**
      * Clones a specified type matrix and put it to the top of specified type of matrix stack.
      * @js NA
      */
@@ -482,7 +487,7 @@ public:
 
     /**
      * Adds a matrix to the top of specified type of matrix stack.
-     * 
+     *
      * @param type Matrix type.
      * @param mat The matrix that to be added.
      * @js NA
@@ -561,21 +566,21 @@ public:
 
 protected:
     void reset();
-    
+
     void purgeDirector();
     bool _purgeDirectorInNextLoop; // this flag will be set to true in end()
-    
+
     void restartDirector();
     bool _restartDirectorInNextLoop; // this flag will be set to true in restart()
-    
+
     void setNextScene();
-    
+
     void showStats();
     void createStatsLabel();
     void calculateMPF();
     void getFPSImageData(unsigned char** datapointer, ssize_t* length);
-    
-    /** calculates delta time since last time it was called */    
+
+    /** calculates delta time since last time it was called */
     void calculateDeltaTime();
 
     //textureCache creation or release
@@ -595,21 +600,21 @@ protected:
      @since v2.0
      */
     Scheduler *_scheduler;
-    
+
     /** ActionManager associated with this director
      @since v2.0
      */
     ActionManager *_actionManager;
-    
+
     /** EventDispatcher associated with this director
      @since v3.0
      */
     EventDispatcher* _eventDispatcher;
     EventCustom *_eventProjectionChanged, *_eventAfterDraw, *_eventAfterVisit, *_eventBeforeUpdate, *_eventAfterUpdate, *_eventResetDirector;
-        
+
     /* delta time since last tick to main loop */
 	float _deltaTime;
-    
+
     /* The _openGLView, where everything is rendered, GLView is a abstract class,cocos2d-x provide GLViewImpl
      which inherit from it as default renderer context,you can have your own by inherit from it*/
     GLView *_openGLView;
@@ -622,47 +627,47 @@ protected:
 
     /* landscape mode ? */
     bool _landscape;
-    
+
     bool _displayStats;
     float _accumDt;
     float _frameRate;
-    
+
     LabelAtlas *_FPSLabel;
     LabelAtlas *_drawnBatchesLabel;
     LabelAtlas *_drawnVerticesLabel;
-    
+
     /** Whether or not the Director is paused */
     bool _paused;
 
     /* How many frames were called since the director started */
     unsigned int _totalFrames;
     float _secondsPerFrame;
-    
+
     /* The running scene */
     Scene *_runningScene;
-    
+
     /* will be the next 'runningScene' in the next frame
      nextScene is a weak reference. */
     Scene *_nextScene;
-    
+
     /* If true, then "old" scene will receive the cleanup message */
     bool _sendCleanupToScene;
 
     /* scheduled scenes */
     Vector<Scene*> _scenesStack;
-    
+
     /* last time the main loop was updated */
     std::chrono::steady_clock::time_point _lastUpdate;
 
     /* whether or not the next delta time will be zero */
     bool _nextDeltaTimeZero;
-    
+
     /* projection used */
     Projection _projection;
 
     /* window size in points */
     Size _winSizeInPoints;
-    
+
     /* content scale factor */
     float _contentScaleFactor;
 
@@ -671,7 +676,7 @@ protected:
 
     /* Renderer for the Director */
     Renderer *_renderer;
-    
+
     /* Default FrameBufferObject*/
     experimental::FrameBuffer* _defaultFBO;
 

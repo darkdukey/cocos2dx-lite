@@ -4,7 +4,7 @@ Copyright (c) 2009      Valentin Milea
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2017 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -80,7 +80,7 @@ void ActionManager::actionAllocWithHashElement(tHashElement *element)
     if (element->actions == nullptr)
     {
         element->actions = ccArrayNew(4);
-    }else 
+    }else
     if (element->actions->num == element->actions->max)
     {
         ccArrayDoubleCapacity(element->actions);
@@ -144,16 +144,16 @@ void ActionManager::resumeTarget(Node *target)
 Vector<Node*> ActionManager::pauseAllRunningActions()
 {
     Vector<Node*> idsWithActions;
-    
-    for (tHashElement *element=_targets; element != nullptr; element = (tHashElement *)element->hh.next) 
+
+    for (tHashElement *element=_targets; element != nullptr; element = (tHashElement *)element->hh.next)
     {
-        if (! element->paused) 
+        if (! element->paused)
         {
             element->paused = true;
             idsWithActions.pushBack(element->target);
         }
-    }    
-    
+    }
+
     return idsWithActions;
 }
 
@@ -188,10 +188,10 @@ void ActionManager::addAction(Action *action, Node *target, bool paused)
     }
 
      actionAllocWithHashElement(element);
- 
+
      CCASSERT(! ccArrayContainsObject(element->actions, action), "action already be added!");
      ccArrayAppendObject(element->actions, action);
- 
+
      action->startWithTarget(target);
 }
 
@@ -294,10 +294,10 @@ void ActionManager::removeAllActionsByTag(int tag, Node *target)
     {
         return;
     }
-    
+
     tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
-    
+
     if (element)
     {
         auto limit = element->actions->num;
@@ -423,6 +423,17 @@ size_t ActionManager::getNumberOfRunningActionsInTargetByTag(const Node *target,
     return count;
 }
 
+ssize_t ActionManager::getNumberOfRunningActions() const
+{
+    ssize_t count = 0;
+    struct _hashElement* element = nullptr;
+    struct _hashElement* tmp = nullptr;
+    HASH_ITER(hh, _targets, element, tmp)
+    {
+        count += (element->actions ? element->actions->num : 0);
+    }
+    return count;
+}
 
 // main loop
 void ActionManager::update(float dt)
