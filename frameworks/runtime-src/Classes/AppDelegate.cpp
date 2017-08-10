@@ -8,6 +8,11 @@
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "bugly/CrashReport.h"
+#include "bugly/lua/BuglyLuaAgent.h"
+#endif
+
 USING_NS_CC;
 using namespace std;
 
@@ -54,6 +59,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     lua_State* L = engine->getLuaStack()->getLuaState();
     lua_module_register(L);
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    CrashReport::initCrashReport("ed866d20d2", false);
+    BuglyLuaAgent::registerLuaExceptionHandler(engine);
+#endif
+    
     register_all_packages();
 
     LuaStack* stack = engine->getLuaStack();

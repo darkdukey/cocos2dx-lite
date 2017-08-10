@@ -62,6 +62,10 @@
 		9FA752601D32169600F05F08 /* AppControllerBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FA752551D32169600F05F08 /* AppControllerBridge.mm */; };
 		9FA752631D32169600F05F08 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA752591D32169600F05F08 /* MainMenu.xib */; };
 		9FA752641D32169600F05F08 /* NSApplication+SheetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA7525B1D32169600F05F08 /* NSApplication+SheetAdditions.m */; };
+		9FCD695F1F3C675B007A03CC /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCD695B1F3C620C007A03CC /* Bugly.framework */; };
+		9FCD69601F3C675D007A03CC /* libBuglyAgent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCD695D1F3C6288007A03CC /* libBuglyAgent.a */; };
+		9FCD69611F3C6770007A03CC /* CrashReport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD69521F3C61A4007A03CC /* CrashReport.mm */; };
+		9FCD69621F3C6770007A03CC /* BuglyLuaAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD69551F3C61A4007A03CC /* BuglyLuaAgent.cpp */; };
 		9FD7D6151F39AAD300CF8801 /* lpack.c in Sources */ = {isa = PBXBuildFile; fileRef = 9FD7D5C01F39AAD200CF8801 /* lpack.c */; };
 		9FD7D6161F39AAD300CF8801 /* lpack.c in Sources */ = {isa = PBXBuildFile; fileRef = 9FD7D5C01F39AAD200CF8801 /* lpack.c */; };
 		9FD7D6171F39AAD300CF8801 /* lpcap.c in Sources */ = {isa = PBXBuildFile; fileRef = 9FD7D5C31F39AAD200CF8801 /* lpcap.c */; };
@@ -242,6 +246,12 @@
 		9FA752591D32169600F05F08 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		9FA7525A1D32169600F05F08 /* NSApplication+SheetAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+SheetAdditions.h"; sourceTree = "<group>"; };
 		9FA7525B1D32169600F05F08 /* NSApplication+SheetAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+SheetAdditions.m"; sourceTree = "<group>"; };
+		9FCD69511F3C61A4007A03CC /* CrashReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReport.h; sourceTree = "<group>"; };
+		9FCD69521F3C61A4007A03CC /* CrashReport.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashReport.mm; sourceTree = "<group>"; };
+		9FCD69551F3C61A4007A03CC /* BuglyLuaAgent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BuglyLuaAgent.cpp; sourceTree = "<group>"; };
+		9FCD69561F3C61A4007A03CC /* BuglyLuaAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuglyLuaAgent.h; sourceTree = "<group>"; };
+		9FCD695B1F3C620C007A03CC /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bugly.framework; path = ios/Bugly.framework; sourceTree = "<group>"; };
+		9FCD695D1F3C6288007A03CC /* libBuglyAgent.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBuglyAgent.a; path = ios/BuglyAgent/libBuglyAgent.a; sourceTree = "<group>"; };
 		9FD7D5C01F39AAD200CF8801 /* lpack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lpack.c; sourceTree = "<group>"; };
 		9FD7D5C11F39AAD200CF8801 /* lpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lpack.h; sourceTree = "<group>"; };
 		9FD7D5C31F39AAD200CF8801 /* lpcap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lpcap.c; sourceTree = "<group>"; };
@@ -341,6 +351,7 @@
 				5200BECA1A53D9A500AC45E4 /* Security.framework in Frameworks */,
 				15427CD5198F222200DC375D /* libluacocos2d iOS.a in Frameworks */,
 				15427CD3198F221400DC375D /* libcocos2d iOS.a in Frameworks */,
+				9FCD695F1F3C675B007A03CC /* Bugly.framework in Frameworks */,
 				3EEEDB61197107C0006A9FF8 /* MediaPlayer.framework in Frameworks */,
 				D6B061351803AC000077942B /* CoreMotion.framework in Frameworks */,
 				1AF4C403178663F200122817 /* libz.dylib in Frameworks */,
@@ -350,6 +361,7 @@
 				F293B3D115EB7BE500256477 /* OpenAL.framework in Frameworks */,
 				F293B3D315EB7BE500256477 /* AudioToolbox.framework in Frameworks */,
 				F293B3D515EB7BE500256477 /* AVFoundation.framework in Frameworks */,
+				9FCD69601F3C675D007A03CC /* libBuglyAgent.a in Frameworks */,
 				F293B3D915EB7BE500256477 /* Foundation.framework in Frameworks */,
 				F293B3DB15EB7BE500256477 /* CoreGraphics.framework in Frameworks */,
 			);
@@ -439,6 +451,26 @@
 			);
 			name = ProjectConfig;
 			path = ../Classes/ProjectConfig;
+			sourceTree = "<group>";
+		};
+		9FCD694F1F3C61A4007A03CC /* bugly */ = {
+			isa = PBXGroup;
+			children = (
+				9FCD69511F3C61A4007A03CC /* CrashReport.h */,
+				9FCD69521F3C61A4007A03CC /* CrashReport.mm */,
+				9FCD69531F3C61A4007A03CC /* lua */,
+			);
+			name = bugly;
+			path = ../Classes/bugly;
+			sourceTree = "<group>";
+		};
+		9FCD69531F3C61A4007A03CC /* lua */ = {
+			isa = PBXGroup;
+			children = (
+				9FCD69551F3C61A4007A03CC /* BuglyLuaAgent.cpp */,
+				9FCD69561F3C61A4007A03CC /* BuglyLuaAgent.h */,
+			);
+			path = lua;
 			sourceTree = "<group>";
 		};
 		9FD7D5BE1F39AAD200CF8801 /* lua-modules */ = {
@@ -547,6 +579,8 @@
 		F293B3CB15EB7BE500256477 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9FCD695D1F3C6288007A03CC /* libBuglyAgent.a */,
+				9FCD695B1F3C620C007A03CC /* Bugly.framework */,
 				19F3E89B1F3B55CA004B9931 /* libsqlite3.tbd */,
 				19F3E8991F3B55B8004B9931 /* CoreTelephony.framework */,
 				294D0D711D0D572600F7F5D4 /* CoreText.framework */,
@@ -580,6 +614,7 @@
 		F293BB7C15EB830F00256477 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9FCD694F1F3C61A4007A03CC /* bugly */,
 				9FD7D5BE1F39AAD200CF8801 /* lua-modules */,
 				9FA7522C1D32119800F05F08 /* ProjectConfig */,
 				F293BB7E15EB831F00256477 /* AppDelegate.cpp */,
@@ -815,6 +850,7 @@
 				9FD7D6A71F39AB1900CF8801 /* proto.c in Sources */,
 				9FD7D6A31F39AB1900CF8801 /* map.c in Sources */,
 				9FD7D6171F39AAD300CF8801 /* lpcap.c in Sources */,
+				9FCD69611F3C6770007A03CC /* CrashReport.mm in Sources */,
 				9FA752331D32119800F05F08 /* SimulatorConfig.cpp in Sources */,
 				9FD7D6B41F39AB3700CF8801 /* pbc-lua.c in Sources */,
 				9FD7D6991F39AB1800CF8801 /* alloc.c in Sources */,
@@ -828,6 +864,7 @@
 				9FD7D6AB1F39AB1900CF8801 /* rmessage.c in Sources */,
 				9FD7D6151F39AAD300CF8801 /* lpack.c in Sources */,
 				9FD7D61F1F39AAD300CF8801 /* lpvm.c in Sources */,
+				9FCD69621F3C6770007A03CC /* BuglyLuaAgent.cpp in Sources */,
 				F293BB9C15EB831F00256477 /* AppDelegate.cpp in Sources */,
 				5023812417EBBCAC00990C9B /* main.m in Sources */,
 				9FD7D6A91F39AB1900CF8801 /* register.c in Sources */,
@@ -1001,13 +1038,18 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../Classes";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Classes",
+					"$(PROJECT_DIR)/ios",
+				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ios/BuglyAgent";
 				OTHER_LDFLAGS = (
-					"$(_COCOS_LIB_IOS_BEGIN)",
-					"$(_COCOS_LIB_IOS_END)",
+					"-force_load",
+					"${SRCROOT}/ios/BuglyAgent/libBuglyAgent.a",
+					"-force_load",
+					"${SRCROOT}/ios/Bugly.framework/Bugly",
 				);
 				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=x86_64]" = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
@@ -1016,6 +1058,10 @@
 					10000,
 					"-image_base",
 					100000000,
+					"-force_load",
+					"${SRCROOT}/ios/BuglyAgent/libBuglyAgent.a",
+					"-force_load",
+					"${SRCROOT}/ios/Bugly.framework/Bugly",
 				);
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -1039,14 +1085,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../Classes";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Classes",
+					"$(PROJECT_DIR)/ios",
+				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_LDFLAGS = (
-					"$(_COCOS_LIB_IOS_BEGIN)",
-					"$(_COCOS_LIB_IOS_END)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ios/BuglyAgent";
+				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=x86_64]" = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",

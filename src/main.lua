@@ -14,6 +14,20 @@ require 'pack'
 require 'pbc.pbc'
 
 
+__G__TRACKBACK__ = function ( ... )
+    local message = msg
+
+    local msg = debug.traceback(msg, 3)
+    print(msg)
+
+    -- report lua exception
+    if device.platform == 'ios' then
+        buglyReportLuaException(tostring(message), debug.traceback())
+    end
+
+    return msg
+end
+
 local function main()
     require("app.MyApp"):create():run()
 
