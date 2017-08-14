@@ -53,6 +53,9 @@
 		5200BECA1A53D9A500AC45E4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5200BEC91A53D9A500AC45E4 /* Security.framework */; };
 		521A8E7019F0C3D200D177D7 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6E19F0C3D200D177D7 /* Default-667h@2x.png */; };
 		521A8E7119F0C3D200D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */; };
+		9F37D72F1F41586000B63811 /* FmodPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F37D72B1F41586000B63811 /* FmodPlayer.cpp */; };
+		9F37D7301F41586000B63811 /* lua_FmodPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F37D72D1F41586000B63811 /* lua_FmodPlayer.cpp */; };
+		9F37D7321F415AEC00B63811 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F37D7311F415AEC00B63811 /* libfmod.dylib */; };
 		9FA3AE4E1BE9BCC900FC9645 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA3AE4D1BE9BCC900FC9645 /* CFNetwork.framework */; };
 		9FA752311D32119800F05F08 /* ProjectConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FA7522D1D32119800F05F08 /* ProjectConfig.cpp */; };
 		9FA752321D32119800F05F08 /* ProjectConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FA7522D1D32119800F05F08 /* ProjectConfig.cpp */; };
@@ -234,6 +237,11 @@
 		5200BEC91A53D9A500AC45E4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		521A8E6E19F0C3D200D177D7 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
+		9F37D72B1F41586000B63811 /* FmodPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FmodPlayer.cpp; sourceTree = "<group>"; };
+		9F37D72C1F41586000B63811 /* FmodPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FmodPlayer.h; sourceTree = "<group>"; };
+		9F37D72D1F41586000B63811 /* lua_FmodPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_FmodPlayer.cpp; sourceTree = "<group>"; };
+		9F37D72E1F41586000B63811 /* lua_FmodPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_FmodPlayer.hpp; sourceTree = "<group>"; };
+		9F37D7311F415AEC00B63811 /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = "../../cocos2d-x/external/fmod/prebuilt/mac/libfmod.dylib"; sourceTree = "<group>"; };
 		9FA3AE4D1BE9BCC900FC9645 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		9FA7522D1D32119800F05F08 /* ProjectConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectConfig.cpp; sourceTree = "<group>"; };
 		9FA7522E1D32119800F05F08 /* ProjectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectConfig.h; sourceTree = "<group>"; };
@@ -321,6 +329,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F37D7321F415AEC00B63811 /* libfmod.dylib in Frameworks */,
 				ED545A8B1B68A24500C3958E /* libiconv.dylib in Frameworks */,
 				DA9E7D881AB1ABCC004B27C8 /* Security.framework in Frameworks */,
 				15427CEE198F24AF00DC375D /* libcocos2d Mac.a in Frameworks */,
@@ -441,6 +450,17 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		9F37D72A1F41586000B63811 /* fmod */ = {
+			isa = PBXGroup;
+			children = (
+				9F37D72B1F41586000B63811 /* FmodPlayer.cpp */,
+				9F37D72C1F41586000B63811 /* FmodPlayer.h */,
+				9F37D72D1F41586000B63811 /* lua_FmodPlayer.cpp */,
+				9F37D72E1F41586000B63811 /* lua_FmodPlayer.hpp */,
+			);
+			path = fmod;
+			sourceTree = "<group>";
+		};
 		9FA7522C1D32119800F05F08 /* ProjectConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -476,6 +496,7 @@
 		9FD7D5BE1F39AAD200CF8801 /* lua-modules */ = {
 			isa = PBXGroup;
 			children = (
+				9F37D72A1F41586000B63811 /* fmod */,
 				9FD7D6B61F39AD2500CF8801 /* lua_modules.cpp */,
 				9FD7D6B71F39AD2500CF8801 /* lua_modules.h */,
 				9FD7D5BF1F39AAD200CF8801 /* lpack */,
@@ -579,6 +600,7 @@
 		F293B3CB15EB7BE500256477 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9F37D7311F415AEC00B63811 /* libfmod.dylib */,
 				9FCD695D1F3C6288007A03CC /* libBuglyAgent.a */,
 				9FCD695B1F3C620C007A03CC /* Bugly.framework */,
 				19F3E89B1F3B55CA004B9931 /* libsqlite3.tbd */,
@@ -829,6 +851,7 @@
 				9FD7D6B91F39AD2500CF8801 /* lua_modules.cpp in Sources */,
 				9FD7D61C1F39AAD300CF8801 /* lpprint.c in Sources */,
 				9FD7D6A41F39AB1900CF8801 /* map.c in Sources */,
+				9F37D72F1F41586000B63811 /* FmodPlayer.cpp in Sources */,
 				9FD7D6AE1F39AB1900CF8801 /* stringpool.c in Sources */,
 				9FA7525F1D32169600F05F08 /* AppController.mm in Sources */,
 				9FF504851A5E87B100AFDA55 /* ConsoleWindowController.m in Sources */,
@@ -837,6 +860,7 @@
 				9FD7D6B51F39AB3700CF8801 /* pbc-lua.c in Sources */,
 				C07828F818B4D72E00BD2287 /* main.m in Sources */,
 				9FD7D6201F39AAD300CF8801 /* lpvm.c in Sources */,
+				9F37D7301F41586000B63811 /* lua_FmodPlayer.cpp in Sources */,
 				9FD7D6B01F39AB1900CF8801 /* varint.c in Sources */,
 				9FD7D6A81F39AB1900CF8801 /* proto.c in Sources */,
 				9FA752641D32169600F05F08 /* NSApplication+SheetAdditions.m in Sources */,
@@ -926,7 +950,8 @@
 				);
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../Classes";
 				INFOPLIST_FILE = mac/Info.plist;
-				LIBRARY_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = "rpath $(SRCROOT)/../../cocos2d-x/external/fmod/prebuilt/mac";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../cocos2d-x/external/fmod/prebuilt/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"-image_base",
@@ -937,7 +962,7 @@
 					"$(_COCOS_LIB_MAC_END)",
 				);
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../cocos2d-x/external/glfw3/include/mac $(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../cocos2d-x/external/glfw3/include/mac $(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END) $(SRCROOT)/../../cocos2d-x/external/fmod/include/mac";
 			};
 			name = Debug;
 		};
@@ -956,7 +981,8 @@
 				);
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../Classes";
 				INFOPLIST_FILE = mac/Info.plist;
-				LIBRARY_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = "rpath $(SRCROOT)/../../cocos2d-x/external/fmod/prebuilt/mac";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../cocos2d-x/external/fmod/prebuilt/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"-image_base",
@@ -967,7 +993,7 @@
 					"$(_COCOS_LIB_MAC_END)",
 				);
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../cocos2d-x/external/glfw3/include/mac $(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../cocos2d-x/external/glfw3/include/mac $(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END) $(SRCROOT)/../../cocos2d-x/external/fmod/include/mac";
 			};
 			name = Release;
 		};
