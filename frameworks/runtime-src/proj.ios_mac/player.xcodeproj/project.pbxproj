@@ -65,6 +65,15 @@
 		9FA752601D32169600F05F08 /* AppControllerBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FA752551D32169600F05F08 /* AppControllerBridge.mm */; };
 		9FA752631D32169600F05F08 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA752591D32169600F05F08 /* MainMenu.xib */; };
 		9FA752641D32169600F05F08 /* NSApplication+SheetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA7525B1D32169600F05F08 /* NSApplication+SheetAdditions.m */; };
+		9FBFF0051F458D8B00571F83 /* libMagicWindowSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF0041F458D8A00571F83 /* libMagicWindowSDK.a */; };
+		9FBFF0071F458DCD00571F83 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF0061F458DCD00571F83 /* ImageIO.framework */; };
+		9FBFF0091F458DDD00571F83 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF0081F458DDD00571F83 /* AdSupport.framework */; };
+		9FBFF00B1F458DF600571F83 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF00A1F458DF600571F83 /* CoreFoundation.framework */; };
+		9FBFF00D1F458DFF00571F83 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF00C1F458DFF00571F83 /* SystemConfiguration.framework */; };
+		9FBFF00F1F458E0A00571F83 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF00E1F458E0A00571F83 /* CoreLocation.framework */; };
+		9FBFF0111F458E1C00571F83 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF0101F458E1C00571F83 /* WebKit.framework */; };
+		9FBFF0131F4590CD00571F83 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF0121F4590CD00571F83 /* GameController.framework */; };
+		9FBFF0151F45910E00571F83 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBFF0141F45910E00571F83 /* libWeChatSDK.a */; };
 		9FCD695F1F3C675B007A03CC /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCD695B1F3C620C007A03CC /* Bugly.framework */; };
 		9FCD69601F3C675D007A03CC /* libBuglyAgent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCD695D1F3C6288007A03CC /* libBuglyAgent.a */; };
 		9FCD69611F3C6770007A03CC /* CrashReport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD69521F3C61A4007A03CC /* CrashReport.mm */; };
@@ -254,6 +263,16 @@
 		9FA752591D32169600F05F08 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		9FA7525A1D32169600F05F08 /* NSApplication+SheetAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+SheetAdditions.h"; sourceTree = "<group>"; };
 		9FA7525B1D32169600F05F08 /* NSApplication+SheetAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+SheetAdditions.m"; sourceTree = "<group>"; };
+		9FBFF0031F458A4E00571F83 /* player-mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "player-mobile.entitlements"; sourceTree = "<group>"; };
+		9FBFF0041F458D8A00571F83 /* libMagicWindowSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMagicWindowSDK.a; path = ios/libMagicWindowSDK.a; sourceTree = "<group>"; };
+		9FBFF0061F458DCD00571F83 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
+		9FBFF0081F458DDD00571F83 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
+		9FBFF00A1F458DF600571F83 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		9FBFF00C1F458DFF00571F83 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		9FBFF00E1F458E0A00571F83 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
+		9FBFF0101F458E1C00571F83 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
+		9FBFF0121F4590CD00571F83 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
+		9FBFF0141F45910E00571F83 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libWeChatSDK.a; path = ios/WeChatSDK/libWeChatSDK.a; sourceTree = "<group>"; };
 		9FCD69511F3C61A4007A03CC /* CrashReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReport.h; sourceTree = "<group>"; };
 		9FCD69521F3C61A4007A03CC /* CrashReport.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashReport.mm; sourceTree = "<group>"; };
 		9FCD69551F3C61A4007A03CC /* BuglyLuaAgent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BuglyLuaAgent.cpp; sourceTree = "<group>"; };
@@ -351,6 +370,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FBFF0151F45910E00571F83 /* libWeChatSDK.a in Frameworks */,
+				9FBFF0131F4590CD00571F83 /* GameController.framework in Frameworks */,
+				9FBFF0111F458E1C00571F83 /* WebKit.framework in Frameworks */,
+				9FBFF00F1F458E0A00571F83 /* CoreLocation.framework in Frameworks */,
+				9FBFF00D1F458DFF00571F83 /* SystemConfiguration.framework in Frameworks */,
+				9FBFF00B1F458DF600571F83 /* CoreFoundation.framework in Frameworks */,
+				9FBFF0091F458DDD00571F83 /* AdSupport.framework in Frameworks */,
+				9FBFF0071F458DCD00571F83 /* ImageIO.framework in Frameworks */,
+				9FBFF0051F458D8B00571F83 /* libMagicWindowSDK.a in Frameworks */,
 				19F3E89C1F3B55CA004B9931 /* libsqlite3.tbd in Frameworks */,
 				19F3E89A1F3B55B8004B9931 /* CoreTelephony.framework in Frameworks */,
 				19F3E8981F3B5497004B9931 /* UMMobClick.framework in Frameworks */,
@@ -577,6 +605,7 @@
 		F293B3BD15EB7BE500256477 = {
 			isa = PBXGroup;
 			children = (
+				9FBFF0031F458A4E00571F83 /* player-mobile.entitlements */,
 				C03781AE18BF654500FE4F13 /* cocos2d_lua_bindings.xcodeproj */,
 				15A8A4031834BDA200142BE0 /* cocos2d_libs.xcodeproj */,
 				5023810617EBBCAC00990C9B /* ios */,
@@ -600,6 +629,15 @@
 		F293B3CB15EB7BE500256477 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9FBFF0141F45910E00571F83 /* libWeChatSDK.a */,
+				9FBFF0121F4590CD00571F83 /* GameController.framework */,
+				9FBFF0101F458E1C00571F83 /* WebKit.framework */,
+				9FBFF00E1F458E0A00571F83 /* CoreLocation.framework */,
+				9FBFF00C1F458DFF00571F83 /* SystemConfiguration.framework */,
+				9FBFF00A1F458DF600571F83 /* CoreFoundation.framework */,
+				9FBFF0081F458DDD00571F83 /* AdSupport.framework */,
+				9FBFF0061F458DCD00571F83 /* ImageIO.framework */,
+				9FBFF0041F458D8A00571F83 /* libMagicWindowSDK.a */,
 				9F37D7311F415AEC00B63811 /* libfmod.dylib */,
 				9FCD695D1F3C6288007A03CC /* libBuglyAgent.a */,
 				9FCD695B1F3C620C007A03CC /* Bugly.framework */,
@@ -706,6 +744,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					F293B3C715EB7BE500256477 = {
+						DevelopmentTeam = KF2P999MJS;
+						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = F293B3C215EB7BE500256477 /* Build configuration list for PBXProject "player" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1053,8 +1101,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_ENTITLEMENTS = "player-mobile.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = KF2P999MJS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1070,12 +1120,17 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ios/BuglyAgent";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/ios/BuglyAgent",
+					"$(PROJECT_DIR)/ios",
+					"$(PROJECT_DIR)/ios/WeChatSDK",
+				);
 				OTHER_LDFLAGS = (
 					"-force_load",
 					"${SRCROOT}/ios/BuglyAgent/libBuglyAgent.a",
 					"-force_load",
 					"${SRCROOT}/ios/Bugly.framework/Bugly",
+					"-Objc",
 				);
 				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=x86_64]" = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
@@ -1088,6 +1143,7 @@
 					"${SRCROOT}/ios/BuglyAgent/libBuglyAgent.a",
 					"-force_load",
 					"${SRCROOT}/ios/Bugly.framework/Bugly",
+					"-Objc",
 				);
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -1101,8 +1157,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_ENTITLEMENTS = "player-mobile.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = KF2P999MJS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1117,7 +1175,11 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ios/BuglyAgent";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/ios/BuglyAgent",
+					"$(PROJECT_DIR)/ios",
+					"$(PROJECT_DIR)/ios/WeChatSDK",
+				);
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=x86_64]" = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
