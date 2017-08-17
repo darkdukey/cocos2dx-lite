@@ -10,12 +10,29 @@ sudo pip install Pillow
 import sys
 import os
 import shutil
-from PIL import Image
+
+def warn(msg):
+  print('\x1b[0;31;40m' + msg + '\x1b[0m')
+
+import imp
+try:
+    imp.find_module('PIL')
+    from PIL import Image
+except ImportError:
+    warn('运行\nsudo pip install Pillow\n安装 PIL 模块')
+    exit (0)
+
+path        = os.path.split(os.path.realpath(__file__))[0]
+android_dir = os.path.join(path, 'frameworks/runtime-src/proj.android/res/')
+ios_dir     = os.path.join(path, 'frameworks/runtime-src/proj.ios_mac/ios/')
 
 #自动生成android,ios 需要的图标
 #python icon.py
 def generate():
-    iPath = 'icon.png'
+    iPath = os.path.join(path, 'icon.png')
+    if not os.path.exists(iPath):
+        print('> 文件不存在：', iPath)
+        exit (0)
     icon = Image.open(iPath)
 
     #android
@@ -31,7 +48,6 @@ def generate():
     # names = ['icon','push']
     names = ['icon']
 
-    android_dir = 'frameworks/runtime-src/proj.android/res/'
     for s in sizeFolders:
         folder,size = s
         img = icon.resize((size,size),Image.ANTIALIAS)
@@ -63,7 +79,6 @@ def generate():
         152,
     ]
 
-    ios_dir = 'frameworks/runtime-src/proj.ios_mac/ios/'
     if not os.path.exists(ios_dir):
         os.makedirs(ios_dir)
     for size in sizes:
