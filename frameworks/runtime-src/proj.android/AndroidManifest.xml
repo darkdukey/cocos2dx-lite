@@ -10,11 +10,16 @@
 
     <application android:label="@string/app_name"
                  android:icon="@drawable/icon">
-					 
+
         <!-- Tell Cocos2dxActivity the name of our .so -->
         <meta-data android:name="android.app.lib_name"
                   android:value="cocos2dlua" />
-					  
+
+        <!-- 魔窗 >>>> -->
+        <!--此处跟activity同级，需要放在Application内，AppKey替换为后台的”App Key”值 -->
+        <meta-data android:name="MW_APPID" android:value="EHBR7UZDN3LSLUXWI7APREJGP1ETWDKQ" />
+        <!-- 魔窗 <<<< -->
+
         <activity android:name="org.cocos2dx.lua.AppActivity"
                   android:label="@string/app_name"
                   android:screenOrientation="landscape"
@@ -24,7 +29,17 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <data android:scheme="playermwshow"/> <!-- 将 "你的Scheme" 替换为后台填写的 URI Scheme。-->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
         </activity>
+
+
     </application>
 
     <supports-screens android:anyDensity="true"
@@ -33,11 +48,21 @@
                       android:largeScreens="true"
                       android:xlargeScreens="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>  
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>  
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>  
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>  
-    
-  	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
- 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-</manifest> 
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!--
+        魔窗
+    -->
+    <!--判断程序是否在前台运行,必须 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- 检测手机基本状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+</manifest>
