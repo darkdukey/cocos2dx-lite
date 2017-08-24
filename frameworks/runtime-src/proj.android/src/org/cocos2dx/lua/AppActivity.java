@@ -50,8 +50,19 @@ import android.text.format.Formatter;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.net.Uri;
+import java.util.Map;
 
+import cn.magicwindow.MLink;
+import cn.magicwindow.MLinkAPIFactory;
+import cn.magicwindow.MWConfiguration;
+import cn.magicwindow.MagicWindowSDK;
+import cn.magicwindow.mlink.MLinkCallback;
+import cn.magicwindow.mlink.MLinkIntentBuilder;
+import cn.magicwindow.Session;
+import cn.magicwindow.mlink.annotation.MLinkDefaultRouter;
 
+@MLinkDefaultRouter
 public class AppActivity extends Cocos2dxActivity{
 
     static String hostIPAdress = "0.0.0.0";
@@ -59,72 +70,42 @@ public class AppActivity extends Cocos2dxActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // if(nativeIsLandScape()) {
-        //     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        // } else {
-        //     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        // }
+        // 魔窗
+        MWConfiguration config = new MWConfiguration(this);
+        config.setLogEnable(true);      //打开魔窗Log信息
+        MagicWindowSDK.initSDK(config);
 
-        // //2.Set the format of window
+        MLinkAPIFactory.createAPI(this).registerWithAnnotation(this);
+        MLinkAPIFactory.createAPI(this).deferredRouter();
 
-        // // Check the wifi is opened when the native is debug.
-        // if(nativeIsDebug())
-        // {
-        //     getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //     if(!isNetworkConnected())
-        //     {
-        //         AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        //         builder.setTitle("Warning");
-        //         builder.setMessage("Please open WIFI for debuging...");
-        //         builder.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+        MLink.getInstance(this).register("LitePlayerKey",new MLinkCallback()
+        {
+            public void execute(Map<String, String>paramMap, Uri uri,Context context){
+                String roomid = "";
+                if (paramMap != null) {
+                    roomid = paramMap.get("roomid");
+                } else if(uri!=null) {
+                    roomid = uri.getQueryParameter("roomid");
+                }
+                Log.e("$$$$$$$$$$$$", "######### roomid="+roomid);
+            }
+        });
 
-        //             @Override
-        //             public void onClick(DialogInterface dialog, int which) {
-        //                 startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-        //                 finish();
-        //                 System.exit(0);
-        //             }
-        //         });
-
-        //         builder.setNegativeButton("Cancel", null);
-        //         builder.setCancelable(true);
-        //         builder.show();
-        //     }
-        //     hostIPAdress = getHostIpAddress();
-        // }
+        Uri mLink = getIntent().getData();
+        //如果从浏览器传来 则进行路由操作
+        if(mLink != null){
+            MLink.getInstance(this).router(this, mLink);
+        }
     }
-    // private boolean isNetworkConnected() {
-    //         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    //         if (cm != null) {
-    //             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-    //         ArrayList networkTypes = new ArrayList();
-    //         networkTypes.add(ConnectivityManager.TYPE_WIFI);
-    //         try {
-    //             networkTypes.add(ConnectivityManager.class.getDeclaredField("TYPE_ETHERNET").getInt(null));
-    //         } catch (NoSuchFieldException nsfe) {
-    //         }
-    //         catch (IllegalAccessException iae) {
-    //             throw new RuntimeException(iae);
-    //         }
-    //         if (networkInfo != null && networkTypes.contains(networkInfo.getType())) {
-    //                 return true;
-    //             }
-    //         }
-    //         return false;
-    //     }
 
-    // public String getHostIpAddress() {
-    //     WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
-    //     WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
-    //     int ip = wifiInfo.getIpAddress();
-    //     return ((ip & 0xFF) + "." + ((ip >>>= 8) & 0xFF) + "." + ((ip >>>= 8) & 0xFF) + "." + ((ip >>>= 8) & 0xFF));
-    // }
-
-    // public static String getLocalIpAddress() {
-    //     return hostIPAdress;
-    // }
-
-    // private static native boolean nativeIsLandScape();
-    // private static native boolean nativeIsDebug();
-
+    @Override
+    protected void onPause() {
+        Session.onPause(this);
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        Session.onResume(this);
+        super.onResume();
+    }
 }

@@ -33,7 +33,9 @@
 
 // sdks
 #import "UMMobClick/MobClick.h"
+#include "MagicWindowSDK/MWApi.h"
 
+#include "sdkinfo.h"
 
 @implementation AppController
 
@@ -46,11 +48,10 @@ static AppDelegate s_sharedApplication;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // umeng analytics
-    UMConfigInstance.appKey = @"598b1c3c9f06fd0c250015f9";
-    UMConfigInstance.channelId = @"App Store";
+    UMConfigInstance.appKey = UM_appKey;
+    UMConfigInstance.channelId = UM_channelId;
     UMConfigInstance.eSType = E_UM_GAME;
     [MobClick startWithConfigure:UMConfigInstance];
-    
 
     cocos2d::Application *app = cocos2d::Application::getInstance();
     app->initGLContextAttrs();
@@ -96,9 +97,52 @@ static AppDelegate s_sharedApplication;
     cocos2d::Director::getInstance()->setOpenGLView(glview);
 
     app->run();
+
+    //
+    [MWApi registerApp:MW_appKey];
+    [MWApi registerMLinkHandlerWithKey:MW_MLinkKey
+                               handler:^(NSURL * _Nonnull url, NSDictionary * _Nullable params) {
+                                   NSLog(@"%@", url);
+                                   NSLog(@"%@", params);
+                               }];
+
     return YES;
 }
 
+// < iOS9
+-(BOOL)application:(UIApplication *)application
+           openURL:(NSURL *)url
+ sourceApplication:(NSString *)sourceApplication
+        annotation:(id)annotation
+{
+    NSLog(@"> openURL %@", url.absoluteString);
+    NSString *urlStr = url.absoluteString;
+    if ([urlStr containsString:MW_scheme]) {
+        [MWApi routeMLink:url];
+    }
+
+    return YES;
+}
+
+// iOS9+
+-(BOOL)application:(UIApplication *)app
+           openURL:(NSURL *)url
+           options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+    NSLog(@"> openURL %@", url.absoluteString);
+    NSString *urlStr = url.absoluteString;
+    if ([urlStr containsString:MW_scheme]) {
+        [MWApi routeMLink:url];
+    }
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application
+continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+{
+    return [MWApi continueUserActivity:userActivity];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*
