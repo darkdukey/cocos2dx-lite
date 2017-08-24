@@ -24,16 +24,19 @@ The major change:
 - Remove support for WebP,S3TC,ATITC
 - ~~Remove FastTileMap, TileMap~~
 - Remove *Menu*
+- Remove Audio
 - Improve module compile `cocos/base/ccConfigUser.h`
 - Improve curl library, only support `socket` and `http` protocol
 - Add [CC_MINI_2D / CC_USE_FREETYPE / CC_ONLY_PNG](https://github.com/c0i/cocos2dx-lite/blob/master/cocos/base/ccConfigUser.h)
 - Add CC_USE_SPINE
 - Add CC_USE_AUDIO_ENGINE
 - Add CC_USE_NETWORK
+- Add [FMOD](http://www.fmod.com/)
 - Restore ui module (NOT depend CocoStudio)
 - Restore `Focus` event (need by `ui`)
 - Restore `CocoStudio` module
 - Keep working with `CocosStudio` after 3.14.1 ([https://github.com/cocos2d/cocos2d-x/pull/17349#issuecomment-279629919](https://github.com/cocos2d/cocos2d-x/pull/17349#issuecomment-279629919))
+
 
 ## Usefull tools
 
