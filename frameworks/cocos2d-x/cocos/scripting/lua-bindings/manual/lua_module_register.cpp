@@ -2,7 +2,7 @@
 
 #include "scripting/lua-bindings/manual/lua_module_register.h"
 
-#include "scripting/lua-bindings/manual/cocosdenshion/lua_cocos2dx_cocosdenshion_manual.h"
+//#include "scripting/lua-bindings/manual/cocosdenshion/lua_cocos2dx_cocosdenshion_manual.h"
 #include "scripting/lua-bindings/manual/network/lua_cocos2dx_network_manual.h"
 // #include "scripting/lua-bindings/manual/cocosbuilder/lua_cocos2dx_cocosbuilder_manual.h"
 
@@ -18,7 +18,7 @@
 
 #include "scripting/lua-bindings/manual/spine/lua_cocos2dx_spine_manual.hpp"
 // #include "scripting/lua-bindings/manual/3d/lua_cocos2dx_3d_manual.h"
-#include "scripting/lua-bindings/manual/audioengine/lua_cocos2dx_audioengine_manual.h"
+//#include "scripting/lua-bindings/manual/audioengine/lua_cocos2dx_audioengine_manual.h"
 // #include "scripting/lua-bindings/manual/physics3d/lua_cocos2dx_physics3d_manual.h"
 // #include "scripting/lua-bindings/manual/navmesh/lua_cocos2dx_navmesh_manual.h"
 
@@ -27,7 +27,7 @@ int lua_module_register(lua_State* L)
 {
     //Dont' change the module register order unless you know what your are doing
 #if CC_USE_SIMPLE_AUDIO > 0
-     register_cocosdenshion_module(L);
+//     register_cocosdenshion_module(L);
 #endif
 
 #if CC_USE_NETWORK > 0

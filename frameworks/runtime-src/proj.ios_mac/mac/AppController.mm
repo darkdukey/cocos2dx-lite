@@ -8,7 +8,7 @@
 
 #include "cocos2d.h"
 #include "json/document.h"
-#include "audio/include/SimpleAudioEngine.h"
+//#include "audio/include/SimpleAudioEngine.h"
 //#include "CCLuaEngine.h"
 
 //#include "PlayerMac.h"
@@ -213,8 +213,8 @@ static std::string getCurAppPath(void)
     if (_app)
     {
         Director::getInstance()->pause();
-        CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-        CocosDenshion::SimpleAudioEngine::getInstance()->pauseAllEffects();
+//        CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+//        CocosDenshion::SimpleAudioEngine::getInstance()->pauseAllEffects();
     }
 }
 
@@ -224,8 +224,8 @@ static std::string getCurAppPath(void)
     if (_app)
     {
         Director::getInstance()->resume();
-        CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
-        CocosDenshion::SimpleAudioEngine::getInstance()->resumeAllEffects();
+//        CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+//        CocosDenshion::SimpleAudioEngine::getInstance()->resumeAllEffects();
     }
 }
 

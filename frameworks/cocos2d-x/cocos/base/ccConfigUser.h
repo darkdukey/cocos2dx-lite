@@ -13,8 +13,8 @@
 #undef CC_USE_TGA
 
 #define CC_USE_SPINE        1
-#define CC_USE_AUDIO_ENGINE 1
-#define CC_USE_SIMPLE_AUDIO 1
+#define CC_USE_AUDIO_ENGINE 0
+#define CC_USE_SIMPLE_AUDIO 0
 #define CC_USE_NETWORK      1
 #define CC_USE_FREETYPE     1
 #define CC_USE_UI           1

@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "audio/include/AudioEngine.h"
+//#include "audio/include/AudioEngine.h"
 #include "cocos2d.h"
 
 #include "lua-modules/lua_modules.h"
@@ -23,7 +23,7 @@ AppDelegate::AppDelegate()
 AppDelegate::~AppDelegate()
 {
     //SimpleAudioEngine::end();
-    experimental::AudioEngine::end();
+//    experimental::AudioEngine::end();
 }
 
 // if you want a different context, modify the value of glContextAttrs
@@ -69,9 +69,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     LuaStack* stack = engine->getLuaStack();
     stack->setXXTEAKeyAndSign("2dxLua", strlen("2dxLua"), "XXTEA", strlen("XXTEA"));
     
-#if CC_64BITS
-    FileUtils::getInstance()->addSearchPath("src/64bit");
-#endif
+//#if CC_64BITS
+//    FileUtils::getInstance()->addSearchPath("src/64bit");
+//#endif
     FileUtils::getInstance()->addSearchPath("src");
     FileUtils::getInstance()->addSearchPath("res");
 
@@ -90,7 +90,7 @@ void AppDelegate::applicationDidEnterBackground()
     Director::getInstance()->stopAnimation();
 
     //SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-    experimental::AudioEngine::pauseAll();
+//    experimental::AudioEngine::pauseAll();
     NotificationCenter::getInstance()->postNotification("APP_ENTER_BACKGROUND_EVENT");
 }
 
@@ -100,7 +100,7 @@ void AppDelegate::applicationWillEnterForeground()
     Director::getInstance()->startAnimation();
 
     //SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
-    experimental::AudioEngine::resumeAll();
+//    experimental::AudioEngine::resumeAll();
     NotificationCenter::getInstance()->postNotification("APP_ENTER_FOREGROUND_EVENT");
 }
 

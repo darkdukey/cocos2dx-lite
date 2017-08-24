@@ -59,9 +59,9 @@ LOCAL_SRC_FILES := ../manual/CCLuaBridge.cpp \
           ../../../../external/lua/tolua/tolua_to.c \
           ../../../../external/xxtea/xxtea.cpp \
           ../../../../external/lua/lua_extensions.c \
-          ../auto/lua_cocos2dx_audioengine_auto.cpp \
-          ../manual/audioengine/lua_cocos2dx_audioengine_manual.cpp \
           ../manual/lua_module_register.cpp
+          # ../auto/lua_cocos2dx_audioengine_auto.cpp \
+          # ../manual/audioengine/lua_cocos2dx_audioengine_manual.cpp \
 
 # cjson
 LOCAL_CJSON_SRC_FILES := ../../../../external/lua/cjson/fpconv.c \
@@ -97,8 +97,8 @@ LOCAL_SRC_FILES += ../../../../external/lua/luasocket/auxiliar.c \
 #                    ../auto/lua_cocos2dx_3d_auto.cpp
 
 #cocosdenshion
-LOCAL_SRC_FILES += ../manual/cocosdenshion/lua_cocos2dx_cocosdenshion_manual.cpp \
-                   ../auto/lua_cocos2dx_cocosdenshion_auto.cpp
+# LOCAL_SRC_FILES += ../manual/cocosdenshion/lua_cocos2dx_cocosdenshion_manual.cpp \
+#                   ../auto/lua_cocos2dx_cocosdenshion_auto.cpp
 
 #network
 LOCAL_SRC_FILES += ../manual/network/lua_cocos2dx_network_manual.cpp \
