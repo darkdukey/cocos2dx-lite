@@ -11,11 +11,10 @@ cocos2dx-lite
 4. 广告 sdk（[AdMob](https://www.google.com/admob/)、 [Chartboost](https://www.chartboost.com/)、 [UnityAds](https://unityads.unity3d.com/admin/)）
 5. 缺陷追踪工具 [bugly](https://bugly.qq.com/v2/) 等工具。
 6. 统计分析 （[flurry](https://y.flurry.com/)、[umeng](www.umeng.com)）
-
+7. 使用 FMOD 替换掉自带的两个音频库
 
 
 去掉 3d 等功能不是因为要裁剪包的大小，是因为少代码，少运行点代码，程序稳定点。
-
 提供这么多功能是有代价的，就是仓库很大。
 
 

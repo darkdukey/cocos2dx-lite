@@ -7,32 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15AE184A19AAD30500C27E9E /* Export.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE11807A56F005B8026 /* Export.h */; };
-		15AE184B19AAD30500C27E9E /* Export.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE11807A56F005B8026 /* Export.h */; };
-		15AE184C19AAD30800C27E9E /* SimpleAudioEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE21807A56F005B8026 /* SimpleAudioEngine.h */; };
-		15AE184D19AAD30800C27E9E /* SimpleAudioEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE21807A56F005B8026 /* SimpleAudioEngine.h */; };
-		15AE185819AAD31200C27E9E /* CDAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE41807A56F005B8026 /* CDAudioManager.h */; };
-		15AE185919AAD31200C27E9E /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FE51807A56F005B8026 /* CDAudioManager.m */; };
-		15AE185A19AAD31200C27E9E /* CDConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE61807A56F005B8026 /* CDConfig.h */; };
-		15AE185B19AAD31200C27E9E /* CDOpenALSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE71807A56F005B8026 /* CDOpenALSupport.h */; };
-		15AE185C19AAD31200C27E9E /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FE81807A56F005B8026 /* CDOpenALSupport.m */; };
-		15AE185D19AAD31200C27E9E /* CocosDenshion.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE91807A56F005B8026 /* CocosDenshion.h */; };
-		15AE185E19AAD31200C27E9E /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FEA1807A56F005B8026 /* CocosDenshion.m */; };
-		15AE185F19AAD31200C27E9E /* SimpleAudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FEB1807A56F005B8026 /* SimpleAudioEngine.mm */; };
-		15AE186019AAD31200C27E9E /* SimpleAudioEngine_objc.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FEC1807A56F005B8026 /* SimpleAudioEngine_objc.h */; };
-		15AE186119AAD31200C27E9E /* SimpleAudioEngine_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FED1807A56F005B8026 /* SimpleAudioEngine_objc.m */; };
-		15AE186219AAD31D00C27E9E /* CDAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FF41807A56F005B8026 /* CDAudioManager.h */; };
-		15AE186319AAD31D00C27E9E /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FF51807A56F005B8026 /* CDAudioManager.m */; };
-		15AE186419AAD31D00C27E9E /* CDConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FF61807A56F005B8026 /* CDConfig.h */; };
-		15AE186519AAD31D00C27E9E /* CDOpenALSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FF71807A56F005B8026 /* CDOpenALSupport.h */; };
-		15AE186619AAD31D00C27E9E /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FF81807A56F005B8026 /* CDOpenALSupport.m */; };
-		15AE186719AAD31D00C27E9E /* CDXMacOSXSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FF91807A56F005B8026 /* CDXMacOSXSupport.h */; };
-		15AE186819AAD31D00C27E9E /* CDXMacOSXSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FFA1807A56F005B8026 /* CDXMacOSXSupport.mm */; };
-		15AE186919AAD31D00C27E9E /* CocosDenshion.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FFB1807A56F005B8026 /* CocosDenshion.h */; };
-		15AE186A19AAD31D00C27E9E /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FFC1807A56F005B8026 /* CocosDenshion.m */; };
-		15AE186B19AAD31D00C27E9E /* SimpleAudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FFD1807A56F005B8026 /* SimpleAudioEngine.mm */; };
-		15AE186C19AAD31D00C27E9E /* SimpleAudioEngine_objc.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FFE1807A56F005B8026 /* SimpleAudioEngine_objc.h */; };
-		15AE186D19AAD31D00C27E9E /* SimpleAudioEngine_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A15FFF1807A56F005B8026 /* SimpleAudioEngine_objc.m */; };
 		15AE1BB219AADFEF00C27E9E /* HttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AAF5363180E3374000584C8 /* HttpClient.h */; };
 		15AE1BB319AADFEF00C27E9E /* HttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AAF5364180E3374000584C8 /* HttpRequest.h */; };
 		15AE1BB419AADFEF00C27E9E /* HttpResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AAF5365180E3374000584C8 /* HttpResponse.h */; };
@@ -340,10 +314,6 @@
 		299CF1FC19A434BC00C378C1 /* ccRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 299CF1F919A434BC00C378C1 /* ccRandom.cpp */; };
 		299CF1FD19A434BC00C378C1 /* ccRandom.h in Headers */ = {isa = PBXBuildFile; fileRef = 299CF1FA19A434BC00C378C1 /* ccRandom.h */; };
 		299CF1FE19A434BC00C378C1 /* ccRandom.h in Headers */ = {isa = PBXBuildFile; fileRef = 299CF1FA19A434BC00C378C1 /* ccRandom.h */; };
-		3E2BDADE19C030ED0055CDCD /* AudioEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E2BDADD19C030ED0055CDCD /* AudioEngine.h */; };
-		3E2BDAEC19C0436F0055CDCD /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E2BDAEB19C0436F0055CDCD /* AudioEngine.cpp */; };
-		3E2F27A619CFBFE100E7C490 /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E2BDAEB19C0436F0055CDCD /* AudioEngine.cpp */; };
-		3E2F27A719CFBFE400E7C490 /* AudioEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E2BDADD19C030ED0055CDCD /* AudioEngine.h */; };
 		3E6176681960F89B00DE83F5 /* CCController-iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3E6176551960F89B00DE83F5 /* CCController-iOS.mm */; };
 		3E6176691960F89B00DE83F5 /* CCController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E6176561960F89B00DE83F5 /* CCController.h */; };
 		3E6176741960F89B00DE83F5 /* CCEventController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E6176611960F89B00DE83F5 /* CCEventController.cpp */; };
@@ -776,18 +746,6 @@
 		50ABC0651926664800A911A9 /* CCGL-mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBF531926664700A911A9 /* CCGL-mac.h */; };
 		50ABC0671926664800A911A9 /* CCPlatformDefine-mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBF541926664700A911A9 /* CCPlatformDefine-mac.h */; };
 		50ABC0691926664800A911A9 /* CCStdC-mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBF551926664700A911A9 /* CCStdC-mac.h */; };
-		50CB247519D9C5A100687767 /* AudioCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 50CB246F19D9C5A100687767 /* AudioCache.h */; };
-		50CB247619D9C5A100687767 /* AudioCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 50CB246F19D9C5A100687767 /* AudioCache.h */; };
-		50CB247719D9C5A100687767 /* AudioCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50CB247019D9C5A100687767 /* AudioCache.mm */; };
-		50CB247819D9C5A100687767 /* AudioCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50CB247019D9C5A100687767 /* AudioCache.mm */; };
-		50CB247919D9C5A100687767 /* AudioEngine-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 50CB247119D9C5A100687767 /* AudioEngine-inl.h */; };
-		50CB247A19D9C5A100687767 /* AudioEngine-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 50CB247119D9C5A100687767 /* AudioEngine-inl.h */; };
-		50CB247B19D9C5A100687767 /* AudioEngine-inl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50CB247219D9C5A100687767 /* AudioEngine-inl.mm */; };
-		50CB247C19D9C5A100687767 /* AudioEngine-inl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50CB247219D9C5A100687767 /* AudioEngine-inl.mm */; };
-		50CB247D19D9C5A100687767 /* AudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 50CB247319D9C5A100687767 /* AudioPlayer.h */; };
-		50CB247E19D9C5A100687767 /* AudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 50CB247319D9C5A100687767 /* AudioPlayer.h */; };
-		50CB247F19D9C5A100687767 /* AudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50CB247419D9C5A100687767 /* AudioPlayer.mm */; };
-		50CB248019D9C5A100687767 /* AudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50CB247419D9C5A100687767 /* AudioPlayer.mm */; };
 		50ED2BD919BE5D5D00A0AB90 /* CCEventListenerController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E6176631960F89B00DE83F5 /* CCEventListenerController.cpp */; };
 		52B47A2E1A5349A3004E4C60 /* HttpAsynConnection-apple.h in Headers */ = {isa = PBXBuildFile; fileRef = 52B47A291A5349A3004E4C60 /* HttpAsynConnection-apple.h */; };
 		52B47A2F1A5349A3004E4C60 /* HttpAsynConnection-apple.m in Sources */ = {isa = PBXBuildFile; fileRef = 52B47A2A1A5349A3004E4C60 /* HttpAsynConnection-apple.m */; };
@@ -1490,8 +1448,6 @@
 		9F9CE7E71D12FAE500631192 /* CCDevice-apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9F9CE7E01D12F34500631192 /* CCDevice-apple.mm */; };
 		9FB6DA7C1EAF76BA00B5B482 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB6DA7A1EAF76BA00B5B482 /* libcrypto.a */; };
 		9FB6DA7D1EAF76BA00B5B482 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB6DA7B1EAF76BA00B5B482 /* libssl.a */; };
-		9FB6DA801EAF78E800B5B482 /* AudioDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FB6DA7E1EAF78E800B5B482 /* AudioDecoder.h */; };
-		9FB6DA811EAF78E800B5B482 /* AudioDecoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FB6DA7F1EAF78E800B5B482 /* AudioDecoder.mm */; };
 		9FB6DA841EAF794C00B5B482 /* Uri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FB6DA821EAF794C00B5B482 /* Uri.cpp */; };
 		9FB6DA851EAF794C00B5B482 /* Uri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FB6DA821EAF794C00B5B482 /* Uri.cpp */; };
 		9FB6DA861EAF794C00B5B482 /* Uri.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FB6DA831EAF794C00B5B482 /* Uri.h */; };
@@ -1506,7 +1462,6 @@
 		9FB6DA931EAF7AE700B5B482 /* AttachmentVertices.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FB6DA8F1EAF7AE700B5B482 /* AttachmentVertices.h */; };
 		9FB6DA961EAF7E2400B5B482 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB6DA941EAF7E2400B5B482 /* libcrypto.a */; };
 		9FB6DA971EAF7E2400B5B482 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB6DA951EAF7E2400B5B482 /* libssl.a */; };
-		9FB6DA981EAF7EA100B5B482 /* AudioDecoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FB6DA7F1EAF78E800B5B482 /* AudioDecoder.mm */; };
 		9FE981381CAD98D90038012F /* CCStencilStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FE981361CAD98D90038012F /* CCStencilStateManager.cpp */; };
 		9FE981391CAD98D90038012F /* CCStencilStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FE981361CAD98D90038012F /* CCStencilStateManager.cpp */; };
 		9FE9813A1CAD98D90038012F /* CCStencilStateManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 9FE981371CAD98D90038012F /* CCStencilStateManager.hpp */; };
@@ -1879,8 +1834,6 @@
 		2986667918B1B079000E39CA /* CCTweenFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTweenFunction.h; sourceTree = "<group>"; };
 		299CF1F919A434BC00C378C1 /* ccRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ccRandom.cpp; path = ../base/ccRandom.cpp; sourceTree = "<group>"; };
 		299CF1FA19A434BC00C378C1 /* ccRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ccRandom.h; path = ../base/ccRandom.h; sourceTree = "<group>"; };
-		3E2BDADD19C030ED0055CDCD /* AudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioEngine.h; sourceTree = "<group>"; };
-		3E2BDAEB19C0436F0055CDCD /* AudioEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioEngine.cpp; sourceTree = "<group>"; };
 		3E6176551960F89B00DE83F5 /* CCController-iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "CCController-iOS.mm"; path = "../base/CCController-iOS.mm"; sourceTree = "<group>"; };
 		3E6176561960F89B00DE83F5 /* CCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCController.h; path = ../base/CCController.h; sourceTree = "<group>"; };
 		3E6176611960F89B00DE83F5 /* CCEventController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCEventController.cpp; path = ../base/CCEventController.cpp; sourceTree = "<group>"; };
@@ -1893,30 +1846,6 @@
 		3EACC99D19F5014D00EB3C5E /* CCCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCamera.h; sourceTree = "<group>"; };
 		464AD6E3197EBB1400E502D8 /* pvr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pvr.cpp; path = ../base/pvr.cpp; sourceTree = "<group>"; };
 		464AD6E4197EBB1400E502D8 /* pvr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pvr.h; path = ../base/pvr.h; sourceTree = "<group>"; };
-		46A15FE11807A56F005B8026 /* Export.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
-		46A15FE21807A56F005B8026 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
-		46A15FE41807A56F005B8026 /* CDAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
-		46A15FE51807A56F005B8026 /* CDAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
-		46A15FE61807A56F005B8026 /* CDConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
-		46A15FE71807A56F005B8026 /* CDOpenALSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDOpenALSupport.h; sourceTree = "<group>"; };
-		46A15FE81807A56F005B8026 /* CDOpenALSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDOpenALSupport.m; sourceTree = "<group>"; };
-		46A15FE91807A56F005B8026 /* CocosDenshion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocosDenshion.h; sourceTree = "<group>"; };
-		46A15FEA1807A56F005B8026 /* CocosDenshion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CocosDenshion.m; sourceTree = "<group>"; };
-		46A15FEB1807A56F005B8026 /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioEngine.mm; sourceTree = "<group>"; };
-		46A15FEC1807A56F005B8026 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
-		46A15FED1807A56F005B8026 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
-		46A15FF41807A56F005B8026 /* CDAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
-		46A15FF51807A56F005B8026 /* CDAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
-		46A15FF61807A56F005B8026 /* CDConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
-		46A15FF71807A56F005B8026 /* CDOpenALSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDOpenALSupport.h; sourceTree = "<group>"; };
-		46A15FF81807A56F005B8026 /* CDOpenALSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDOpenALSupport.m; sourceTree = "<group>"; };
-		46A15FF91807A56F005B8026 /* CDXMacOSXSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDXMacOSXSupport.h; sourceTree = "<group>"; };
-		46A15FFA1807A56F005B8026 /* CDXMacOSXSupport.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CDXMacOSXSupport.mm; sourceTree = "<group>"; };
-		46A15FFB1807A56F005B8026 /* CocosDenshion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocosDenshion.h; sourceTree = "<group>"; };
-		46A15FFC1807A56F005B8026 /* CocosDenshion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CocosDenshion.m; sourceTree = "<group>"; };
-		46A15FFD1807A56F005B8026 /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioEngine.mm; sourceTree = "<group>"; };
-		46A15FFE1807A56F005B8026 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
-		46A15FFF1807A56F005B8026 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
 		46C02E0518E91123004B7456 /* xxhash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xxhash.c; sourceTree = "<group>"; };
 		46C02E0618E91123004B7456 /* xxhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxhash.h; sourceTree = "<group>"; };
 		5012168C1AC47380009A4BEA /* CCRenderState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCRenderState.cpp; sourceTree = "<group>"; };
@@ -2151,12 +2080,6 @@
 		50ABBF531926664700A911A9 /* CCGL-mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCGL-mac.h"; sourceTree = "<group>"; };
 		50ABBF541926664700A911A9 /* CCPlatformDefine-mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCPlatformDefine-mac.h"; sourceTree = "<group>"; };
 		50ABBF551926664700A911A9 /* CCStdC-mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCStdC-mac.h"; sourceTree = "<group>"; };
-		50CB246F19D9C5A100687767 /* AudioCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCache.h; sourceTree = "<group>"; };
-		50CB247019D9C5A100687767 /* AudioCache.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioCache.mm; sourceTree = "<group>"; };
-		50CB247119D9C5A100687767 /* AudioEngine-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AudioEngine-inl.h"; sourceTree = "<group>"; };
-		50CB247219D9C5A100687767 /* AudioEngine-inl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "AudioEngine-inl.mm"; sourceTree = "<group>"; };
-		50CB247319D9C5A100687767 /* AudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayer.h; sourceTree = "<group>"; };
-		50CB247419D9C5A100687767 /* AudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioPlayer.mm; sourceTree = "<group>"; };
 		52B47A291A5349A3004E4C60 /* HttpAsynConnection-apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HttpAsynConnection-apple.h"; sourceTree = "<group>"; };
 		52B47A2A1A5349A3004E4C60 /* HttpAsynConnection-apple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HttpAsynConnection-apple.m"; sourceTree = "<group>"; };
 		52B47A2B1A5349A3004E4C60 /* HttpClient-apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "HttpClient-apple.mm"; sourceTree = "<group>"; };
@@ -2530,8 +2453,6 @@
 		9F9CE7E31D12F99D00631192 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		9FB6DA7A1EAF76BA00B5B482 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../external/openssl/prebuilt/mac/libcrypto.a; sourceTree = "<group>"; };
 		9FB6DA7B1EAF76BA00B5B482 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../external/openssl/prebuilt/mac/libssl.a; sourceTree = "<group>"; };
-		9FB6DA7E1EAF78E800B5B482 /* AudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDecoder.h; sourceTree = "<group>"; };
-		9FB6DA7F1EAF78E800B5B482 /* AudioDecoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioDecoder.mm; sourceTree = "<group>"; };
 		9FB6DA821EAF794C00B5B482 /* Uri.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Uri.cpp; sourceTree = "<group>"; };
 		9FB6DA831EAF794C00B5B482 /* Uri.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uri.h; sourceTree = "<group>"; };
 		9FB6DA881EAF7A9800B5B482 /* SkeletonBatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonBatch.cpp; sourceTree = "<group>"; };
@@ -2700,7 +2621,6 @@
 			isa = PBXGroup;
 			children = (
 				46A169A11807B037005B8026 /* 2d */,
-				46A15FD01807A56F005B8026 /* audio */,
 				1A5700A2180BC5E60088DEC7 /* base */,
 				50272539190BF1B900AAF4ED /* cocos2d.cpp */,
 				50272538190BF1B900AAF4ED /* cocos2d.h */,
@@ -3470,65 +3390,6 @@
 			path = spine;
 			sourceTree = "<group>";
 		};
-		46A15FD01807A56F005B8026 /* audio */ = {
-			isa = PBXGroup;
-			children = (
-				50CB246E19D9C5A100687767 /* apple */,
-				3E2BDAEB19C0436F0055CDCD /* AudioEngine.cpp */,
-				46A15FE01807A56F005B8026 /* include */,
-				46A15FE31807A56F005B8026 /* ios */,
-				46A15FF31807A56F005B8026 /* mac */,
-			);
-			name = audio;
-			path = ../cocos/audio;
-			sourceTree = "<group>";
-		};
-		46A15FE01807A56F005B8026 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				3E2BDADD19C030ED0055CDCD /* AudioEngine.h */,
-				46A15FE11807A56F005B8026 /* Export.h */,
-				46A15FE21807A56F005B8026 /* SimpleAudioEngine.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		46A15FE31807A56F005B8026 /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				46A15FE41807A56F005B8026 /* CDAudioManager.h */,
-				46A15FE51807A56F005B8026 /* CDAudioManager.m */,
-				46A15FE61807A56F005B8026 /* CDConfig.h */,
-				46A15FE71807A56F005B8026 /* CDOpenALSupport.h */,
-				46A15FE81807A56F005B8026 /* CDOpenALSupport.m */,
-				46A15FE91807A56F005B8026 /* CocosDenshion.h */,
-				46A15FEA1807A56F005B8026 /* CocosDenshion.m */,
-				46A15FEB1807A56F005B8026 /* SimpleAudioEngine.mm */,
-				46A15FEC1807A56F005B8026 /* SimpleAudioEngine_objc.h */,
-				46A15FED1807A56F005B8026 /* SimpleAudioEngine_objc.m */,
-			);
-			path = ios;
-			sourceTree = "<group>";
-		};
-		46A15FF31807A56F005B8026 /* mac */ = {
-			isa = PBXGroup;
-			children = (
-				46A15FF41807A56F005B8026 /* CDAudioManager.h */,
-				46A15FF51807A56F005B8026 /* CDAudioManager.m */,
-				46A15FF61807A56F005B8026 /* CDConfig.h */,
-				46A15FF71807A56F005B8026 /* CDOpenALSupport.h */,
-				46A15FF81807A56F005B8026 /* CDOpenALSupport.m */,
-				46A15FF91807A56F005B8026 /* CDXMacOSXSupport.h */,
-				46A15FFA1807A56F005B8026 /* CDXMacOSXSupport.mm */,
-				46A15FFB1807A56F005B8026 /* CocosDenshion.h */,
-				46A15FFC1807A56F005B8026 /* CocosDenshion.m */,
-				46A15FFD1807A56F005B8026 /* SimpleAudioEngine.mm */,
-				46A15FFE1807A56F005B8026 /* SimpleAudioEngine_objc.h */,
-				46A15FFF1807A56F005B8026 /* SimpleAudioEngine_objc.m */,
-			);
-			path = mac;
-			sourceTree = "<group>";
-		};
 		46A169A11807B037005B8026 /* 2d */ = {
 			isa = PBXGroup;
 			children = (
@@ -3817,21 +3678,6 @@
 				50ABBF551926664700A911A9 /* CCStdC-mac.h */,
 			);
 			path = mac;
-			sourceTree = "<group>";
-		};
-		50CB246E19D9C5A100687767 /* apple */ = {
-			isa = PBXGroup;
-			children = (
-				50CB246F19D9C5A100687767 /* AudioCache.h */,
-				50CB247019D9C5A100687767 /* AudioCache.mm */,
-				50CB247119D9C5A100687767 /* AudioEngine-inl.h */,
-				50CB247219D9C5A100687767 /* AudioEngine-inl.mm */,
-				50CB247319D9C5A100687767 /* AudioPlayer.h */,
-				50CB247419D9C5A100687767 /* AudioPlayer.mm */,
-				9FB6DA7E1EAF78E800B5B482 /* AudioDecoder.h */,
-				9FB6DA7F1EAF78E800B5B482 /* AudioDecoder.mm */,
-			);
-			path = apple;
 			sourceTree = "<group>";
 		};
 		68B39B391B1C5C670084F72C /* clipper */ = {
@@ -4584,7 +4430,6 @@
 				50ABBE631925AB6F00A911A9 /* CCEventListenerAcceleration.h in Headers */,
 				50ABBED31925AB6F00A911A9 /* uthash.h in Headers */,
 				B29A7E0119EE1B7700872B35 /* extension.h in Headers */,
-				3E2F27A719CFBFE400E7C490 /* AudioEngine.h in Headers */,
 				15FB20761AE7BF8600C31518 /* CCAutoPolygon.h in Headers */,
 				9F91DC031DBFA33F00EEF520 /* CCResourceData.h in Headers */,
 				9F2DC8BF1DC1087B0064BF46 /* CCTileMapAtlas.h in Headers */,
@@ -4662,7 +4507,6 @@
 				46C02E0918E91123004B7456 /* xxhash.h in Headers */,
 				9F2DC7511DC106C00064BF46 /* CCDisplayManager.h in Headers */,
 				1A570110180BC8EE0088DEC7 /* CCDrawingPrimitives.h in Headers */,
-				50CB247D19D9C5A100687767 /* AudioPlayer.h in Headers */,
 				1A570114180BC8EE0088DEC7 /* CCDrawNode.h in Headers */,
 				B29A7E2719EE1B7700872B35 /* spine-cocos2dx.h in Headers */,
 				9F6A4A701C4B7A1C00831F4A /* CCPolygonInfo.h in Headers */,
@@ -4699,7 +4543,6 @@
 				9FE9816C1CAED8FE0038012F /* xxtea.h in Headers */,
 				9F91DB0C1DBF9E8500EEF520 /* GUIExport.h in Headers */,
 				5034CA47191D591100CE6051 /* ccShader_Label_normal.frag in Headers */,
-				15AE186419AAD31D00C27E9E /* CDConfig.h in Headers */,
 				15AE1BB819AADFEF00C27E9E /* WebSocket.h in Headers */,
 				1A5701B7180BCB5A0088DEC7 /* CCFontFreeType.h in Headers */,
 				D0FD03551A3B51AA00825BB5 /* CCAllocatorMacros.h in Headers */,
@@ -4748,7 +4591,6 @@
 				1A570216180BCBF40088DEC7 /* CCRenderTexture.h in Headers */,
 				1A01C69618F57BE800EFE3A6 /* CCInteger.h in Headers */,
 				1A570223180BCC1A0088DEC7 /* CCParticleBatchNode.h in Headers */,
-				15AE186919AAD31D00C27E9E /* CocosDenshion.h in Headers */,
 				9FE9813A1CAD98D90038012F /* CCStencilStateManager.hpp in Headers */,
 				9F91DBB41DBF9E8500EEF520 /* UIScrollViewBar.h in Headers */,
 				B29A7DE719EE1B7700872B35 /* spine.h in Headers */,
@@ -4771,7 +4613,6 @@
 				5034CA4B191D591100CE6051 /* ccShader_Label_df_glow.frag in Headers */,
 				50ABBE4F1925AB6F00A911A9 /* CCEventCustom.h in Headers */,
 				50ABBD521925AB0000A911A9 /* Quaternion.h in Headers */,
-				15AE186219AAD31D00C27E9E /* CDAudioManager.h in Headers */,
 				1A57022F180BCC1A0088DEC7 /* CCParticleSystemQuad.h in Headers */,
 				15FB20951AE7C57D00C31518 /* cdt.h in Headers */,
 				9F91DB101DBF9E8500EEF520 /* UIAbstractCheckButton.h in Headers */,
@@ -4780,7 +4621,6 @@
 				B29A7DF519EE1B7700872B35 /* Skeleton.h in Headers */,
 				5034CA49191D591100CE6051 /* ccShader_Label_df.frag in Headers */,
 				B29A7DD919EE1B7700872B35 /* SkeletonRenderer.h in Headers */,
-				50CB247919D9C5A100687767 /* AudioEngine-inl.h in Headers */,
 				1A01C68C18F57BE800EFE3A6 /* CCDeprecated.h in Headers */,
 				50ABBD561925AB0000A911A9 /* TransformUtils.h in Headers */,
 				9F2DC7AB1DC106C00064BF46 /* CSArmatureNode_generated.h in Headers */,
@@ -4800,7 +4640,6 @@
 				1A57028C180BCC900088DEC7 /* CCSpriteFrameCache.h in Headers */,
 				5027253A190BF1B900AAF4ED /* cocos2d.h in Headers */,
 				9F2DC8711DC107410064BF46 /* pow10.h in Headers */,
-				15AE184A19AAD30500C27E9E /* Export.h in Headers */,
 				9F2DC8591DC107410064BF46 /* encodings.h in Headers */,
 				1A570294180BCCAB0088DEC7 /* CCAnimation.h in Headers */,
 				50ABBD421925AB0000A911A9 /* CCMathBase.h in Headers */,
@@ -4836,10 +4675,8 @@
 				9F91DBBC1DBF9E8500EEF520 /* UITabControl.h in Headers */,
 				B29A7E3919EE1B7700872B35 /* Animation.h in Headers */,
 				15FB20991AE7C57D00C31518 /* sweep.h in Headers */,
-				15AE184C19AAD30800C27E9E /* SimpleAudioEngine.h in Headers */,
 				9F2DC6E11DC106C00064BF46 /* CCBoneNode.h in Headers */,
 				50ABBDA11925AB4100A911A9 /* CCGroupCommand.h in Headers */,
-				15AE186519AAD31D00C27E9E /* CDOpenALSupport.h in Headers */,
 				50ABBDBB1925AB4100A911A9 /* CCTextureAtlas.h in Headers */,
 				9F2DC7DB1DC106C00064BF46 /* NodeReader.h in Headers */,
 				15FB20911AE7C57D00C31518 /* advancing_front.h in Headers */,
@@ -4866,7 +4703,6 @@
 				9F2DC8311DC106C10064BF46 /* WidgetReaderProtocol.h in Headers */,
 				8525E3A21B291E42008EE815 /* clipper.hpp in Headers */,
 				15FB209D1AE7C57D00C31518 /* sweep_context.h in Headers */,
-				50CB247519D9C5A100687767 /* AudioCache.h in Headers */,
 				9F91DBC41DBF9E8500EEF520 /* UITextAtlas.h in Headers */,
 				50ABC01F1926664800A911A9 /* CCThread.h in Headers */,
 				1A57035A180BD0B00088DEC7 /* unzip.h in Headers */,
@@ -4877,7 +4713,6 @@
 				15FB208D1AE7C57D00C31518 /* poly2tri.h in Headers */,
 				50ABBDBF1925AB4100A911A9 /* CCTextureCache.h in Headers */,
 				B29A7E0D19EE1B7700872B35 /* Bone.h in Headers */,
-				15AE186719AAD31D00C27E9E /* CDXMacOSXSupport.h in Headers */,
 				B29A7DCD19EE1B7700872B35 /* Slot.h in Headers */,
 				9F91DB841DBF9E8500EEF520 /* UILayoutComponent.h in Headers */,
 				5034CA35191D591100CE6051 /* ccShader_PositionTexture.frag in Headers */,
@@ -4909,7 +4744,6 @@
 				50643BD919BFAF4400EF68ED /* CCApplication.h in Headers */,
 				9F91DBDE1DBF9E8500EEF520 /* UIWebView.h in Headers */,
 				50ABBD3A1925AB0000A911A9 /* CCAffineTransform.h in Headers */,
-				15AE186C19AAD31D00C27E9E /* SimpleAudioEngine_objc.h in Headers */,
 				B29A7E2319EE1B7700872B35 /* IkConstraint.h in Headers */,
 				9F91DB881DBF9E8500EEF520 /* UILayoutManager.h in Headers */,
 				15AE1BB319AADFEF00C27E9E /* HttpRequest.h in Headers */,
@@ -4978,7 +4812,6 @@
 				50ABBEB11925AB6F00A911A9 /* CCUserDefault.h in Headers */,
 				B29A7DEF19EE1B7700872B35 /* SkeletonBounds.h in Headers */,
 				9F2DC81F1DC106C10064BF46 /* TextBMFontReader.h in Headers */,
-				9FB6DA801EAF78E800B5B482 /* AudioDecoder.h in Headers */,
 				9F91DB901DBF9E8500EEF520 /* UIListView.h in Headers */,
 				D0FD034D1A3B51AA00825BB5 /* CCAllocatorDiagnostics.h in Headers */,
 				50ABBEC71925AB6F00A911A9 /* etc1.h in Headers */,
@@ -5068,7 +4901,6 @@
 				B257B4511989D5E800D9A687 /* CCPrimitive.h in Headers */,
 				50643BE319BFCF1800EF68ED /* CCPlatformConfig.h in Headers */,
 				9F2DC7461DC106C00064BF46 /* CCDatas.h in Headers */,
-				15AE185B19AAD31200C27E9E /* CDOpenALSupport.h in Headers */,
 				50ABBE401925AB6F00A911A9 /* CCDataVisitor.h in Headers */,
 				1A570064180BC5A10088DEC7 /* CCAction.h in Headers */,
 				503DD8EC1926736A00CD74DD /* CCGLViewImpl-ios.h in Headers */,
@@ -5108,7 +4940,6 @@
 				1A01C68918F57BE800EFE3A6 /* CCBool.h in Headers */,
 				9F2DC6F41DC106C00064BF46 /* CCTimelineMacro.h in Headers */,
 				9F91DB571DBF9E8500EEF520 /* UIEditBoxImpl-ios.h in Headers */,
-				50CB247E19D9C5A100687767 /* AudioPlayer.h in Headers */,
 				1A57007C180BC5A10088DEC7 /* CCActionInstant.h in Headers */,
 				9F91DB311DBF9E8500EEF520 /* UITextView+CCUITextInput.h in Headers */,
 				9F2DC7321DC106C00064BF46 /* CCComBase.h in Headers */,
@@ -5172,7 +5003,6 @@
 				9F91DBA51DBF9E8500EEF520 /* UIRelativeBox.h in Headers */,
 				9F91DB2D1DBF9E8500EEF520 /* UITextField+CCUITextInput.h in Headers */,
 				1A5701A0180BCB590088DEC7 /* CCFont.h in Headers */,
-				3E2BDADE19C030ED0055CDCD /* AudioEngine.h in Headers */,
 				9F2DC7921DC106C00064BF46 /* FlatBuffersSerialize.h in Headers */,
 				9F2DC7AA1DC106C00064BF46 /* ArmatureNodeReader.h in Headers */,
 				50ABBD9A1925AB4100A911A9 /* CCGLProgramStateCache.h in Headers */,
@@ -5209,7 +5039,6 @@
 				9F2DC6F81DC106C00064BF46 /* CSLoader.h in Headers */,
 				9F2DC8821DC107410064BF46 /* prettywriter.h in Headers */,
 				15AE1BBC19AADFF000C27E9E /* HttpResponse.h in Headers */,
-				15AE186019AAD31200C27E9E /* SimpleAudioEngine_objc.h in Headers */,
 				50ABBDA61925AB4100A911A9 /* CCQuadCommand.h in Headers */,
 				1A01C69518F57BE800EFE3A6 /* CCFloat.h in Headers */,
 				9F2DC8661DC107410064BF46 /* biginteger.h in Headers */,
@@ -5282,7 +5111,6 @@
 				5034CA2C191D591100CE6051 /* ccShader_PositionTextureA8Color.vert in Headers */,
 				50ABBE981925AB6F00A911A9 /* CCProtocols.h in Headers */,
 				9F2DC70C1DC106C00064BF46 /* CCActionObject.h in Headers */,
-				50CB247A19D9C5A100687767 /* AudioEngine-inl.h in Headers */,
 				52B47A321A5349A3004E4C60 /* HttpCookie.h in Headers */,
 				9F2DC7421DC106C00064BF46 /* CCDataReaderHelper.h in Headers */,
 				50ABBD431925AB0000A911A9 /* CCMathBase.h in Headers */,
@@ -5322,9 +5150,7 @@
 				1AC0269D1914068200FA920D /* ConvertUTF.h in Headers */,
 				50ABBE2A1925AB6F00A911A9 /* CCAutoreleasePool.h in Headers */,
 				9F2DC8C41DC1087B0064BF46 /* CCTMXLayer.h in Headers */,
-				15AE185D19AAD31200C27E9E /* CocosDenshion.h in Headers */,
 				D0FD035C1A3B51AA00825BB5 /* CCAllocatorStrategyFixedBlock.h in Headers */,
-				15AE185A19AAD31200C27E9E /* CDConfig.h in Headers */,
 				9F2DC7661DC106C00064BF46 /* CCSpriteFrameCacheHelper.h in Headers */,
 				9F91DB8D1DBF9E8500EEF520 /* UILayoutParameter.h in Headers */,
 				B29A7DE819EE1B7700872B35 /* spine.h in Headers */,
@@ -5428,7 +5254,6 @@
 				9F91DB111DBF9E8500EEF520 /* UIAbstractCheckButton.h in Headers */,
 				9F296E311DDC161A006DF478 /* MeshAttachment.h in Headers */,
 				9F2DC7AC1DC106C00064BF46 /* CSArmatureNode_generated.h in Headers */,
-				50CB247619D9C5A100687767 /* AudioCache.h in Headers */,
 				9F2DC6EA1DC106C00064BF46 /* CCSkeletonNode.h in Headers */,
 				9F2DC7B41DC106C00064BF46 /* CheckBoxReader.h in Headers */,
 				B29A7DDA19EE1B7700872B35 /* SkeletonRenderer.h in Headers */,
@@ -5446,7 +5271,6 @@
 				9F2DC8141DC106C10064BF46 /* CSTabControl_generated.h in Headers */,
 				B29A7DEC19EE1B7700872B35 /* MeshAttachment.h in Headers */,
 				50ABBEAE1925AB6F00A911A9 /* ccTypes.h in Headers */,
-				15AE185819AAD31200C27E9E /* CDAudioManager.h in Headers */,
 				50ABBE261925AB6F00A911A9 /* base64.h in Headers */,
 				9F2DC7841DC106C00064BF46 /* CocoStudio.h in Headers */,
 				1A01C68718F57BE800EFE3A6 /* CCArray.h in Headers */,
@@ -5462,11 +5286,9 @@
 				B29A7E1019EE1B7700872B35 /* SkeletonJson.h in Headers */,
 				9F2DC8901DC107810064BF46 /* ObjectFactory.h in Headers */,
 				9F91DBD91DBF9E8500EEF520 /* UIVideoPlayer.h in Headers */,
-				15AE184B19AAD30500C27E9E /* Export.h in Headers */,
 				50ABBE221925AB6F00A911A9 /* atitc.h in Headers */,
 				50ABBED21925AB6F00A911A9 /* TGAlib.h in Headers */,
 				9F2DC80A1DC106C00064BF46 /* SliderReader.h in Headers */,
-				15AE184D19AAD30800C27E9E /* SimpleAudioEngine.h in Headers */,
 				1A01C68D18F57BE800EFE3A6 /* CCDeprecated.h in Headers */,
 				B29A7E3619EE1B7700872B35 /* AnimationStateData.h in Headers */,
 				9F2DC8541DC107410064BF46 /* allocators.h in Headers */,
@@ -5588,7 +5410,6 @@
 				50ABBE991925AB6F00A911A9 /* CCRef.cpp in Sources */,
 				9F2DC78B1DC106C00064BF46 /* DictionaryHelper.cpp in Sources */,
 				9FE9816A1CAED8FE0038012F /* xxtea.cpp in Sources */,
-				15AE186319AAD31D00C27E9E /* CDAudioManager.m in Sources */,
 				9F91DB7A1DBF9E8500EEF520 /* UIImageView.cpp in Sources */,
 				9F91DBFB1DBFA0BC00EEF520 /* CCProtectedNode.cpp in Sources */,
 				9F91DBBA1DBF9E8500EEF520 /* UITabControl.cpp in Sources */,
@@ -5600,7 +5421,6 @@
 				9F2DC8211DC106C10064BF46 /* TextFieldReader.cpp in Sources */,
 				9F296E4C1DDC16D6006DF478 /* PathConstraintData.c in Sources */,
 				50ABBEBB1925AB6F00A911A9 /* ccUtils.cpp in Sources */,
-				15AE186A19AAD31D00C27E9E /* CocosDenshion.m in Sources */,
 				9F2DC7A71DC106C00064BF46 /* ArmatureNodeReader.cpp in Sources */,
 				9F2DC80F1DC106C00064BF46 /* SpriteReader.cpp in Sources */,
 				15FB208F1AE7C57D00C31518 /* advancing_front.cc in Sources */,
@@ -5637,7 +5457,6 @@
 				B29A7DDB19EE1B7700872B35 /* Event.c in Sources */,
 				1A57006D180BC5A10088DEC7 /* CCActionEase.cpp in Sources */,
 				1A570071180BC5A10088DEC7 /* CCActionGrid.cpp in Sources */,
-				50CB247F19D9C5A100687767 /* AudioPlayer.mm in Sources */,
 				50ABBFFF1926664800A911A9 /* CCFileUtils-apple.mm in Sources */,
 				1A570075180BC5A10088DEC7 /* CCActionGrid3D.cpp in Sources */,
 				1A570079180BC5A10088DEC7 /* CCActionInstant.cpp in Sources */,
@@ -5678,14 +5497,12 @@
 				9F2DC7B11DC106C00064BF46 /* CheckBoxReader.cpp in Sources */,
 				1A01C68418F57BE800EFE3A6 /* CCArray.cpp in Sources */,
 				1A570112180BC8EE0088DEC7 /* CCDrawNode.cpp in Sources */,
-				15AE186D19AAD31D00C27E9E /* SimpleAudioEngine_objc.m in Sources */,
 				1A57011B180BC90D0088DEC7 /* CCGrabber.cpp in Sources */,
 				B29A7E3719EE1B7700872B35 /* AnimationStateData.c in Sources */,
 				1A57011F180BC90D0088DEC7 /* CCGrid.cpp in Sources */,
 				9F2DC73F1DC106C00064BF46 /* CCDataReaderHelper.cpp in Sources */,
 				A0534A671B872FFD006B03E5 /* CCDownloader-apple.mm in Sources */,
 				1A57019D180BCB590088DEC7 /* CCFont.cpp in Sources */,
-				50CB247B19D9C5A100687767 /* AudioEngine-inl.mm in Sources */,
 				1A5701A1180BCB590088DEC7 /* CCFontAtlas.cpp in Sources */,
 				9F2DC81D1DC106C10064BF46 /* TextBMFontReader.cpp in Sources */,
 				9F2DC8BD1DC1087B0064BF46 /* CCTileMapAtlas.cpp in Sources */,
@@ -5724,7 +5541,6 @@
 				9F91DBA21DBF9E8500EEF520 /* UIRelativeBox.cpp in Sources */,
 				B63990CC1A490AFE00B07923 /* CCAsyncTaskPool.cpp in Sources */,
 				1A5701EA180BCB8C0088DEC7 /* CCTransitionPageTurn.cpp in Sources */,
-				15AE186B19AAD31D00C27E9E /* SimpleAudioEngine.mm in Sources */,
 				9F2DC8071DC106C00064BF46 /* SliderReader.cpp in Sources */,
 				9F2DC77D1DC106C00064BF46 /* CocosStudioExtension.cpp in Sources */,
 				9F2DC8A01DC107C50064BF46 /* flatc.cpp in Sources */,
@@ -5734,7 +5550,6 @@
 				9F2DC7931DC106C00064BF46 /* LocalizationManager.cpp in Sources */,
 				1A5701EE180BCB8C0088DEC7 /* CCTransitionProgress.cpp in Sources */,
 				15FB20931AE7C57D00C31518 /* cdt.cc in Sources */,
-				15AE186619AAD31D00C27E9E /* CDOpenALSupport.m in Sources */,
 				1A1645B2191B726C008C7C7F /* ConvertUTFWrapper.cpp in Sources */,
 				9F2DC6E71DC106C00064BF46 /* CCSkeletonNode.cpp in Sources */,
 				B29A7DD119EE1B7700872B35 /* Skin.c in Sources */,
@@ -5821,7 +5636,6 @@
 				9F2DC7251DC106C00064BF46 /* CCColliderDetector.cpp in Sources */,
 				50ABBD931925AB4100A911A9 /* CCGLProgramState.cpp in Sources */,
 				9F91DBB61DBF9E8500EEF520 /* UISlider.cpp in Sources */,
-				9FB6DA811EAF78E800B5B482 /* AudioDecoder.mm in Sources */,
 				1A57034B180BD09B0088DEC7 /* tinyxml2.cpp in Sources */,
 				1A570354180BD0B00088DEC7 /* ioapi.cpp in Sources */,
 				1A570358180BD0B00088DEC7 /* unzip.cpp in Sources */,
@@ -5832,10 +5646,8 @@
 				50ABBEB31925AB6F00A911A9 /* CCUserDefault-apple.mm in Sources */,
 				50ABBEB51925AB6F00A911A9 /* CCUserDefault-android.cpp in Sources */,
 				50ABBE831925AB6F00A911A9 /* ccFPSImages.c in Sources */,
-				50CB247719D9C5A100687767 /* AudioCache.mm in Sources */,
 				9F91DB521DBF9E8500EEF520 /* UIEditBoxImpl-common.cpp in Sources */,
 				50ABBEA71925AB6F00A911A9 /* CCTouch.cpp in Sources */,
-				15AE186819AAD31D00C27E9E /* CDXMacOSXSupport.mm in Sources */,
 				9F2DC6F91DC106C00064BF46 /* CCActionFrame.cpp in Sources */,
 				15FB209B1AE7C57D00C31518 /* sweep_context.cc in Sources */,
 				50ABBD8B1925AB4100A911A9 /* CCGLProgram.cpp in Sources */,
@@ -5885,7 +5697,6 @@
 				50ABBD541925AB0000A911A9 /* TransformUtils.cpp in Sources */,
 				DABC9FA919E7DFA900FA252C /* CCClippingRectangleNode.cpp in Sources */,
 				9F296E2E1DDC161A006DF478 /* MeshAttachment.c in Sources */,
-				3E2F27A619CFBFE100E7C490 /* AudioEngine.cpp in Sources */,
 				D0FD03531A3B51AA00825BB5 /* CCAllocatorGlobalNewDelete.cpp in Sources */,
 				9F91DB1A1DBF9E8500EEF520 /* UIDeprecated.cpp in Sources */,
 				50ABBD9B1925AB4100A911A9 /* ccGLStateCache.cpp in Sources */,
@@ -5962,8 +5773,6 @@
 				B2165EEA19921124000BE3E6 /* CCPrimitiveCommand.cpp in Sources */,
 				9F2DC70A1DC106C00064BF46 /* CCActionObject.cpp in Sources */,
 				9F2DC8101DC106C00064BF46 /* SpriteReader.cpp in Sources */,
-				15AE185C19AAD31200C27E9E /* CDOpenALSupport.m in Sources */,
-				15AE186119AAD31200C27E9E /* SimpleAudioEngine_objc.m in Sources */,
 				9F91DB8B1DBF9E8500EEF520 /* UILayoutParameter.cpp in Sources */,
 				9F2DC81E1DC106C10064BF46 /* TextBMFontReader.cpp in Sources */,
 				9F2DC8A71DC107C50064BF46 /* idl_gen_fbs.cpp in Sources */,
@@ -5984,7 +5793,6 @@
 				9F91DBBB1DBF9E8500EEF520 /* UITabControl.cpp in Sources */,
 				9F91DBA31DBF9E8500EEF520 /* UIRelativeBox.cpp in Sources */,
 				9F91DC151DBFA68900EEF520 /* CCComponentContainer.cpp in Sources */,
-				15AE185E19AAD31200C27E9E /* CocosDenshion.m in Sources */,
 				9F2DC7341DC106C00064BF46 /* CCComController.cpp in Sources */,
 				9F2DC7061DC106C00064BF46 /* CCActionNode.cpp in Sources */,
 				9F2DC7501DC106C00064BF46 /* CCDisplayManager.cpp in Sources */,
@@ -6019,7 +5827,6 @@
 				9F91DB251DBF9E8500EEF520 /* CCUIMultilineTextField.mm in Sources */,
 				50ABBE6E1925AB6F00A911A9 /* CCEventListenerKeyboard.cpp in Sources */,
 				9F2DC70E1DC106C00064BF46 /* CCArmature.cpp in Sources */,
-				50CB247C19D9C5A100687767 /* AudioEngine-inl.mm in Sources */,
 				9F2DC7821DC106C00064BF46 /* CocoStudio.cpp in Sources */,
 				9F91DBE91DBF9E8500EEF520 /* UIWebViewImpl-ios.mm in Sources */,
 				9F9CE7E71D12FAE500631192 /* CCDevice-apple.mm in Sources */,
@@ -6146,7 +5953,6 @@
 				1A570222180BCC1A0088DEC7 /* CCParticleBatchNode.cpp in Sources */,
 				9F91DBF21DBF9ECB00EEF520 /* UIVideoPlayer-ios.mm in Sources */,
 				9F91DB171DBF9E8500EEF520 /* UICheckBox.cpp in Sources */,
-				15AE185F19AAD31200C27E9E /* SimpleAudioEngine.mm in Sources */,
 				B29A7DC819EE1B7700872B35 /* SkeletonRenderer.cpp in Sources */,
 				1A570226180BCC1A0088DEC7 /* CCParticleExamples.cpp in Sources */,
 				1A57022A180BCC1A0088DEC7 /* CCParticleSystem.cpp in Sources */,
@@ -6159,7 +5965,6 @@
 				9F91DB7F1DBF9E8500EEF520 /* UILayout.cpp in Sources */,
 				50ABBD901925AB4100A911A9 /* CCGLProgramCache.cpp in Sources */,
 				B29A7DD819EE1B7700872B35 /* SkeletonData.c in Sources */,
-				9FB6DA981EAF7EA100B5B482 /* AudioDecoder.mm in Sources */,
 				1A57027F180BCC900088DEC7 /* CCSprite.cpp in Sources */,
 				B29A7DD619EE1B7700872B35 /* RegionAttachment.c in Sources */,
 				9F296E551DDC1719006DF478 /* TransformConstraint.c in Sources */,
@@ -6171,7 +5976,6 @@
 				9F2DC7121DC106C00064BF46 /* CCArmatureAnimation.cpp in Sources */,
 				9F91DBFC1DBFA0BC00EEF520 /* CCProtectedNode.cpp in Sources */,
 				9F2DC7DE1DC106C00064BF46 /* NodeReaderDefine.cpp in Sources */,
-				15AE185919AAD31200C27E9E /* CDAudioManager.m in Sources */,
 				1A57028B180BCC900088DEC7 /* CCSpriteFrameCache.cpp in Sources */,
 				9F2DC7E21DC106C00064BF46 /* NodeReaderProtocol.cpp in Sources */,
 				9F2DC6F01DC106C00064BF46 /* CCTimeLine.cpp in Sources */,
@@ -6250,13 +6054,11 @@
 				3E6176761960F89B00DE83F5 /* CCEventListenerController.cpp in Sources */,
 				9F2DC7681DC106C00064BF46 /* CCSSceneReader.cpp in Sources */,
 				503DD8E71926736A00CD74DD /* CCEAGLView-ios.mm in Sources */,
-				3E2BDAEC19C0436F0055CDCD /* AudioEngine.cpp in Sources */,
 				9F2DC7261DC106C00064BF46 /* CCColliderDetector.cpp in Sources */,
 				52B47A311A5349A3004E4C60 /* HttpCookie.cpp in Sources */,
 				50ABBDA41925AB4100A911A9 /* CCQuadCommand.cpp in Sources */,
 				1AAF5850180E40B9000584C8 /* LocalStorage.cpp in Sources */,
 				50ABBE201925AB6F00A911A9 /* atitc.cpp in Sources */,
-				50CB248019D9C5A100687767 /* AudioPlayer.mm in Sources */,
 				50ABBE9A1925AB6F00A911A9 /* CCRef.cpp in Sources */,
 				9F91DBA71DBF9E8500EEF520 /* UIRichText.cpp in Sources */,
 				85B3743B1B204B9400C488D6 /* clipper.cpp in Sources */,
@@ -6269,7 +6071,6 @@
 				9F91DB731DBF9E8500EEF520 /* UIHBox.cpp in Sources */,
 				9F2DC7901DC106C00064BF46 /* FlatBuffersSerialize.cpp in Sources */,
 				503DD8E51926736A00CD74DD /* CCDirectorCaller-ios.mm in Sources */,
-				50CB247819D9C5A100687767 /* AudioCache.mm in Sources */,
 				9F2DC71A1DC106C00064BF46 /* CCArmatureDefine.cpp in Sources */,
 				50ABBD5D1925AB0000A911A9 /* Vec3.cpp in Sources */,
 				50ABC0121926664800A911A9 /* CCGLView.cpp in Sources */,

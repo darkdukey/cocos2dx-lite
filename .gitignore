@@ -157,3 +157,5 @@ frameworks/runtime-src/proj.win32/src/
 frameworks/runtime-src/proj.win32/*.dll
 frameworks/runtime-src/proj.win32/player.VC.db
 frameworks/runtime-src/proj.win32/res/
+frameworks/cocos2d-x/build
+frameworks/runtime-src/proj.ios_mac/build
