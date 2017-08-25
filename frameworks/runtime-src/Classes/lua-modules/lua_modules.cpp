@@ -10,6 +10,7 @@ extern int luaopen_struct(lua_State *L);
 extern int luaopen_bit(lua_State *L);
 extern int luaopen_protobuf_c(lua_State *L);
 extern int luaopen_pack(lua_State *L);
+    extern int luaopen_FmodPlayer(lua_State* L);
 
 #if __cplusplus
 } // extern "C"
@@ -19,6 +20,7 @@ static luaL_Reg modules[] = {
     { "lpeg", luaopen_lpeg },
     { "protobuf.c", luaopen_protobuf_c },
     { "pack", luaopen_pack },
+    { "fmod", luaopen_FmodPlayer },
 
     { NULL, NULL }
 };

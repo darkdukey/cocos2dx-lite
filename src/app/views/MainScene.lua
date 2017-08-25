@@ -1,5 +1,6 @@
 
 local MainScene = class("MainScene", cc.load("mvc").ViewBase)
+local audio = require 'fmod'
 
 function MainScene:onCreate()
     -- add background image
@@ -12,6 +13,8 @@ function MainScene:onCreate()
         :move(display.cx, display.cy + 200)
         :addTo(self)
 
+    dump(audio)
+    audio.playBackgroundMusic('audio/background-music-aac.mp3', true)
 end
 
 return MainScene

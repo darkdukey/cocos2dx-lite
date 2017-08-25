@@ -19763,21 +19763,15 @@ int lua_cocos2dx_FileUtils_listFilesRecursively(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 2)
+    if (argc == 1)
     {
         std::string arg0;
-        std::vector<std::basic_string<char>, std::allocator<std::basic_string<char> > >* arg1;
+        std::vector<std::string> arg1;
 
         ok &= luaval_to_std_string(tolua_S, 2,&arg0, "cc.FileUtils:listFilesRecursively");
 
-        ok &= luaval_to_object<std::vector<std::basic_string<char>, std::allocator<std::basic_string<char> > >>(tolua_S, 3, "std::vector<std::basic_string<char>, std::allocator<std::basic_string<char> > >*",&arg1, "cc.FileUtils:listFilesRecursively");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_FileUtils_listFilesRecursively'", nullptr);
-            return 0;
-        }
-        cobj->listFilesRecursively(arg0, arg1);
-        lua_settop(tolua_S, 1);
+        cobj->listFilesRecursively(arg0, &arg1);
+        ccvector_std_string_to_luaval(tolua_S, arg1);
         return 1;
     }
     luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.FileUtils:listFilesRecursively",argc, 2);
@@ -84985,7 +84979,7 @@ int lua_register_cocos2dx_SpriteFrameCache(lua_State* tolua_S)
 TOLUA_API int register_all_cocos2dx(lua_State* tolua_S)
 {
 	tolua_open(tolua_S);
-	
+
 	tolua_module(tolua_S,"cc",0);
 	tolua_beginmodule(tolua_S,"cc");
 

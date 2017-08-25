@@ -70,7 +70,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     stack->setXXTEAKeyAndSign("2dxLua", strlen("2dxLua"), "XXTEA", strlen("XXTEA"));
     
 #if CC_64BITS
-    FileUtils::getInstance()->addSearchPath("src/64bit");
+//    FileUtils::getInstance()->addSearchPath("src/64bit");
 #endif
     FileUtils::getInstance()->addSearchPath("src");
     FileUtils::getInstance()->addSearchPath("res");
