@@ -212,15 +212,27 @@ function class(classname, ...)
 
     cls.__index = cls
     if not cls.__supers or #cls.__supers == 1 then
-        setmetatable(cls, {__index = cls.super})
-    else
-        setmetatable(cls, {__index = function(_, key)
-            local supers = cls.__supers
-            for i = 1, #supers do
-                local super = supers[i]
-                if super[key] then return super[key] end
+        setmetatable(cls, {
+            __index = cls.super,
+
+            __call = function(t,...)
+                return t.new(...)
             end
-        end})
+        })
+    else
+        setmetatable(cls, {
+            __index = function(_, key)
+                local supers = cls.__supers
+                for i = 1, #supers do
+                    local super = supers[i]
+                    if super[key] then return super[key] end
+                end
+            end,
+
+            __call = function ( t, ... )
+                return t.new(...)
+            end
+        })
     end
 
     if not cls.ctor then
