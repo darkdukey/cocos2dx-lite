@@ -226,3 +226,32 @@ function Node:onCleanup_()
     end
     self:onCleanupCallback_()
 end
+
+
+function Node:schedule(callback,interval)
+    local seq = transition.sequence({
+        cc.DelayTime:create(interval),
+        cc.CallFunc:create(callback),
+    })
+    local action = cc.RepeatForever:create(seq)
+    self:runAction(action)
+    return action
+end
+--[[
+@path 'a.b.c'
+]]
+function Node:getnode( path )
+    local node = self
+    for _,v in pairs(path:split('.')) do
+        node = node:getChildByName(v)
+    end
+    return node
+end
+
+function Node:performWithDelay( callback, delay)
+  local seq = transition.sequence({
+    cc.DelayTime:create(delay),
+    cc.CallFunc:create(callback),
+  })
+  self:runAction(seq)
+end

@@ -14,7 +14,8 @@ require 'pack'
 require 'pbc.pbc'
 
 
-__G__TRACKBACK__ = function ( ... )
+__G__TRACKBACK__ = function ( msg )
+
     local message = msg
 
     local msg = debug.traceback(msg, 3)
@@ -29,10 +30,11 @@ __G__TRACKBACK__ = function ( ... )
 end
 
 local function main()
-    require("app.MyApp"):create():run()
+    local app = require('app.App'):instance()
+    app:run('LoginController')
 
     -- pbc test
-    require 'test.test'
+    -- require 'test.test'
 end
 
 local status, msg = xpcall(main, __G__TRACKBACK__)

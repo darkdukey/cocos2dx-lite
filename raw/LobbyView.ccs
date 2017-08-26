@@ -1,0 +1,19 @@
+<Solution>
+  <PropertyGroup Name="LobbyView" Version="3.10.0.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Folder Name="views">
+          <Folder Name="bj">
+            <Image Name="bj_11.png" />
+          </Folder>
+          <Folder Name="btn">
+            <Image Name="btn_10.png" />
+            <Image Name="btn_11.png" />
+          </Folder>
+          <Project Name="LobbyView.csd" Type="Node" />
+        </Folder>
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>

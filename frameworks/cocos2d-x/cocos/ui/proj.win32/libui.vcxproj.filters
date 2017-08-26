@@ -102,18 +102,14 @@
     <ClInclude Include="..\UIEditBox\UIEditBoxImpl.h">
       <Filter>UIWidgets\UIEditBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\UIEditBox\UIEditBoxImplWin.h">
+      <Filter>UIWidgets\UIEditBox</Filter>
+    </ClInclude>
     <ClInclude Include="..\UIWebView-inl.h">
       <Filter>UIWidgets</Filter>
     </ClInclude>
     <ClInclude Include="..\UIWebView.h">
       <Filter>UIWidgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\UIEditBox\UIEditBoxImpl-win32.h">
-      <Filter>UIWidgets\UIEditBox</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CCProtectedNode.h" />
-    <ClInclude Include="..\UILayoutComponent.h">
-      <Filter>Layouts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,15 +200,11 @@
     <ClCompile Include="..\UIEditBox\UIEditBox.cpp">
       <Filter>UIWidgets\UIEditBox</Filter>
     </ClCompile>
-    <ClCompile Include="..\UIWebView.cpp">
-      <Filter>UIWidgets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UIEditBox\UIEditBoxImpl-win32.cpp">
+    <ClCompile Include="..\UIEditBox\UIEditBoxImplWin.cpp">
       <Filter>UIWidgets\UIEditBox</Filter>
     </ClCompile>
-    <ClCompile Include="..\CCProtectedNode.cpp" />
-    <ClCompile Include="..\UILayoutComponent.cpp">
-      <Filter>Layouts</Filter>
+    <ClCompile Include="..\UIWebView.cpp">
+      <Filter>UIWidgets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

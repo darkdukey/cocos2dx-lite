@@ -395,6 +395,26 @@ iskindof_ = function(cls, name)
     return false
 end
 
+--[[--
+
+如果对象是指定类或其子类的实例，返回 true，否则返回 false
+
+~~~ lua
+
+local Animal = class("Animal")
+local Duck = class("Duck", Animal)
+
+print(iskindof(Duck.new(), "Animal")) -- 输出 true
+
+~~~
+
+@param mixed obj 要检查的对象
+@param string classname 类名
+
+@return boolean
+
+]]
+
 function iskindof(obj, classname)
     local t = type(obj)
     if t ~= "table" and t ~= "userdata" then return false end

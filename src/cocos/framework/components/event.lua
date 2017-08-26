@@ -11,6 +11,7 @@ local EXPORTED_METHODS = {
     "hasEventListener",
     "dumpAllEventListeners",
     'on',
+    'emit',
 }
 
 function Event:init_()
@@ -85,6 +86,8 @@ function Event:dispatchEvent(event)
 
     return self.target_
 end
+
+Event.emit = Event.dispatchEvent
 
 function Event:removeEventListener(handleToRemove)
     for eventName, listenersForEvent in pairs(self.listeners_) do

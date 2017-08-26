@@ -24,3 +24,4 @@ CC_DESIGN_RESOLUTION = {
         end
     end
 }
+
