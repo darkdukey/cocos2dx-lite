@@ -40,9 +40,9 @@ The major change:
 
 ## Usefull tools
 
-    1. [pidcat](https://github.com/JakeWharton/pidcat) Colored logcat script which only shows log entries for a specific application package.
-    2. [sprite-sheet-packer](https://github.com/amakaseev/sprite-sheet-packer) Sprite sheet packer
-    3. [ImageOptim](https://github.com/ImageOptim/ImageOptim) GUI image optimizer for Mac
+1. [pidcat](https://github.com/JakeWharton/pidcat) Colored logcat script which only shows log entries for a specific application package.
+2. [sprite-sheet-packer](https://github.com/amakaseev/sprite-sheet-packer) Sprite sheet packer
+3. [ImageOptim](https://github.com/ImageOptim/ImageOptim) GUI image optimizer for Mac
 
 ## How to start
 
