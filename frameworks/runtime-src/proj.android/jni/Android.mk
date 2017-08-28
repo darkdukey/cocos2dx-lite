@@ -13,7 +13,7 @@ LOCAL_SRC_FILES := \
 hellolua/main.cpp
 
 FMOD_SRC_FILES := ../../Classes/lua-modules/fmod/FmodPlayer.cpp \
-				  ../../Classes/lua-modules/fmod/lua_FmodPlayer.cpp
+                  ../../Classes/lua-modules/fmod/lua_FmodPlayer.cpp
 LOCAL_SRC_FILES += $(FMOD_SRC_FILES)
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
@@ -24,7 +24,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 LOCAL_STATIC_LIBRARIES := cocos2d_lua_static
 # LOCAL_STATIC_LIBRARIES += cocosdenshion_static
 LOCAL_STATIC_LIBRARIES += lua_modules_static
-LOCAL_STATIC_LIBRARIES += cocos_fmod_static
+
+LOCAL_SHARED_LIBRARIES := libfmod
 
 # _COCOS_LIB_ANDROID_BEGIN
 # _COCOS_LIB_ANDROID_END
