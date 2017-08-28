@@ -22,7 +22,9 @@
 
 #define TOLUA_VERSION "tolua++-1.0.93"
 
+#ifndef TOLUA_DEBUG
 #define TOLUA_DEBUG 1
+#endif
 
 #ifdef __cplusplus
 extern "C" {
