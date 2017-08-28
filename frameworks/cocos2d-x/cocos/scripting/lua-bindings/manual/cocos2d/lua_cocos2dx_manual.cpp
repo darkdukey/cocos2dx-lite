@@ -42,7 +42,7 @@
 #include "2d/CCLayer.h"
 //#include "2d/CCMenu.h"
 //#include "2d/CCMenuItem.h"
-#include "2d/CCMotionStreak.h"
+// #include "2d/CCMotionStreak.h"
 #include "2d/CCParticleBatchNode.h"
 #include "2d/CCParticleSystem.h"
 #include "2d/CCScene.h"
@@ -3512,18 +3512,18 @@ CC_DEPRECATED_ATTRIBUTE static int tolua_cocos2dx_SpriteBatchNode_setBlendFunc01
     return lua_cocos2dx_SpriteBatchNode_setBlendFunc(tolua_S);
 }
 
-extern int lua_cocos2dx_MotionStreak_setBlendFunc(lua_State* tolua_S);
+// extern int lua_cocos2dx_MotionStreak_setBlendFunc(lua_State* tolua_S);
 
-CC_DEPRECATED_ATTRIBUTE static int tolua_cocos2dx_MotionStreak_setBlendFunc01(lua_State* tolua_S)
-{
-    int argc = lua_gettop(tolua_S) - 1;
-    if (argc == 2)
-    {
-        return tolua_cocos2dx_setBlendFunc<MotionStreak>(tolua_S,"cc.MotionStreak");
-    }
+// CC_DEPRECATED_ATTRIBUTE static int tolua_cocos2dx_MotionStreak_setBlendFunc01(lua_State* tolua_S)
+// {
+//     int argc = lua_gettop(tolua_S) - 1;
+//     if (argc == 2)
+//     {
+//         return tolua_cocos2dx_setBlendFunc<MotionStreak>(tolua_S,"cc.MotionStreak");
+//     }
 
-    return lua_cocos2dx_MotionStreak_setBlendFunc(tolua_S);
-}
+//     return lua_cocos2dx_MotionStreak_setBlendFunc(tolua_S);
+// }
 
 extern int lua_cocos2dx_AtlasNode_setBlendFunc(lua_State* tolua_S);
 
@@ -5400,18 +5400,18 @@ static void extendSpriteBatchNode(lua_State* tolua_S)
     lua_pop(tolua_S, 1);
 }
 
-static void extendMotionStreak(lua_State* tolua_S)
-{
-    lua_pushstring(tolua_S, "cc.MotionStreak");
-    lua_rawget(tolua_S, LUA_REGISTRYINDEX);
-    if (lua_istable(tolua_S,-1))
-    {
-        lua_pushstring(tolua_S,"setBlendFunc");
-        lua_pushcfunction(tolua_S,tolua_cocos2dx_MotionStreak_setBlendFunc01);
-        lua_rawset(tolua_S,-3);
-    }
-    lua_pop(tolua_S, 1);
-}
+// static void extendMotionStreak(lua_State* tolua_S)
+// {
+//     lua_pushstring(tolua_S, "cc.MotionStreak");
+//     lua_rawget(tolua_S, LUA_REGISTRYINDEX);
+//     if (lua_istable(tolua_S,-1))
+//     {
+//         lua_pushstring(tolua_S,"setBlendFunc");
+//         lua_pushcfunction(tolua_S,tolua_cocos2dx_MotionStreak_setBlendFunc01);
+//         lua_rawset(tolua_S,-3);
+//     }
+//     lua_pop(tolua_S, 1);
+// }
 
 static void extendAtlasNode(lua_State* tolua_S)
 {
@@ -8006,7 +8006,7 @@ int register_all_cocos2dx_manual(lua_State* tolua_S)
     extendActionCamera(tolua_S);
     extendGridAction(tolua_S);
 
-    extendMotionStreak(tolua_S);
+    // extendMotionStreak(tolua_S);
     extendAtlasNode(tolua_S);
     extendParticleBatchNode(tolua_S);
     extendLabel(tolua_S);
