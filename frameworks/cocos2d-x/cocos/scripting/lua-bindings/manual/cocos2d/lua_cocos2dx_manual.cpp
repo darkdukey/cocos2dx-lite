@@ -3683,6 +3683,56 @@ tolua_lerror:
 #endif
 }
 
+static int tolua_cocos2dx_FileUtils_getDataFromFile(lua_State* tolua_S)
+{
+    if (nullptr == tolua_S)
+        return 0;
+
+    int argc = 0;
+    FileUtils* self = nullptr;
+    bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+    if (!tolua_isusertype(tolua_S,1,"cc.FileUtils",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    self = static_cast<FileUtils *>(tolua_tousertype(tolua_S,1,0));
+
+#if COCOS2D_DEBUG >= 1
+    if (nullptr == self)
+    {
+        tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2dx_FileUtils_getDataFromFile'\n", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (1 == argc)
+    {
+        const char* arg0;
+        std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "cc.FileUtils:getDataFromFile"); arg0 = arg0_tmp.c_str();
+        if (ok)
+        {
+            auto data = FileUtils::getInstance()->getDataFromFile(arg0);
+            if (!data.isNull())
+                lua_pushlstring(tolua_S, reinterpret_cast<const char*>(data.getBytes()), static_cast<size_t>(data.getSize()));
+
+            return 1;
+        }
+    }
+
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n", "cc.FileUtils:getDataFromFile", argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'tolua_cocos2dx_FileUtils_getDataFromFile'.",&tolua_err);
+    return 0;
+#endif
+}
+
 static int tolua_cocos2dx_UserDefault_getInstance(lua_State* tolua_S)
 {
     if (nullptr == tolua_S)
@@ -5311,6 +5361,10 @@ static void extendFileUtils(lua_State* tolua_S)
     {
         lua_pushstring(tolua_S,"getStringFromFile");
         lua_pushcfunction(tolua_S,tolua_cocos2dx_FileUtils_getStringFromFile );
+        lua_rawset(tolua_S,-3);
+
+        lua_pushstring(tolua_S,"getDataFromFile");
+        lua_pushcfunction(tolua_S,tolua_cocos2dx_FileUtils_getDataFromFile );
         lua_rawset(tolua_S,-3);
     }
     lua_pop(tolua_S, 1);
@@ -8041,6 +8095,32 @@ tolua_lerror:
 #endif
 }
 
+static int tolua_cocos2d_utils_findChild(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+    if (!tolua_isusertype(tolua_S, 1, "cc.Node", 0, &tolua_err) ||
+        !tolua_isstring(tolua_S, 2, 0, &tolua_err)
+        )
+        goto tolua_lerror;
+    else
+#endif
+    {
+        cocos2d::Node* node = static_cast<Node*>(tolua_tousertype(tolua_S, 1, nullptr));
+        std::string  name = tolua_tocppstring(tolua_S, 2, "");
+        auto obj = cocos2d::utils::findChild(node, name);
+        int ID = (obj) ? (int)obj->_ID : -1;
+        int* luaID = (obj) ? &obj->_luaID : NULL;
+        toluafix_pushusertype_ccobject(tolua_S, ID, luaID, (void*)obj, "cc.Node");
+        return 1;
+    }
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+                tolua_error(tolua_S, "#ferror in function 'tolua_cocos2d_utils_findChild'.", &tolua_err);
+                return 0;
+#endif
+}
+
 int register_all_cocos2dx_module_manual(lua_State* tolua_S)
 {
     if (nullptr == tolua_S)
@@ -8053,6 +8133,7 @@ int register_all_cocos2dx_module_manual(lua_State* tolua_S)
         tolua_beginmodule(tolua_S,"utils");
             tolua_function(tolua_S, "captureScreen", tolua_cocos2d_utils_captureScreen);
             tolua_function(tolua_S, "findChildren", tolua_cocos2d_utils_findChildren);
+	    tolua_function(tolua_S, "findChild", tolua_cocos2d_utils_findChild);
         tolua_endmodule(tolua_S);
     tolua_endmodule(tolua_S);
 

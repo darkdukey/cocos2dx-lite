@@ -258,18 +258,19 @@ int LuaStack::executeScriptFile(const char* filename)
     }
 
     FileUtils *utils = FileUtils::getInstance();
+
     //
-    // 1. check .lua suffix
-    // 2. check .luac suffix
+    // 1. check .luac suffix
+    // 2. check .lua suffix
     //
-    std::string tmpfilename = buf + NOT_BYTECODE_FILE_EXT;
+    std::string tmpfilename = buf + BYTECODE_FILE_EXT;
     if (utils->isFileExist(tmpfilename))
     {
         buf = tmpfilename;
     }
     else
     {
-        tmpfilename = buf + BYTECODE_FILE_EXT;
+        tmpfilename = buf + NOT_BYTECODE_FILE_EXT;
         if (utils->isFileExist(tmpfilename))
         {
             buf = tmpfilename;
@@ -582,17 +583,17 @@ int LuaStack::executeFunctionReturnArray(int handler,int numArgs,int numResults,
                 bool value = lua_toboolean(_state, -1);
                 resultArray.addObject(__Bool::create(value));
 
-            } else if (lua_type(_state, -1) == LUA_TNUMBER) {
+            }else if (lua_type(_state, -1) == LUA_TNUMBER) {
 
                 double value = lua_tonumber(_state, -1);
                 resultArray.addObject(__Double::create(value));
 
-            } else if (lua_type(_state, -1) == LUA_TSTRING) {
+            }else if (lua_type(_state, -1) == LUA_TSTRING) {
 
                 const char* value = lua_tostring(_state, -1);
                 resultArray.addObject(__String::create(value));
 
-            } else {
+            }else{
 
                 resultArray.addObject(static_cast<Ref*>(tolua_tousertype(_state, -1, nullptr)));
             }
@@ -772,13 +773,14 @@ int LuaStack::luaLoadChunksFromZIP(lua_State *L)
     do {
         void *buffer = nullptr;
         ZipFile *zip = nullptr;
-
         Data zipFileData(utils->getDataFromFile(zipFilePath));
         unsigned char* bytes = zipFileData.getBytes();
         ssize_t size = zipFileData.getSize();
 
         bool isXXTEA = stack && stack->_xxteaEnabled && size >= stack->_xxteaSignLen
             && memcmp(stack->_xxteaSign, bytes, stack->_xxteaSignLen) == 0;
+
+
         if (isXXTEA) { // decrypt XXTEA
             xxtea_long len = 0;
             buffer = xxtea_decrypt(bytes + stack->_xxteaSignLen,
@@ -814,9 +816,9 @@ int LuaStack::luaLoadChunksFromZIP(lua_State *L)
                         }
                     }
                     // replace path separator '/' '\' to '.'
-                    for (int i=0; i<filename.size(); i++) {
-                        if (filename[i] == '/' || filename[i] == '\\') {
-                            filename[i] = '.';
+                    for (auto & character : filename) {
+                        if (character == '/' || character == '\\') {
+                            character = '.';
                         }
                     }
                     CCLOG("[luaLoadChunksFromZIP] add %s to preload", filename.c_str());
@@ -837,6 +839,7 @@ int LuaStack::luaLoadChunksFromZIP(lua_State *L)
             CCLOG("lua_loadChunksFromZIP() - not found or invalid zip file: %s", zipFilePath.c_str());
             lua_pushboolean(L, 0);
         }
+
 
         if (buffer) {
             free(buffer);
@@ -875,8 +878,10 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
                                               (unsigned char*)_xxteaKey,
                                               (xxtea_long)_xxteaKeyLen,
                                               &len);
-        skipBOM((const char*&)result, (int&)len);
-        r = luaL_loadbuffer(L, (char*)result, len, chunkName);
+        unsigned char* content = result;
+        xxtea_long contentSize = len;
+        skipBOM((const char*&)content, (int&)contentSize);
+        r = luaL_loadbuffer(L, (char*)content, contentSize, chunkName);
         free(result);
     }
     else
