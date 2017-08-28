@@ -239,6 +239,15 @@ public:
     */
     static const char* SHADER_3D_SKINPOSITION_NORMAL_TEXTURE;
     /**
+    Built in shader used for 3D, support Position, Bumped Normal, Texture vertex attribute, used in lighting. with color specified by a uniform.
+    */
+    static const char* SHADER_3D_POSITION_BUMPEDNORMAL_TEXTURE;
+    /**
+    Built in shader used for 3D, support Position(skeletal animation by hardware skin), Bumped Normal, Texture vertex attribute,
+    used in lighting. with color specified by a uniform.
+    */
+    static const char* SHADER_3D_SKINPOSITION_BUMPEDNORMAL_TEXTURE;
+    /**
     Built in shader for particles, support Position and Texture, with a color specified by a uniform.
     */
     static const char* SHADER_3D_PARTICLE_TEXTURE;
@@ -256,6 +265,11 @@ public:
      Built in shader for terrain
      */
     static const char* SHADER_3D_TERRAIN;
+    
+    /**
+     Built in shader for LayerRadialGradient
+     */
+    static const char* SHADER_LAYER_RADIAL_GRADIENT;
     
     /**
      Built in shader for camera clear

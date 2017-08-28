@@ -33,7 +33,6 @@
 #endif
 
 #include "2d/CCAutoPolygon.h"
-#include "2d/CCPolygonInfo.h"
 #include "2d/CCActionCamera.h"
 #include "2d/CCActionCatmullRom.h"
 #include "2d/CCActionGrid.h"

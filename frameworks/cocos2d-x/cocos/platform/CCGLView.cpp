@@ -191,7 +191,7 @@ const Size& GLView::getDesignResolutionSize() const
     return _designResolutionSize;
 }
 
-const Size& GLView::getFrameSize() const
+Size GLView::getFrameSize() const
 {
     return _screenSize;
 }

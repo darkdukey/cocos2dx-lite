@@ -93,7 +93,7 @@ struct CC_DLL Color4B
     Color4B(GLubyte _r, GLubyte _g, GLubyte _b, GLubyte _a);
     explicit Color4B(const Color3B& color, GLubyte _a = 255);
     explicit Color4B(const Color4F& color);
-
+    
     inline void set(GLubyte _r, GLubyte _g, GLubyte _b, GLubyte _a)
     {
         r = _r;
@@ -164,6 +164,23 @@ struct CC_DLL Color4F
     static const Color4F ORANGE;
     static const Color4F GRAY;
 };
+
+Color4F& operator+=(Color4F& lhs, const Color4F& rhs);
+Color4F operator+(Color4F lhs, const Color4F& rhs);
+
+Color4F& operator-=(Color4F& lhs, const Color4F& rhs);
+Color4F operator-(Color4F lhs, const Color4F& rhs);
+
+Color4F& operator*=(Color4F& lhs, const Color4F& rhs);
+Color4F operator*(Color4F lhs, const Color4F& rhs);
+Color4F& operator*=(Color4F& lhs, float rhs);
+Color4F operator*(Color4F lhs, float rhs);
+
+Color4F& operator/=(Color4F& lhs, const Color4F& rhs);
+Color4F operator/(Color4F lhs, const Color4F& rhs);
+Color4F& operator/=(Color4F& lhs, float rhs);
+Color4F operator/(Color4F lhs, float rhs);
+
 
 /** A vertex composed of 2 floats: x, y
  @since v3.0

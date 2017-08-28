@@ -103,11 +103,14 @@ const char* GLProgram::SHADER_3D_SKINPOSITION_TEXTURE = "Shader3DSkinPositionTex
 const char* GLProgram::SHADER_3D_POSITION_NORMAL = "Shader3DPositionNormal";
 const char* GLProgram::SHADER_3D_POSITION_NORMAL_TEXTURE = "Shader3DPositionNormalTexture";
 const char* GLProgram::SHADER_3D_SKINPOSITION_NORMAL_TEXTURE = "Shader3DSkinPositionNormalTexture";
+const char* GLProgram::SHADER_3D_POSITION_BUMPEDNORMAL_TEXTURE = "Shader3DPositionBumpedNormalTexture";
+const char* GLProgram::SHADER_3D_SKINPOSITION_BUMPEDNORMAL_TEXTURE = "Shader3DSkinPositionBumpedNormalTexture";
 const char* GLProgram::SHADER_3D_PARTICLE_COLOR = "Shader3DParticleColor";
 const char* GLProgram::SHADER_3D_PARTICLE_TEXTURE = "Shader3DParticleTexture";
 const char* GLProgram::SHADER_3D_SKYBOX = "Shader3DSkybox";
 const char* GLProgram::SHADER_3D_TERRAIN = "Shader3DTerrain";
 const char* GLProgram::SHADER_CAMERA_CLEAR = "ShaderCameraClear";
+const char* GLProgram::SHADER_LAYER_RADIAL_GRADIENT = "ShaderLayerRadialGradient";
 
 
 // uniform names
@@ -185,7 +188,6 @@ GLProgram* GLProgram::createWithByteArrays(const GLchar* vShaderByteArray, const
     CC_SAFE_DELETE(ret);
     return nullptr;
 }
-
 
 GLProgram* GLProgram::createWithFilenames(const std::string& vShaderFilename, const std::string& fShaderFilename)
 {

@@ -61,7 +61,6 @@ cocos2d.cpp \
 2d/CCParticleSystem.cpp \
 2d/CCParticleSystemQuad.cpp \
 2d/CCProgressTimer.cpp \
-2d/CCPolygonInfo.cpp \
 2d/CCRenderTexture.cpp \
 2d/CCScene.cpp \
 2d/CCSprite.cpp \
@@ -79,6 +78,7 @@ cocos2d.cpp \
 2d/CCTransitionProgress.cpp \
 2d/CCTweenFunction.cpp \
 2d/CCAutoPolygon.cpp \
+2d/CCProtectedNode.cpp \
 platform/CCFileUtils.cpp \
 platform/CCGLView.cpp \
 platform/CCImage.cpp \
@@ -190,7 +190,8 @@ deprecated/CCString.cpp \
 ../external/poly2tri/sweep/cdt.cc \
 ../external/poly2tri/sweep/sweep_context.cc \
 ../external/poly2tri/sweep/sweep.cc \
-../external/clipper/clipper.cpp
+../external/clipper/clipper.cpp \
+../external/md5/md5.c
 
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \

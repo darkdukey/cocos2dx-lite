@@ -66,9 +66,13 @@ THE SOFTWARE.
 #include "base/CCScriptSupport.h"
 #endif
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxEngineDataManager.h"
+#endif
+
 /**
  Position of the FPS
-
+ 
  Default: 0,0 (bottom-left corner)
  */
 #ifndef CC_DIRECTOR_STATS_POSITION
@@ -94,6 +98,7 @@ const char *Director::EVENT_AFTER_VISIT = "director_after_visit";
 const char *Director::EVENT_BEFORE_UPDATE = "director_before_update";
 const char *Director::EVENT_AFTER_UPDATE = "director_after_update";
 const char *Director::EVENT_RESET = "director_reset";
+const char *Director::EVENT_BEFORE_DRAW = "director_before_draw";
 
 Director* Director::getInstance()
 {
@@ -110,6 +115,7 @@ Director* Director::getInstance()
 Director::Director()
 : _isStatusLabelUpdated(true)
 , _invalid(true)
+, _deltaTimePassedByCaller(false)
 {
 }
 
@@ -131,22 +137,27 @@ bool Director::init(void)
     _FPSLabel = _drawnBatchesLabel = _drawnVerticesLabel = nullptr;
     _totalFrames = 0;
     _lastUpdate = std::chrono::steady_clock::now();
+    
     _secondsPerFrame = 1.0f;
+    _frames = 0;
 
     // paused ?
     _paused = false;
 
     // purge ?
     _purgeDirectorInNextLoop = false;
-
+    
     // restart ?
     _restartDirectorInNextLoop = false;
+    
+    // invalid ?
+    _invalid = false;
 
     _winSizeInPoints = Size::ZERO;
 
     _openGLView = nullptr;
     _defaultFBO = nullptr;
-
+    
     _contentScaleFactor = 1.0f;
 
     // scheduler
@@ -156,8 +167,15 @@ bool Director::init(void)
     _scheduler->scheduleUpdate(_actionManager, Scheduler::PRIORITY_SYSTEM, false);
 
     _eventDispatcher = new (std::nothrow) EventDispatcher();
+    
+    _beforeSetNextScene = new (std::nothrow) EventCustom(EVENT_BEFORE_SET_NEXT_SCENE);
+    _beforeSetNextScene->setUserData(this);
+    _afterSetNextScene = new (std::nothrow) EventCustom(EVENT_AFTER_SET_NEXT_SCENE);
+    _afterSetNextScene->setUserData(this);
     _eventAfterDraw = new (std::nothrow) EventCustom(EVENT_AFTER_DRAW);
     _eventAfterDraw->setUserData(this);
+    _eventBeforeDraw = new (std::nothrow) EventCustom(EVENT_BEFORE_DRAW);
+    _eventBeforeDraw->setUserData(this);
     _eventAfterVisit = new (std::nothrow) EventCustom(EVENT_AFTER_VISIT);
     _eventAfterVisit->setUserData(this);
     _eventBeforeUpdate = new (std::nothrow) EventCustom(EVENT_BEFORE_UPDATE);
@@ -174,6 +192,9 @@ bool Director::init(void)
     _renderer = new (std::nothrow) Renderer;
     RenderState::initialize();
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    EngineDataManager::init();
+#endif
     return true;
 }
 
@@ -191,18 +212,20 @@ Director::~Director(void)
     CC_SAFE_RELEASE(_actionManager);
     CC_SAFE_DELETE(_defaultFBO);
 
-    delete _eventBeforeUpdate;
-    delete _eventAfterUpdate;
-    delete _eventAfterDraw;
-    delete _eventAfterVisit;
-    delete _eventProjectionChanged;
-    delete _eventResetDirector;
+    CC_SAFE_RELEASE(_beforeSetNextScene);
+    CC_SAFE_RELEASE(_afterSetNextScene);
+    CC_SAFE_RELEASE(_eventBeforeUpdate);
+    CC_SAFE_RELEASE(_eventAfterUpdate);
+    CC_SAFE_RELEASE(_eventAfterDraw);
+    CC_SAFE_RELEASE(_eventBeforeDraw);
+    CC_SAFE_RELEASE(_eventAfterVisit);
+    CC_SAFE_RELEASE(_eventProjectionChanged);
+    CC_SAFE_RELEASE(_eventResetDirector);
 
     delete _renderer;
 
-
     CC_SAFE_RELEASE(_eventDispatcher);
-
+    
     Configuration::destroyInstance();
 
 #if CC_ENABLE_SCRIPT_BINDING
@@ -263,7 +286,7 @@ void Director::drawScene()
 {
     // calculate "global" dt
     calculateDeltaTime();
-
+    
     if (_openGLView)
     {
         _openGLView->pollEvents();
@@ -279,6 +302,9 @@ void Director::drawScene()
 
     _renderer->clear();
     experimental::FrameBuffer::clearAllFBOs();
+    
+    _eventDispatcher->dispatchEvent(_eventBeforeDraw);
+    
     /* to avoid flickr, nextScene MUST be here: after tick and before draw.
      * FIXME: Which bug is this one. It seems that it can't be reproduced with v0.9
      */
@@ -288,7 +314,7 @@ void Director::drawScene()
     }
 
     pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-
+    
     if (_runningScene)
     {
 #if (CC_USE_PHYSICS || (CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION) || CC_USE_NAVMESH)
@@ -296,7 +322,7 @@ void Director::drawScene()
 #endif
         //clear draw stats
         _renderer->clearDrawStats();
-
+        
         //render the scene
         _runningScene->render(_renderer);
 
@@ -309,10 +335,15 @@ void Director::drawScene()
         _notificationNode->visit(_renderer, Mat4::IDENTITY, 0);
     }
 
+    updateFrameRate();
+    
     if (_displayStats)
     {
+#if !CC_STRIP_FPS
         showStats();
+#endif
     }
+    
     _renderer->render();
 
     _eventDispatcher->dispatchEvent(_eventAfterDraw);
@@ -329,14 +360,14 @@ void Director::drawScene()
 
     if (_displayStats)
     {
+#if !CC_STRIP_FPS
         calculateMPF();
+#endif
     }
 }
 
 void Director::calculateDeltaTime()
 {
-    auto now = std::chrono::steady_clock::now();
-
     // new delta time. Re-fixed issue #1277
     if (_nextDeltaTimeZero)
     {
@@ -345,7 +376,13 @@ void Director::calculateDeltaTime()
     }
     else
     {
-        _deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(now - _lastUpdate).count() / 1000000.0f;
+        // delta time may passed by invoke mainLoop(dt)
+        if (!_deltaTimePassedByCaller)
+        {
+            auto now = std::chrono::steady_clock::now();
+            _deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(now - _lastUpdate).count() / 1000000.0f;
+            _lastUpdate = now;
+        }
         _deltaTime = MAX(0, _deltaTime);
     }
 
@@ -356,9 +393,8 @@ void Director::calculateDeltaTime()
         _deltaTime = 1 / 60.0f;
     }
 #endif
-
-    _lastUpdate = now;
 }
+
 float Director::getDeltaTime() const
 {
     return _deltaTime;
@@ -397,7 +433,7 @@ void Director::setOpenGLView(GLView *openGLView)
         {
             _eventDispatcher->setEnabled(true);
         }
-
+        
         _defaultFBO = experimental::FrameBuffer::getOrCreateDefaultFBO(_openGLView);
         _defaultFBO->retain();
     }
@@ -652,7 +688,7 @@ void Director::setProjection(Projection projection)
             loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
             break;
         }
-
+            
         case Projection::_3D:
         {
             float zeye = this->getZEye();
@@ -706,7 +742,7 @@ void Director::purgeCachedData(void)
 
 float Director::getZEye(void) const
 {
-    return (_winSizeInPoints.height / 1.1566f);
+    return (_winSizeInPoints.height / 1.154700538379252f);//(2 * tanf(M_PI/6))
 }
 
 void Director::setAlphaBlending(bool on)
@@ -732,14 +768,14 @@ void Director::setClearColor(const Color4F& clearColor)
 {
     _renderer->setClearColor(clearColor);
     auto defaultFBO = experimental::FrameBuffer::getOrCreateDefaultFBO(_openGLView);
-
+    
     if(defaultFBO) defaultFBO->setClearColor(clearColor);
 }
 
 static void GLToClipTransform(Mat4 *transformOut)
 {
     if(nullptr == transformOut) return;
-
+    
     Director* director = Director::getInstance();
     CCASSERT(nullptr != director, "Director is null when setting matrix stack");
 
@@ -785,7 +821,7 @@ Vec2 Director::convertToUI(const Vec2& glPoint)
 	b = (a×M)T
 	Out = 1 ⁄ bw(bx, by, bz)
 	*/
-
+	
 	clipCoord.x = clipCoord.x / clipCoord.w;
 	clipCoord.y = clipCoord.y / clipCoord.w;
 	clipCoord.z = clipCoord.z / clipCoord.w;
@@ -844,15 +880,15 @@ void Director::replaceScene(Scene *scene)
 {
     //CCASSERT(_runningScene, "Use runWithScene: instead to start the director");
     CCASSERT(scene != nullptr, "the scene should not be null");
-
+    
     if (_runningScene == nullptr) {
         runWithScene(scene);
         return;
     }
-
+    
     if (scene == _nextScene)
         return;
-
+    
     if (_nextScene)
     {
         if (_nextScene->isRunning())
@@ -899,7 +935,7 @@ void Director::pushScene(Scene *scene)
 void Director::popScene(void)
 {
     CCASSERT(_runningScene != nullptr, "running scene should not null");
-
+    
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
     if (sEngine)
@@ -999,7 +1035,7 @@ void Director::reset()
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
 #endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
-
+    
     if (_runningScene)
     {
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
@@ -1012,30 +1048,30 @@ void Director::reset()
         _runningScene->cleanup();
         _runningScene->release();
     }
-
+    
     _runningScene = nullptr;
     _nextScene = nullptr;
 
     _eventDispatcher->dispatchEvent(_eventResetDirector);
-
+    
     // cleanup scheduler
     getScheduler()->unscheduleAll();
-
+    
     // Remove all events
     if (_eventDispatcher)
     {
         _eventDispatcher->removeAllEventListeners();
     }
-
+    
     if(_notificationNode)
     {
         _notificationNode->onExit();
         _notificationNode->cleanup();
         _notificationNode->release();
     }
-
+    
     _notificationNode = nullptr;
-
+    
     // remove all objects, but don't release it.
     // runWithScene might be executed after 'end'.
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
@@ -1049,14 +1085,14 @@ void Director::reset()
     }
 #endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     _scenesStack.clear();
-
+    
     stopAnimation();
-
+    
     CC_SAFE_RELEASE_NULL(_notificationNode);
     CC_SAFE_RELEASE_NULL(_FPSLabel);
     CC_SAFE_RELEASE_NULL(_drawnBatchesLabel);
     CC_SAFE_RELEASE_NULL(_drawnVerticesLabel);
-
+    
     // purge bitmap cache
     FontFNT::purgeCachedData();
     FontAtlasCache::purgeCachedData();
@@ -1065,8 +1101,9 @@ void Director::reset()
     FontFreeType::shutdownFreeType();
 #endif // CC_USE_FREETYPE
 
+    
     // purge all managed caches
-
+    
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #elif _MSC_VER >= 1400 //vs 2005 or higher
@@ -1088,14 +1125,14 @@ void Director::reset()
     GLProgramStateCache::destroyInstance();
     FileUtils::destroyInstance();
     AsyncTaskPool::destroyInstance();
-
+    
     // cocos2d-x specific data structures
     UserDefault::destroyInstance();
-
+    
     GL::invalidateStateCache();
 
     RenderState::finalize();
-
+    
     destroyTextureCache();
 }
 
@@ -1104,7 +1141,7 @@ void Director::purgeDirector()
     reset();
 
     CHECK_GL_ERROR_DEBUG();
-
+    
     // OpenGL view
     if (_openGLView)
     {
@@ -1112,6 +1149,9 @@ void Director::purgeDirector()
         _openGLView = nullptr;
     }
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    EngineDataManager::destroy();
+#endif
     // delete Director
     release();
 }
@@ -1119,22 +1159,22 @@ void Director::purgeDirector()
 void Director::restartDirector()
 {
     reset();
-
+    
     // RenderState need to be reinitialized
     RenderState::initialize();
 
     // Texture cache need to be reinitialized
     initTextureCache();
-
+    
     // Reschedule for action manager
     getScheduler()->scheduleUpdate(getActionManager(), Scheduler::PRIORITY_SYSTEM, false);
-
+    
     // release the objects
     PoolManager::getInstance()->getCurrentPool()->clear();
 
     // Restart animation
     startAnimation();
-
+    
     // Real restart in script level
 #if CC_ENABLE_SCRIPT_BINDING
     ScriptEvent scriptEvent(kRestartGame, nullptr);
@@ -1147,6 +1187,8 @@ void Director::restartDirector()
 
 void Director::setNextScene()
 {
+    _eventDispatcher->dispatchEvent(_beforeSetNextScene);
+
     bool runningIsTransition = dynamic_cast<TransitionScene*>(_runningScene) != nullptr;
     bool newIsTransition = dynamic_cast<TransitionScene*>(_nextScene) != nullptr;
 
@@ -1158,7 +1200,7 @@ void Director::setNextScene()
              _runningScene->onExitTransitionDidStart();
              _runningScene->onExit();
          }
-
+ 
          // issue #709. the root node (scene) should receive the cleanup message too
          // otherwise it might be leaked.
          if (_sendCleanupToScene && _runningScene)
@@ -1180,6 +1222,8 @@ void Director::setNextScene()
         _runningScene->onEnter();
         _runningScene->onEnterTransitionDidFinish();
     }
+    
+    _eventDispatcher->dispatchEvent(_afterSetNextScene);
 }
 
 void Director::pause()
@@ -1192,7 +1236,7 @@ void Director::pause()
     _oldAnimationInterval = _animationInterval;
 
     // when paused, don't consume CPU
-    setAnimationInterval(1 / 4.0);
+    setAnimationInterval(1 / 4.0, SetIntervalReason::BY_DIRECTOR_PAUSE);
     _paused = true;
 }
 
@@ -1203,13 +1247,28 @@ void Director::resume()
         return;
     }
 
-    setAnimationInterval(_oldAnimationInterval);
+    setAnimationInterval(_oldAnimationInterval, SetIntervalReason::BY_ENGINE);
 
     _paused = false;
     _deltaTime = 0;
     // fix issue #3509, skip one fps to avoid incorrect time calculation.
     setNextDeltaTimeZero(true);
 }
+
+void Director::updateFrameRate()
+{
+//    static const float FPS_FILTER = 0.1f;
+//    static float prevDeltaTime = 0.016f; // 60FPS
+//    
+//    float dt = _deltaTime * FPS_FILTER + (1.0f-FPS_FILTER) * prevDeltaTime;
+//    prevDeltaTime = dt;
+//    _frameRate = 1.0f/dt;
+
+    // Frame rate should be the real value of current frame.
+    _frameRate = 1.0f / _deltaTime;
+}
+
+#if !CC_STRIP_FPS
 
 // display the FPS using a LabelAtlas
 // updates the FPS every frame
@@ -1223,27 +1282,23 @@ void Director::showStats()
 
     static unsigned long prevCalls = 0;
     static unsigned long prevVerts = 0;
-    static float prevDeltaTime  = 0.016f; // 60FPS
-    static const float FPS_FILTER = 0.10f;
 
+    ++_frames;
     _accumDt += _deltaTime;
-
+    
     if (_displayStats && _FPSLabel && _drawnBatchesLabel && _drawnVerticesLabel)
     {
-        char buffer[30] = { 0 };
-
-        float dt = _deltaTime * FPS_FILTER + (1-FPS_FILTER) * prevDeltaTime;
-        prevDeltaTime = dt;
-        _frameRate = 1/dt;
+        char buffer[30] = {0};
 
         // Probably we don't need this anymore since
         // the framerate is using a low-pass filter
         // to make the FPS stable
         if (_accumDt > CC_DIRECTOR_STATS_INTERVAL)
         {
-            snprintf(buffer, sizeof(buffer), "%.1f / %.3f", _frameRate, _secondsPerFrame);
+            snprintf(buffer, sizeof(buffer), "%.1f / %.3f", _frames / _accumDt, _secondsPerFrame);
             _FPSLabel->setString(buffer);
             _accumDt = 0;
+            _frames = 0;
         }
 
         auto currentCalls = (unsigned long)_renderer->getDrawnBatches();
@@ -1272,18 +1327,14 @@ void Director::calculateMPF()
     static float prevSecondsPerFrame = 0;
     static const float MPF_FILTER = 0.10f;
 
-    auto now = std::chrono::steady_clock::now();
-
-    _secondsPerFrame = std::chrono::duration_cast<std::chrono::microseconds>(now - _lastUpdate).count() / 1000000.0f;
-
-    _secondsPerFrame = _secondsPerFrame * MPF_FILTER + (1-MPF_FILTER) * prevSecondsPerFrame;
+    _secondsPerFrame = _deltaTime * MPF_FILTER + (1-MPF_FILTER) * prevSecondsPerFrame;
     prevSecondsPerFrame = _secondsPerFrame;
 }
 
 // returns the FPS image data pointer and len
 void Director::getFPSImageData(unsigned char** datapointer, ssize_t* length)
 {
-    // FIXME: fixed me if it should be used
+    // FIXME: fixed me if it should be used 
     *datapointer = cc_fps_images_png;
     *length = cc_fps_images_len();
 }
@@ -1299,7 +1350,7 @@ void Director::createStatsLabel()
         fpsString = _FPSLabel->getString();
         drawBatchString = _drawnBatchesLabel->getString();
         drawVerticesString = _drawnVerticesLabel->getString();
-
+        
         CC_SAFE_RELEASE_NULL(_FPSLabel);
         CC_SAFE_RELEASE_NULL(_drawnBatchesLabel);
         CC_SAFE_RELEASE_NULL(_drawnVerticesLabel);
@@ -1324,9 +1375,9 @@ void Director::createStatsLabel()
     CC_SAFE_RELEASE(image);
 
     /*
-     We want to use an image which is stored in the file named ccFPSImage.c
-     for any design resolutions and all resource resolutions.
-
+     We want to use an image which is stored in the file named ccFPSImage.c 
+     for any design resolutions and all resource resolutions. 
+     
      To achieve this, we need to ignore 'contentScaleFactor' in 'AtlasNode' and 'LabelAtlas'.
      So I added a new method called 'setIgnoreContentScaleFactor' for 'AtlasNode',
      this is not exposed to game developers, it's only used for displaying FPS now.
@@ -1359,6 +1410,8 @@ void Director::createStatsLabel()
     _drawnBatchesLabel->setPosition(Vec2(0, height_spacing*1) + CC_DIRECTOR_STATS_POSITION);
     _FPSLabel->setPosition(Vec2(0, height_spacing*0)+CC_DIRECTOR_STATS_POSITION);
 }
+
+#endif // #if !CC_STRIP_FPS
 
 void Director::setContentScaleFactor(float scaleFactor)
 {
@@ -1403,7 +1456,7 @@ void Director::setActionManager(ActionManager* actionManager)
         CC_SAFE_RETAIN(actionManager);
         CC_SAFE_RELEASE(_actionManager);
         _actionManager = actionManager;
-    }
+    }    
 }
 
 void Director::setEventDispatcher(EventDispatcher* dispatcher)
@@ -1418,13 +1471,18 @@ void Director::setEventDispatcher(EventDispatcher* dispatcher)
 
 void Director::startAnimation()
 {
+    startAnimation(SetIntervalReason::BY_ENGINE);
+}
+
+void Director::startAnimation(SetIntervalReason reason)
+{
     _lastUpdate = std::chrono::steady_clock::now();
 
     _invalid = false;
 
     _cocos2d_thread_id = std::this_thread::get_id();
 
-    Application::getInstance()->setAnimationInterval(_animationInterval);
+    Application::getInstance()->setAnimationInterval(_animationInterval, reason);
 
     // fix issue #3509, skip one fps to avoid incorrect time calculation.
     setNextDeltaTimeZero(true);
@@ -1445,10 +1503,17 @@ void Director::mainLoop()
     else if (! _invalid)
     {
         drawScene();
-
+     
         // release the objects
         PoolManager::getInstance()->getCurrentPool()->clear();
     }
+}
+
+void Director::mainLoop(float dt)
+{
+    _deltaTime = dt;
+    _deltaTimePassedByCaller = true;
+    mainLoop();
 }
 
 void Director::stopAnimation()
@@ -1458,11 +1523,16 @@ void Director::stopAnimation()
 
 void Director::setAnimationInterval(float interval)
 {
+    setAnimationInterval(interval, SetIntervalReason::BY_GAME);
+}
+
+void Director::setAnimationInterval(float interval, SetIntervalReason reason)
+{
     _animationInterval = interval;
     if (! _invalid)
     {
         stopAnimation();
-        startAnimation();
+        startAnimation(reason);
     }
 }
 

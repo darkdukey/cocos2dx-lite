@@ -13,6 +13,9 @@
 		15427CEE198F24AF00DC375D /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A8A4171834BDA200142BE0 /* libcocos2d Mac.a */; };
 		15A8A4491834C64F00142BE0 /* Icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = 5023810C17EBBCAC00990C9B /* Icon-114.png */; };
 		15A8A4881834C90F00142BE0 /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A8A4871834C90E00142BE0 /* libcurl.dylib */; };
+		1928600C1F53146500DBA5AB /* lua_FmodPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F37D72D1F41586000B63811 /* lua_FmodPlayer.cpp */; };
+		1928600D1F53147700DBA5AB /* FmodPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F37D72B1F41586000B63811 /* FmodPlayer.cpp */; };
+		1928600F1F53154A00DBA5AB /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1928600E1F53154A00DBA5AB /* libfmod_iphonesimulator.a */; };
 		19F3E8981F3B5497004B9931 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F3E8971F3B5497004B9931 /* UMMobClick.framework */; };
 		19F3E89A1F3B55B8004B9931 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F3E8991F3B55B8004B9931 /* CoreTelephony.framework */; };
 		19F3E89C1F3B55CA004B9931 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F3E89B1F3B55CA004B9931 /* libsqlite3.tbd */; };
@@ -205,6 +208,7 @@
 		15A8A4031834BDA200142BE0 /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = "../../cocos2d-x/build/cocos2d_libs.xcodeproj"; sourceTree = "<group>"; };
 		15A8A4871834C90E00142BE0 /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
 		15C1568D1683131500D239F2 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = "../../cocos2d-x/cocos2dx/platform/third_party/ios/libraries/libcurl.a"; sourceTree = "<group>"; };
+		1928600E1F53154A00DBA5AB /* libfmod_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphonesimulator.a; path = "../../cocos2d-x/external/fmod/prebuilt/ios/libfmod_iphonesimulator.a"; sourceTree = "<group>"; };
 		19F3E8971F3B5497004B9931 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		19F3E8991F3B55B8004B9931 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		19F3E89B1F3B55CA004B9931 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
@@ -370,6 +374,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1928600F1F53154A00DBA5AB /* libfmod_iphonesimulator.a in Frameworks */,
 				9FBFF0151F45910E00571F83 /* libWeChatSDK.a in Frameworks */,
 				9FBFF0131F4590CD00571F83 /* GameController.framework in Frameworks */,
 				9FBFF0111F458E1C00571F83 /* WebKit.framework in Frameworks */,
@@ -629,6 +634,7 @@
 		F293B3CB15EB7BE500256477 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1928600E1F53154A00DBA5AB /* libfmod_iphonesimulator.a */,
 				9FBFF0141F45910E00571F83 /* libWeChatSDK.a */,
 				9FBFF0121F4590CD00571F83 /* GameController.framework */,
 				9FBFF0101F458E1C00571F83 /* WebKit.framework */,
@@ -923,6 +929,7 @@
 				9FD7D6A31F39AB1900CF8801 /* map.c in Sources */,
 				9FD7D6171F39AAD300CF8801 /* lpcap.c in Sources */,
 				9FCD69611F3C6770007A03CC /* CrashReport.mm in Sources */,
+				1928600D1F53147700DBA5AB /* FmodPlayer.cpp in Sources */,
 				9FA752331D32119800F05F08 /* SimulatorConfig.cpp in Sources */,
 				9FD7D6B41F39AB3700CF8801 /* pbc-lua.c in Sources */,
 				9FD7D6991F39AB1800CF8801 /* alloc.c in Sources */,
@@ -948,6 +955,7 @@
 				9FD7D6B81F39AD2500CF8801 /* lua_modules.cpp in Sources */,
 				9FD7D61B1F39AAD300CF8801 /* lpprint.c in Sources */,
 				9FD7D69F1F39AB1900CF8801 /* context.c in Sources */,
+				1928600C1F53146500DBA5AB /* lua_FmodPlayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1124,6 +1132,7 @@
 					"$(PROJECT_DIR)/ios/BuglyAgent",
 					"$(PROJECT_DIR)/ios",
 					"$(PROJECT_DIR)/ios/WeChatSDK",
+					"$(SRCROOT)/../../cocos2d-x/external/fmod/prebuilt/ios",
 				);
 				OTHER_LDFLAGS = (
 					"-force_load",
@@ -1148,7 +1157,7 @@
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END) $(SRCROOT)/../../cocos2d-x/external/fmod/include/ios";
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
@@ -1179,6 +1188,7 @@
 					"$(PROJECT_DIR)/ios/BuglyAgent",
 					"$(PROJECT_DIR)/ios",
 					"$(PROJECT_DIR)/ios/WeChatSDK",
+					"$(SRCROOT)/../../cocos2d-x/external/fmod/prebuilt/ios",
 				);
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=x86_64]" = (
@@ -1192,7 +1202,7 @@
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END) $(SRCROOT)/../../cocos2d-x/external/fmod/include/ios";
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;

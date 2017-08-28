@@ -27,9 +27,9 @@ THE SOFTWARE.
 
 #include <vector>
 #include <string>
-#include <sstream>
 #include "2d/CCNode.h"
 #include "base/ccMacros.h"
+#include "base/CCData.h"
 
 /** @file ccUtils.h
 Misc free functions
@@ -141,22 +141,7 @@ namespace utils
 
      * @return Returns found node or nullptr
      */
-   CC_DLL Node*  findChild(Node* levelRoot, int tag);
-
-    /**
-     * Convert to string
-     
-     * @return Returns string
-     */
-
-
-    template <typename T>
-    std::string toString(T value)
-    {
-        std::ostringstream os;
-        os << value;
-        return os.str();
-    }
+    CC_DLL Node*  findChild(Node* levelRoot, int tag);
 
     /**
      * Find a child by name recursively
@@ -186,6 +171,14 @@ namespace utils
      *  @return The md5 hash for the file
      */
     CC_DLL std::string getFileMD5Hash(const std::string &filename);
+
+
+    /**
+    *  Gets the md5 hash for the given buffer.
+    *  @param data The buffer to calculate md5 hash.
+    *  @return The md5 hash for the data
+    */
+    CC_DLL std::string getDataMD5Hash(const Data &data);
 }
 
 NS_CC_END

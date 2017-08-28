@@ -159,3 +159,4 @@ frameworks/runtime-src/proj.win32/player.VC.db
 frameworks/runtime-src/proj.win32/res/
 frameworks/cocos2d-x/build
 frameworks/runtime-src/proj.ios_mac/build
+userconf.ini

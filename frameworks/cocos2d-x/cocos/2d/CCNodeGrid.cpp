@@ -179,7 +179,7 @@ void NodeGrid::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t p
     if(_nodeGrid && _nodeGrid->isActive())
     {
         // restore projection
-		Director::getInstance()->setProjection(beforeProjectionType);
+        _director->setProjection(beforeProjectionType);
     }
 
     _gridEndCommand.init(_globalZOrder);
