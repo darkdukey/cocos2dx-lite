@@ -33,6 +33,8 @@ local function main()
     local app = require('app.App'):instance()
     app:run('LoginController')
 
+    local audio = require 'fmod'
+    audio.playBackgroundMusic('audio/background-music-aac.mp3', true)
     -- pbc test
     -- require 'test.test'
 end
