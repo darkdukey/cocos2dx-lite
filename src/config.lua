@@ -25,3 +25,4 @@ CC_DESIGN_RESOLUTION = {
     end
 }
 
+CC_REMOTE_DEBUG = true
