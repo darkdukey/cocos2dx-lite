@@ -248,6 +248,15 @@ THE SOFTWARE.
 // textures
 #include "renderer/CCTextureAtlas.h"
 
+// tiled
+#include "2d/CCTMXLayer.h"
+#include "2d/CCTMXObjectGroup.h"
+#include "2d/CCTMXTiledMap.h"
+#include "2d/CCTMXXMLParser.h"
+#include "2d/CCTileMapAtlas.h"
+#include "2d/CCFastTMXLayer.h"
+#include "2d/CCFastTMXTiledMap.h"
+
 #if CC_USE_3D
 //3d
 #include "3d/CCAABB.h"
