@@ -43,6 +43,10 @@ The major change:
 1. [pidcat](https://github.com/JakeWharton/pidcat) Colored logcat script which only shows log entries for a specific application package.
 2. [sprite-sheet-packer](https://github.com/amakaseev/sprite-sheet-packer) Sprite sheet packer
 3. [ImageOptim](https://github.com/ImageOptim/ImageOptim) GUI image optimizer for Mac
+4. [ZeroBrane Studio](https://studio.zerobrane.com/) ZeroBrane Studio is a lightweight Lua IDE
+    > I can’t step into functions defined in other files in my project. You either need to open them in the IDE before you want to step through them, or to configure the IDE to auto-open files requested during debugging using editor.autoactivate = true.
+    > ​
+    > **RESTART, RESTART RESTART ZBS IDE**
 
 ## How to start
 
