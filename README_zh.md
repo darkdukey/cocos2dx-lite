@@ -23,3 +23,7 @@ cocos2dx-lite
   1. [pidcat](https://github.com/JakeWharton/pidcat) 更方便的 android 日志
   2. [sprite-sheet-packer](https://github.com/amakaseev/sprite-sheet-packer) 图集打包
   3. [ImageOptim](https://github.com/ImageOptim/ImageOptim) 图片优化
+  4. [ZeroBrane Studio](https://studio.zerobrane.com/) ZeroBrane Studio is a lightweight Lua IDE
+      > 配置单步调试: 首选项里设置  editor.autoactivate = true.
+      > ​
+      > **重启，重启，重启 ZBS IDE 才会生效**

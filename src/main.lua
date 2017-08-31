@@ -1,5 +1,5 @@
 
-package.path = 'src/?.lua;src/packages/?.lua'
+package.path = '?.lua;src/?.lua;src/packages/?.lua'
 local fu = cc.FileUtils:getInstance()
 fu:setPopupNotify(false)
 fu:addSearchPath("res/")
@@ -30,9 +30,21 @@ __G__TRACKBACK__ = function ( msg )
 end
 
 local function main()
+    if CC_REMOTE_DEBUG then
+        -- local ZBS = ''
+        -- if device.platform == 'mac' then
+            -- ZBS = '/Applications/ZeroBraneStudio.app/Contents/ZeroBraneStudio'
+        -- end
+        -- package.path = package.path..string.gsub(';%ZBS%/lualibs/?/?.lua;%ZBS%/lualibs/?.lua', '%%ZBS%%', ZBS)
+        -- package.cpath = package.cpath..string.gsub('%ZBS%/bin/?.dll;%ZBS%/bin/clibs/?.dll', '%%ZBS%%', ZBS)
+        require('mobdebug').start()
+    end
+
     local app = require('app.App'):instance()
     app:run('LoginController')
 
+    local audio = require 'fmod'
+    audio.playBackgroundMusic('audio/background-music-aac.mp3', true)
     -- pbc test
     -- require 'test.test'
 end
