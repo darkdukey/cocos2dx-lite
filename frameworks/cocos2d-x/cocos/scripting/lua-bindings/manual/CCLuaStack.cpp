@@ -148,7 +148,7 @@ bool LuaStack::init(void)
     tolua_opengl_open(_state);
     register_all_cocos2dx_manual(_state);
     register_all_cocos2dx_module_manual(_state);
-    register_all_cocos2dx_math_manual(_state);
+    // register_all_cocos2dx_math_manual(_state);
 
     register_glnode_manual(_state);
 #if CC_USE_PHYSICS
@@ -748,7 +748,7 @@ int LuaStack::loadChunksFromZIP(const char *zipFilePath)
         CCLOGWARN("LuaStack::%s -> zipFilePath=%s is not exist.", __FUNCTION__, zipFilePath);
         return -1;
     }
-    
+
     pushString(zipFilePath);
     luaLoadChunksFromZIP(_state);
     int ret = lua_toboolean(_state, -1);
