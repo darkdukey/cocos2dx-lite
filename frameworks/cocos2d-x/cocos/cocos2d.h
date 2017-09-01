@@ -250,8 +250,8 @@ THE SOFTWARE.
 
 // tiled
 #include "2d/CCTMXLayer.h"
-#include "2d/CCTMXObjectGroup.h"
 #include "2d/CCTMXTiledMap.h"
+#include "2d/CCTMXObjectGroup.h"
 #include "2d/CCTMXXMLParser.h"
 #include "2d/CCTileMapAtlas.h"
 #include "2d/CCFastTMXLayer.h"
