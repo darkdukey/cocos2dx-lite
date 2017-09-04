@@ -48,7 +48,9 @@ extern "C" {
 #include "scripting/lua-bindings/manual/cocos2d/LuaOpengl.h"
 #include "scripting/lua-bindings/manual/cocos2d/LuaScriptHandlerMgr.h"
 #include "scripting/lua-bindings/auto/lua_cocos2dx_auto.hpp"
+#include "scripting/lua-bindings/auto/lua_cocos2dx_experimental_auto.hpp"
 #include "scripting/lua-bindings/manual/cocos2d/lua_cocos2dx_manual.hpp"
+#include "scripting/lua-bindings/manual/cocos2d/lua_cocos2dx_experimental_manual.hpp"
 #include "scripting/lua-bindings/manual/LuaBasicConversions.h"
 #include "scripting/lua-bindings/manual/cocos2d/lua_cocos2dx_deprecated.h"
 #include "base/ZipUtils.h"
@@ -145,10 +147,12 @@ bool LuaStack::init(void)
     luaopen_lua_extensions(_state);
     g_luaType.clear();
     register_all_cocos2dx(_state);
+    register_all_cocos2dx_experimental(_state);
     tolua_opengl_open(_state);
     register_all_cocos2dx_manual(_state);
     register_all_cocos2dx_module_manual(_state);
-    register_all_cocos2dx_math_manual(_state);
+    // register_all_cocos2dx_math_manual(_state);
+    register_all_cocos2dx_experimental_manual(_state);
 
     register_glnode_manual(_state);
 #if CC_USE_PHYSICS
@@ -748,7 +752,7 @@ int LuaStack::loadChunksFromZIP(const char *zipFilePath)
         CCLOGWARN("LuaStack::%s -> zipFilePath=%s is not exist.", __FUNCTION__, zipFilePath);
         return -1;
     }
-    
+
     pushString(zipFilePath);
     luaLoadChunksFromZIP(_state);
     int ret = lua_toboolean(_state, -1);
