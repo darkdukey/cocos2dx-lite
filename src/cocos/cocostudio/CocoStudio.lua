@@ -2,9 +2,7 @@ if nil == ccs then
     return
 end
 
-if not json then
-    require "cocos.cocos2d.json"
-end
+local cjson = require 'cjson'
 
 require "cocos.cocostudio.StudioConstants"
 
@@ -251,7 +249,7 @@ function ccs.TriggerMng:triggerMngVersion()
 end
 
 function ccs.TriggerMng:parse(jsonStr)
-    local parseTable = json.decode(jsonStr,1)
+    local parseTable = cjson.decode(jsonStr)
     if nil == parseTable then
         return
     end
