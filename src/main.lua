@@ -7,6 +7,11 @@ fu:addSearchPath("src/")
 
 
 print = release_print
+
+local STP = require "StackTracePlus"
+local _traceback = debug.traceback
+debug.traceback = STP.stacktrace
+
 require "config"
 require "cocos.init"
 
@@ -17,13 +22,34 @@ require 'pbc.pbc'
 __G__TRACKBACK__ = function ( msg )
 
     local message = msg
-
-    local msg = debug.traceback(msg, 3)
+    local msg, origin_error = debug.traceback(msg, 3)
     print(msg)
 
     -- report lua exception
     if device.platform == 'ios' then
-        buglyReportLuaException(tostring(message), debug.traceback())
+        buglyReportLuaException(tostring(message), _traceback())
+    elseif device.platform == 'mac' then
+        local msg = debug.getinfo(2)
+        local info = cc.Label:createWithSystemFont(message, 'sans', 32)
+        info:setWidth(display.width)
+        info:setAnchorPoint(cc.p(0,1))
+        info:setPosition(0, display.height)
+        info:setTextColor(cc.c4b(255,0,0,255))
+        cc.Director:getInstance():getRunningScene():addChild(info, 998)
+
+        local function onTouchBegan(touch, event)
+            return true
+        end
+        local function onTouchEnded(touch, event)
+            os.execute(string.format('subl %s:%d', cc.FileUtils:getInstance():fullPathForFilename(msg.source), msg.currentline))
+            info:removeSelf()
+        end
+
+        local listener = cc.EventListenerTouchOneByOne:create()
+        listener:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN)
+        listener:registerScriptHandler(onTouchEnded,cc.Handler.EVENT_TOUCH_ENDED )
+        local eventDispatcher = info:getEventDispatcher()
+        eventDispatcher:addEventListenerWithSceneGraphPriority(listener, info)
     end
 
     return msg
