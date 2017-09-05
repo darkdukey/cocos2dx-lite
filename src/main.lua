@@ -5,20 +5,14 @@ fu:setPopupNotify(false)
 fu:addSearchPath("res/")
 fu:addSearchPath("src/")
 
-
 print = release_print
 
 local STP = require "StackTracePlus"
 local _traceback = debug.traceback
 debug.traceback = STP.stacktrace
 
-require "config"
-require "cocos.init"
-
-require 'pack'
-require 'pbc.pbc'
-
-
+local winsize = cc.Director:getInstance():getWinSize()
+local target = cc.Application:getInstance():getTargetPlatform()
 __G__TRACKBACK__ = function ( msg )
 
     local message = msg
@@ -26,16 +20,22 @@ __G__TRACKBACK__ = function ( msg )
     print(msg)
 
     -- report lua exception
-    if device.platform == 'ios' then
+    if target == 4 or target == 5 then -- ios
         buglyReportLuaException(tostring(message), _traceback())
-    elseif device.platform == 'mac' then
+    elseif target == 2 then -- mac
         local msg = debug.getinfo(2)
         local info = cc.Label:createWithSystemFont(message, 'sans', 32)
-        info:setWidth(display.width)
-        info:setAnchorPoint(cc.p(0,1))
-        info:setPosition(0, display.height)
-        info:setTextColor(cc.c4b(255,0,0,255))
-        cc.Director:getInstance():getRunningScene():addChild(info, 998)
+        info:setWidth(winsize.width)
+        info:setAnchorPoint({x=0,y=1})
+        info:setPosition(0, winsize.height)
+        info:setTextColor({r=255,g=0,b=0,a=255})
+
+        local scene = cc.Director:getInstance():getRunningScene()
+        if not scene then
+            scene = cc.Scene:create()
+            cc.Director:getInstance():runWithScene(scene)
+        end
+        scene:addChild(info, 998)
 
         local function onTouchBegan(touch, event)
             return true
@@ -46,8 +46,8 @@ __G__TRACKBACK__ = function ( msg )
         end
 
         local listener = cc.EventListenerTouchOneByOne:create()
-        listener:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN)
-        listener:registerScriptHandler(onTouchEnded,cc.Handler.EVENT_TOUCH_ENDED )
+        listener:registerScriptHandler(onTouchBegan,40)--cc.Handler.EVENT_TOUCH_BEGAN
+        listener:registerScriptHandler(onTouchEnded,42)--cc.Handler.EVENT_TOUCH_ENDED
         local eventDispatcher = info:getEventDispatcher()
         eventDispatcher:addEventListenerWithSceneGraphPriority(listener, info)
     end
@@ -56,6 +56,11 @@ __G__TRACKBACK__ = function ( msg )
 end
 
 local function main()
+    require "config"
+    require "cocos.init"
+
+    require 'pack'
+    require 'pbc.pbc'
     if CC_REMOTE_DEBUG then
         -- local ZBS = ''
         -- if device.platform == 'mac' then
@@ -71,6 +76,7 @@ local function main()
 
     local audio = require 'fmod'
     audio.playBackgroundMusic('audio/background-music-aac.mp3', true)
+
     -- pbc test
     -- require 'test.test'
 end
