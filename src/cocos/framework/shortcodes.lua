@@ -111,7 +111,19 @@ end
 -- end --
 
 function Node:pos(x, y)
-    self:setPosition(x, y)
+    if type(x) == 'table' then
+        self:setPosition(x.x, x.y)
+    else
+        self:setPosition(x, y)
+    end
+    return self
+end
+
+-- start --
+-- end --
+
+function Node:anchor( x,y )
+    self:setAnchorPoint(cc.p(x,y))
     return self
 end
 
