@@ -329,6 +329,16 @@ function display.newLayer(...)
     return layer
 end
 
+--[[
+source: a image file, WxH should be 2^n (cann't be in spritesheet)
+--]]
+function display.tiledSprite( source, w, h )
+    local spr = cc.Sprite:create(source)
+    spr:setTextureRect(cc.rect(0,0,w,h))
+    spr:getTexture():setTexParameters(gl.LINEAR, gl.LINEAR, gl.REPEAT, gl.REPEAT)
+    return spr
+end
+
 function display.newSprite(source, x, y, params)
     local spriteClass = cc.Sprite
     local scale9 = false
