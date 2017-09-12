@@ -51,7 +51,9 @@ static int register_all_packages()
 bool AppDelegate::applicationDidFinishLaunching()
 {
     // set default FPS
-    Director::getInstance()->setAnimationInterval(1.0 / 60.0f);
+    auto director = Director::getInstance();
+    director->setAnimationInterval(1.0 / 30.0f);
+    director->setProjection(Director::Projection::_2D);
 
     // register lua module
     auto engine = LuaEngine::getInstance();
