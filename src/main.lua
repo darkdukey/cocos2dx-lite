@@ -6,6 +6,14 @@ fu:addSearchPath("res/")
 fu:addSearchPath("src/")
 
 print = release_print
+function currfileline(  )
+    local t = debug.getinfo(2)
+    local text = string.format('%s:%d', t.source, t.currentline)
+    return text
+end
+function printfileline(  )
+    print(currfileline())
+end
 
 local STP = require "StackTracePlus"
 local _traceback = debug.traceback
@@ -41,7 +49,8 @@ __G__TRACKBACK__ = function ( msg )
             return true
         end
         local function onTouchEnded(touch, event)
-            os.execute(string.format('subl %s:%d', cc.FileUtils:getInstance():fullPathForFilename(msg.source), msg.currentline))
+            local cmd = string.format('subl %s:%d', cc.FileUtils:getInstance():fullPathForFilename(msg.source), msg.currentline)
+            os.execute(cmd)
             info:removeSelf()
         end
 
