@@ -23,6 +23,9 @@ end
 
 function LoginController:clickTouristLogin( ... )
     print('clickTouristLogin')
+
+    local audio = require 'fmod'
+    audio.playEffect('audio/background-music-aac.mp3')
 end
 
 -- event binding end ~~

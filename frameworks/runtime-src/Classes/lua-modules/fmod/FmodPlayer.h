@@ -2,6 +2,7 @@
 
 #include "cocos2d.h"
 #include "fmod.hpp"
+#include <unordered_map>
 
 class FmodPlayer : public cocos2d::Ref
 {
@@ -28,6 +29,8 @@ private:
     ~FmodPlayer();
     void update(float delta);
     void memgc(float delta);
+    void _playBackgroundMusic(const cocos2d::Data& data, bool loop = true);
+    void _playEffect(const cocos2d::Data& filename, bool loop = false);
 
     static FmodPlayer  *_instance;
     FMOD::System       *_system;
@@ -43,4 +46,5 @@ private:
     FMOD_RESULT         _result;
     unsigned int        _version;
     std::map<FMOD::Sound*, FMOD::Channel*> _effect;
+    std::unordered_map<std::string, cocos2d::Data> _buffers;
 };

@@ -54,32 +54,30 @@ FmodPlayer* FmodPlayer::getInstance()
 
 void FmodPlayer::playBackgroundMusic(const std::string& filename, bool loop)
 {
-
     if (this->isBackgroundMusicPlaying() == false)
     {
-        Data data = FileUtils::getInstance()->getDataFromFile(filename);
-
-        FMOD_CREATESOUNDEXINFO  exinfo = { 0 };
-
-        exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
-
-        exinfo.length = data.getSize();
-
-        FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_CREATESAMPLE;
-        if (loop)
-        {
-            mode |= FMOD_LOOP_NORMAL;
+        auto fullpath = FileUtils::getInstance()->fullPathForFilename(filename);
+        if (_buffers.find(fullpath) != _buffers.end()) {
+            _playBackgroundMusic(_buffers[fullpath], loop);
+        } else {
+            FileUtils::getInstance()->getDataFromFile(filename, [this,loop,fullpath](Data data) {
+                _buffers[fullpath] = data;
+                _playBackgroundMusic(data, loop);
+            });
         }
-        else
-        {
-            mode |= FMOD_LOOP_OFF;
-        }
+    }
+}
 
-        _result = _system->createSound((char*)data.getBytes(), mode, &exinfo, &_backgroudSound);
-        _result = _system->playSound(_backgroudSound, 0, false, &_backgroundChannel);
-        _backgroundChannel->setVolume(_backgroudVolume);
-
-        _system->update();
+void FmodPlayer::playEffect(const std::string& filename, bool loop)
+{
+    auto fullpath = FileUtils::getInstance()->fullPathForFilename(filename);
+    if (_buffers.find(fullpath) != _buffers.end()) {
+        _playEffect(_buffers[fullpath], loop);
+    } else {
+        FileUtils::getInstance()->getDataFromFile(filename, [this,loop,fullpath](Data data) {
+            _buffers[fullpath] = data;
+            _playEffect(data, loop);
+        });
     }
 }
 
@@ -167,41 +165,6 @@ void FmodPlayer::memgc(float delta)
     _system->getChannelsPlaying(&channelsplaying, NULL);
 }
 
-void FmodPlayer::playEffect(const std::string& filename, bool loop)
-{
-    Data data = FileUtils::getInstance()->getDataFromFile(filename);
-
-    FMOD_CREATESOUNDEXINFO  exinfo = { 0 };
-
-    exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
-
-    exinfo.length = data.getSize();
-
-    FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_CREATESAMPLE;
-    if (loop)
-    {
-        mode |= FMOD_LOOP_NORMAL;
-    }
-    else
-    {
-        mode |= FMOD_LOOP_OFF;
-    }
-
-    FMOD::Sound * sound = nullptr;
-    FMOD::Channel * channel =nullptr;
-
-    _result = _system->createSound((char*)data.getBytes(), mode, &exinfo, &sound);
-    _result = _system->playSound(sound, 0, false, &channel);
-
-    _effect.insert(std::make_pair(sound, channel));
-    channel->setVolume(_effectVolume);
-
-    _system->update();
-
-    int channelsplaying = 0;
-    _system->getChannelsPlaying(&channelsplaying, NULL);
-}
-
 void FmodPlayer::stopAllEffects()
 {
     for (auto iter = _effect.begin(); iter != _effect.end(); iter++)
@@ -228,3 +191,64 @@ void FmodPlayer::setEffectsVolume(float volume)
         channel->setVolume(volume);
     }
 }
+
+// private
+
+void FmodPlayer::_playBackgroundMusic(const cocos2d::Data& data, bool loop)
+{
+    FMOD_CREATESOUNDEXINFO  exinfo = { 0 };
+    
+    exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
+    
+    exinfo.length = data.getSize();
+    
+    FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_CREATESAMPLE;
+    if (loop)
+    {
+        mode |= FMOD_LOOP_NORMAL;
+    }
+    else
+    {
+        mode |= FMOD_LOOP_OFF;
+    }
+    
+    _result = _system->createSound((char*)data.getBytes(), mode, &exinfo, &_backgroudSound);
+    _result = _system->playSound(_backgroudSound, 0, false, &_backgroundChannel);
+    _backgroundChannel->setVolume(_backgroudVolume);
+    
+    _system->update();
+}
+
+void FmodPlayer::_playEffect(const cocos2d::Data& data, bool loop)
+{
+    FMOD_CREATESOUNDEXINFO  exinfo = { 0 };
+    
+    exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
+    
+    exinfo.length = data.getSize();
+    
+    FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_CREATESAMPLE;
+    if (loop)
+    {
+        mode |= FMOD_LOOP_NORMAL;
+    }
+    else
+    {
+        mode |= FMOD_LOOP_OFF;
+    }
+    
+    FMOD::Sound * sound = nullptr;
+    FMOD::Channel * channel =nullptr;
+    
+    _result = _system->createSound((char*)data.getBytes(), mode, &exinfo, &sound);
+    _result = _system->playSound(sound, 0, false, &channel);
+    
+    _effect.insert(std::make_pair(sound, channel));
+    channel->setVolume(_effectVolume);
+    
+    _system->update();
+    
+    int channelsplaying = 0;
+    _system->getChannelsPlaying(&channelsplaying, NULL);
+}
+
