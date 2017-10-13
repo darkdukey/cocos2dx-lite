@@ -9,7 +9,7 @@
 #undef CC_ENABLE_CHIPMUNK_INTEGRATION
 #undef CC_ENABLE_BOX2D_INTEGRATION
 #undef CC_USE_TIFF
-#undef CC_USE_WEBP
+//#undef CC_USE_WEBP
 #undef CC_USE_TGA
 
 #define CC_USE_SPINE        1
@@ -43,6 +43,7 @@
 #undef CC_USE_JPEG
 #undef CC_USE_WIC
 #undef CC_USE_S3TC
+#undef CC_USE_WEBP
 #endif
 
 //#define CC_USE_STB_IMAGE 1

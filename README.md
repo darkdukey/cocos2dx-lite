@@ -21,7 +21,7 @@ The major change:
 - ~~Remove C++ implementations of CocoStudio parser~~
 - Remove C++ implementations of CocosBuilder parser
 - Remove AssetsManager, AssetsManagerEX
-- Remove support for WebP,S3TC,ATITC
+- Remove support for ~~~WebP~~~,S3TC,ATITC
 - ~~Remove FastTileMap, TileMap~~
 - Remove *Menu*
 - Remove Audio
