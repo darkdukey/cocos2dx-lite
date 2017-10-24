@@ -475,7 +475,7 @@ function math.newrandomseed()
     if ok then
         math.randomseed(socket.gettime() * 1000)
     else
-        math.randomseed(os.time())
+        math.randomseed(tostring(os.time()):reverse():sub(1, 6))
     end
     math.random()
     math.random()
