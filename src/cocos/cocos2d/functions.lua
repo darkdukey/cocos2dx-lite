@@ -706,6 +706,16 @@ function table.deepcopy(orig)
     return copy
 end
 
+function table.shuffle(tbl)
+    local shuffled = table.clone(tbl)
+    size = #shuffled
+    for i = size, 1, -1 do
+        local rand = math.random(size)
+        shuffled[i], shuffled[rand] = shuffled[rand], shuffled[i]
+    end
+    return shuffled
+end
+
 string._htmlspecialchars_set = {}
 string._htmlspecialchars_set["&"] = "&amp;"
 string._htmlspecialchars_set["\""] = "&quot;"
