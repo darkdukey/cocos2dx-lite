@@ -159,8 +159,8 @@ def main():
         output_dir = '%s/cocos/scripting/lua-bindings/auto' % project_root
 
         cmd_args = {
-                    'cocos2dx_lite.ini' : ('cocos2d-x', 'lua_cocos2dx_auto'), \
-                    # 'cocos2dx.ini' : ('cocos2d-x', 'lua_cocos2dx_auto'), \
+                    # 'cocos2dx_lite.ini' : ('cocos2d-x', 'lua_cocos2dx_auto'), \
+                    'cocos2dx.ini' : ('cocos2d-x', 'lua_cocos2dx_auto'), \
                     'cocos2dx_spine.ini' : ('cocos2dx_spine', 'lua_cocos2dx_spine_auto'), \
                     # 'cocos2dx_audioengine.ini': ('cocos2dx_audioengine', 'lua_cocos2dx_audioengine_auto'), \
                     # 'cocos2dx_cocosdenshion.ini': ('cocos2dx_cocosdenshion', 'lua_cocos2dx_cocosdenshion_auto'), \
