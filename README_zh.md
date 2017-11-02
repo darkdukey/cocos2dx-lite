@@ -12,7 +12,9 @@ cocos2dx-lite
 5. 缺陷追踪工具 [bugly](https://bugly.qq.com/v2/) 等工具。
 6. 统计分析 （[flurry](https://y.flurry.com/)、[umeng](www.umeng.com)）
 7. 使用 FMOD 替换掉自带的两个音频库
-
+8. 魔窗
+9. 3D搓牌效果层
+   ![图](https://static.oschina.net/uploads/img/201709/27165036_kC4x.png)
 
 去掉 3d 等功能不是因为要裁剪包的大小，是因为少代码，少运行点代码，程序稳定点。
 提供这么多功能是有代价的，就是仓库很大。
