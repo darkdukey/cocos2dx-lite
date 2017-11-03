@@ -56,6 +56,8 @@
 		5200BECA1A53D9A500AC45E4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5200BEC91A53D9A500AC45E4 /* Security.framework */; };
 		521A8E7019F0C3D200D177D7 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6E19F0C3D200D177D7 /* Default-667h@2x.png */; };
 		521A8E7119F0C3D200D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */; };
+		844BFCFB1FAC76B800F320DA /* CCCrypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844BFCF91FAC76B700F320DA /* CCCrypto.cpp */; };
+		844BFCFC1FAC76B800F320DA /* CCCrypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844BFCF91FAC76B700F320DA /* CCCrypto.cpp */; };
 		9F37D72F1F41586000B63811 /* FmodPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F37D72B1F41586000B63811 /* FmodPlayer.cpp */; };
 		9F37D7301F41586000B63811 /* lua_FmodPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F37D72D1F41586000B63811 /* lua_FmodPlayer.cpp */; };
 		9F37D7321F415AEC00B63811 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F37D7311F415AEC00B63811 /* libfmod.dylib */; };
@@ -250,6 +252,8 @@
 		5200BEC91A53D9A500AC45E4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		521A8E6E19F0C3D200D177D7 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
+		844BFCF91FAC76B700F320DA /* CCCrypto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCrypto.cpp; sourceTree = "<group>"; };
+		844BFCFA1FAC76B700F320DA /* CCCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCrypto.h; sourceTree = "<group>"; };
 		9F37D72B1F41586000B63811 /* FmodPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FmodPlayer.cpp; sourceTree = "<group>"; };
 		9F37D72C1F41586000B63811 /* FmodPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FmodPlayer.h; sourceTree = "<group>"; };
 		9F37D72D1F41586000B63811 /* lua_FmodPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_FmodPlayer.cpp; sourceTree = "<group>"; };
@@ -483,6 +487,15 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		844BFCF81FAC76B700F320DA /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				844BFCF91FAC76B700F320DA /* CCCrypto.cpp */,
+				844BFCFA1FAC76B700F320DA /* CCCrypto.h */,
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
 		9F37D72A1F41586000B63811 /* fmod */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,6 +542,7 @@
 		9FD7D5BE1F39AAD200CF8801 /* lua-modules */ = {
 			isa = PBXGroup;
 			children = (
+				844BFCF81FAC76B700F320DA /* crypto */,
 				9F37D72A1F41586000B63811 /* fmod */,
 				9FD7D6B61F39AD2500CF8801 /* lua_modules.cpp */,
 				9FD7D6B71F39AD2500CF8801 /* lua_modules.h */,
@@ -891,6 +905,7 @@
 				9FA752341D32119800F05F08 /* SimulatorConfig.cpp in Sources */,
 				9FD7D6AC1F39AB1900CF8801 /* rmessage.c in Sources */,
 				9FA752321D32119800F05F08 /* ProjectConfig.cpp in Sources */,
+				844BFCFC1FAC76B800F320DA /* CCCrypto.cpp in Sources */,
 				9FD7D69A1F39AB1800CF8801 /* alloc.c in Sources */,
 				9FA752601D32169600F05F08 /* AppControllerBridge.mm in Sources */,
 				9FD7D61A1F39AAD300CF8801 /* lpcode.c in Sources */,
@@ -929,6 +944,7 @@
 				9FD7D6A31F39AB1900CF8801 /* map.c in Sources */,
 				9FD7D6171F39AAD300CF8801 /* lpcap.c in Sources */,
 				9FCD69611F3C6770007A03CC /* CrashReport.mm in Sources */,
+				844BFCFB1FAC76B800F320DA /* CCCrypto.cpp in Sources */,
 				1928600D1F53147700DBA5AB /* FmodPlayer.cpp in Sources */,
 				9FA752331D32119800F05F08 /* SimulatorConfig.cpp in Sources */,
 				9FD7D6B41F39AB3700CF8801 /* pbc-lua.c in Sources */,

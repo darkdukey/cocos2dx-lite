@@ -16,11 +16,16 @@ extern int luaopen_pack(lua_State *L);
 } // extern "C"
 #endif
 
+#include "crypto/CCCrypto.h"
+
 static luaL_Reg modules[] = {
     { "lpeg", luaopen_lpeg },
     { "protobuf.c", luaopen_protobuf_c },
     { "pack", luaopen_pack },
     { "fmod", luaopen_FmodPlayer },
+    
+    { "xxtea", luaopen_xxtea },
+    { "md5", luaopen_md5 },
 
     { NULL, NULL }
 };

@@ -86,6 +86,13 @@ local function main()
     local audio = require 'fmod'
     audio.playBackgroundMusic('audio/background-music-aac.mp3', true)
 
+    local xxtea = require 'xxtea'
+    local s = xxtea.encrypt('abc', 'xx')
+    print(xxtea.decrypt(s, 'xx') == 'abc')
+
+    local md5 = require 'md5'
+    print(md5.sum('helloworld'))
+
     -- pbc test
     -- require 'test.test'
 end
