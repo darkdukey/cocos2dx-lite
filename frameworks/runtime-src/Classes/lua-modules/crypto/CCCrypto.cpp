@@ -4,8 +4,6 @@
 #include "cocos2d.h"
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 
-//#include "crypto/base64/libb64.h"
-//#include "crypto/base64/libbase64.h"
 #include "md5/md5.h"
 #include "xxtea/xxtea.h"
 
@@ -15,8 +13,6 @@ USING_NS_CC;
 
 static int lxxtea_encrypt(lua_State* tolua_S)
 {
-    auto stack = LuaEngine::getInstance()->getLuaStack();
-    
     unsigned char * plaintext = ((unsigned char *)  tolua_tostring(tolua_S,1,0));
     xxtea_long plaintextLength = (xxtea_long)  lua_strlen(tolua_S, 1);
     unsigned char* key = ((unsigned char*)  tolua_tostring(tolua_S,2,0));
@@ -25,11 +21,11 @@ static int lxxtea_encrypt(lua_State* tolua_S)
     unsigned char* result = xxtea_encrypt(plaintext, plaintextLength, key, keyLength, &resultLength);
     if (resultLength <= 0)
     {
-        lua_pushnil(stack->getLuaState());
+        lua_pushnil(tolua_S);
     }
     else
     {
-        lua_pushlstring(stack->getLuaState(), (const char*)result, resultLength);
+        lua_pushlstring(tolua_S, (const char*)result, resultLength);
         free(result);
     }
     
@@ -38,8 +34,6 @@ static int lxxtea_encrypt(lua_State* tolua_S)
 
 static int lxxtea_decrypt(lua_State* tolua_S)
 {
-    auto stack = LuaEngine::getInstance()->getLuaStack();
-    
     unsigned char * plaintext = ((unsigned char *)  tolua_tostring(tolua_S,1,0));
     xxtea_long plaintextLength = (xxtea_long)  lua_strlen(tolua_S, 1);
     unsigned char* key = ((unsigned char*)  tolua_tostring(tolua_S,2,0));
@@ -48,11 +42,11 @@ static int lxxtea_decrypt(lua_State* tolua_S)
     unsigned char* result = xxtea_decrypt(plaintext, plaintextLength, key, keyLength, &resultLength);
     if (resultLength <= 0)
     {
-        lua_pushnil(stack->getLuaState());
+        lua_pushnil(tolua_S);
     }
     else
     {
-        lua_pushlstring(stack->getLuaState(), (const char*)result, resultLength);
+        lua_pushlstring(tolua_S, (const char*)result, resultLength);
         free(result);
     }
     
@@ -68,7 +62,7 @@ static const struct luaL_reg xxteaLib[] =
 
 int luaopen_xxtea(lua_State *L)
 {
-    luaL_openlib(L, "xxtea", xxteaLib, 0);
+    luaL_openlib(L, "xxtea1", xxteaLib, 0);
     return 1;
 }
 
@@ -104,6 +98,6 @@ static const struct luaL_reg md5Lib[] =
 
 int luaopen_md5(lua_State *L)
 {
-    luaL_openlib(L, "md5", md5Lib, 0);
+    luaL_openlib(L, "md51", md5Lib, 0);
     return 1;
 }

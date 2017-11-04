@@ -14,7 +14,10 @@ hellolua/main.cpp
 
 FMOD_SRC_FILES := ../../Classes/lua-modules/fmod/FmodPlayer.cpp \
                   ../../Classes/lua-modules/fmod/lua_FmodPlayer.cpp
-LOCAL_SRC_FILES += $(FMOD_SRC_FILES)
+
+CRYPTO_FILES := ../../Classes/lua-modules/crypto/CCCrypto.cpp
+
+LOCAL_SRC_FILES += $(FMOD_SRC_FILES) $(CRYPTO_FILES)
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

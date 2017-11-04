@@ -15,8 +15,6 @@ extern "C" {
 extern "C" {
 #endif
     
-//    int luaopen_crypto(lua_State *L);
-    
     int luaopen_xxtea(lua_State *L);
     int luaopen_md5(lua_State *L);
     
