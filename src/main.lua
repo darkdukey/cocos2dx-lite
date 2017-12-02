@@ -95,6 +95,36 @@ local function main()
 
     -- pbc test
     -- require 'test.test'
+
+    leafTest()
+end
+
+function leafTest(  )
+    local cjson = require 'cjson'
+    local ws = cc.WebSocket:create('ws://127.0.0.1:3653')
+    ws:registerScriptHandler(function (  )
+        print('open')
+        ws:sendString(cjson.encode({Hello={Name='from cocos2dx-lite'}}))
+
+    end, cc.WEBSOCKET_OPEN)
+    ws:registerScriptHandler(function ( msg )
+        print('message', msg)
+
+        local buf = {}
+        for i,v in ipairs(msg) do
+            buf[#buf+1] = string.char(v)
+        end
+        local json = table.concat(buf)
+        local gameMsg = cjson.decode(json)
+        dump(gameMsg, 'game msg')
+
+    end, cc.WEBSOCKET_MESSAGE)
+    ws:registerScriptHandler(function (  )
+        print('close')
+    end, cc.WEBSOCKET_CLOSE)
+    ws:registerScriptHandler(function (  )
+        print('error')
+    end, cc.WEBSOCKET_ERROR)
 end
 
 local status, msg = xpcall(main, __G__TRACKBACK__)
