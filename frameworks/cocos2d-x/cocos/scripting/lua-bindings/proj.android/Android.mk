@@ -31,7 +31,7 @@ LOCAL_EXPORT_LDLIBS := -lGLESv2 \
 
 # lua 5.1.x
 LUA_STATIC_LIB := lua_static
-LUA_IMPORT_PATH := lua/lua/
+LUA_IMPORT_PATH := lua
 LUA_INCLUDE_PATH := $(LOCAL_PATH)/../../../../external/lua/lua/
 
 LOCAL_STATIC_LIBRARIES := $(LUA_STATIC_LIB)
@@ -247,5 +247,6 @@ include $(BUILD_STATIC_LIBRARY)
 
 $(call import-add-path,$(LOCAL_PATH)/../../../..)
 $(call import-add-path,$(LOCAL_PATH)/../../../../external)
+$(call import-add-path,$(LOCAL_PATH)/../../../../external/lua)
 $(call import-module,$(LUA_IMPORT_PATH))
 $(call import-module,cocos)
