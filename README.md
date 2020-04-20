@@ -12,24 +12,24 @@ It works on iOS, Android, macOSand Windows.
 The major change:
 
 - Only support iOS,OS X,Android and Windows.
-- Remove 3D features
+- ~~Remove 3D features~~
 - Remove support for JS script
-- Remove deprecated classes and functions
-- Remove Camera
-- Remove Physics integration
-- Remove C++ implementations of Component
+- ~~Remove deprecated classes and functions~~
+- ~~Remove Camera~~
+- ~~Remove Physics integration~~
+- ~~Remove C++ implementations of Component~~
 - ~~Remove C++ implementations of CocoStudio parser~~
 - Remove C++ implementations of CocosBuilder parser
-- Remove AssetsManager, AssetsManagerEX
-- Remove support for WebP,S3TC,ATITC
+- ~~Remove AssetsManager, AssetsManagerEX~~
+- ~~Remove support for WebP,S3TC,ATITC~~
 - ~~Remove FastTileMap, TileMap~~
-- Remove *Menu*
-- Improve module compile `cocos/base/ccConfigUser.h`
-- Improve curl library, only support `socket` and `http` protocol
-- Add [CC_MINI_2D / CC_USE_FREETYPE / CC_ONLY_PNG](https://github.com/c0i/cocos2dx-lite/blob/master/cocos/base/ccConfigUser.h)
-- Add CC_USE_SPINE
-- Add CC_USE_AUDIO_ENGINE
-- Add CC_USE_NETWORK
+- ~~Remove *Menu*~~
+- ~~Improve module compile `cocos/base/ccConfigUser.h` ~~
+- ~~Improve curl library, only support `socket` and `http` protocol~~
+- ~~Add [CC_MINI_2D / CC_USE_FREETYPE / CC_ONLY_PNG](https://github.com/c0i/cocos2dx-lite/blob/master/cocos/base/ccConfigUser.h)~~
+- ~~Add CC_USE_SPINE~~
+- ~~Add CC_USE_AUDIO_ENGINE~~
+- ~~Add CC_USE_NETWORK~~
 - Restore ui module (NOT depend CocoStudio)
 - Restore `Focus` event (need by `ui`)
 - Restore `CocoStudio` module
@@ -60,18 +60,18 @@ The major change:
 
 10.  Node "destroy" event
 
-   ```
-   display.newNode()
-   :onNodeEvent('destroy', function (  )
-       print('node destroy event.')
-   end)
+  ```
+  display.newNode()
+  :onNodeEvent('destroy', function (  )
+      print('node destroy event.')
+  end)
 
-   -- or
-   cc.Node:create()
-   :registerScriptHandler(function ( state )
-       print('> Node event', state)
-   end)
-   ```
+  -- or
+  cc.Node:create()
+  :registerScriptHandler(function ( state )
+      print('> Node event', state)
+  end)
+  ```
 
 
 ## How to start
@@ -86,10 +86,10 @@ The major change:
     $ source ~/.bash_profile
     ```
 
-2. try with player project
+2. try with game project
 
     ```
-    $ open player/proj.ios_mac/player.xcodeproj/
+    $ open frameworks/runtime-src/proj.ios_mac/game.xcodeproj/
     $ or
     $ cocos run -p mac # ios, android
     $ cocos run -p android --build-type ndk-build
