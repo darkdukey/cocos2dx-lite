@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,9 +26,6 @@ THE SOFTWARE.
 #ifndef __CC_EXTENTIONS_CCCOMBASE_H__
 #define __CC_EXTENTIONS_CCCOMBASE_H__
 
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 #include <string>
 #include "editor-support/cocostudio/DictionaryHelper.h"
 #include "editor-support/cocostudio/CocosStudioExport.h"
@@ -38,10 +36,10 @@ THE SOFTWARE.
 #define DECLARE_CLASS_COMPONENT_INFO \
     public: \
         static cocos2d::ObjectFactory::TInfo Type; \
-        static cocos2d::Ref* createInstance(void); \
+        static cocos2d::Ref* createInstance(); \
         
 #define IMPLEMENT_CLASS_COMPONENT_INFO(className) \
-        cocos2d::Ref* className::createInstance(void) \
+        cocos2d::Ref* className::createInstance() \
         { \
             return className::create(); \
         } \
@@ -65,7 +63,3 @@ struct CC_STUDIO_DLL SerData
 };
 
 #endif
-
-
-#endif // CC_USE_CCS
-

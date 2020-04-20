@@ -118,7 +118,7 @@ bool Speed::initWithAction(ActionInterval *action, float speed)
         log("Speed::initWithAction error: action is nullptr!");
         return false;
     }
-
+    
     action->retain();
     _innerAction = action;
     _speed = speed;
@@ -130,7 +130,7 @@ Speed *Speed::clone() const
     // no copy constructor
     if (_innerAction)
         return Speed::create(_innerAction->clone(), _speed);
-
+    
     return nullptr;
 }
 
@@ -149,7 +149,7 @@ void Speed::stop()
 {
     if (_innerAction)
         _innerAction->stop();
-
+    
     Action::stop();
 }
 
@@ -167,7 +167,7 @@ Speed *Speed::reverse() const
 {
     if (_innerAction)
         return Speed::create(_innerAction->reverse(), _speed);
-
+    
     return nullptr;
 }
 
@@ -195,12 +195,12 @@ Follow* Follow::create(Node *followedNode, const Rect& rect/* = Rect::ZERO*/)
 }
 
 Follow* Follow::createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect/*= Rect::ZERO*/){
-
-
+    
+    
     Follow *follow = new (std::nothrow) Follow();
-
-    bool valid = false;
-
+    
+    bool valid;
+    
     if(follow)
         valid = follow->initWithTargetAndOffset(followedNode, xOffset, yOffset,rect);
 
@@ -209,16 +209,16 @@ Follow* Follow::createWithOffset(Node* followedNode,float xOffset,float yOffset,
         follow->autorelease();
         return follow;
     }
-
+    
     delete follow;
     return nullptr;
-
+    
 }
 Follow* Follow::clone() const
 {
     // no copy constructor
     return Follow::createWithOffset(_followedNode, _offsetX,_offsetY,_worldRect);
-
+    
 }
 
 Follow* Follow::reverse() const
@@ -234,7 +234,7 @@ bool Follow::initWithTargetAndOffset(Node *followedNode, float xOffset,float yOf
         log("Follow::initWithTarget error: followedNode is nullptr!");
         return false;
     }
-
+ 
     followedNode->retain();
     _followedNode = followedNode;
     _worldRect = rect;
@@ -248,7 +248,7 @@ bool Follow::initWithTargetAndOffset(Node *followedNode, float xOffset,float yOf
     _offsetY=yOffset;
     _halfScreenSize.x += _offsetX;
     _halfScreenSize.y += _offsetY;
-
+    
     if (_boundarySet)
     {
         _leftBoundary = -((rect.origin.x+rect.size.width) - _fullScreenSize.x);
@@ -274,14 +274,14 @@ bool Follow::initWithTargetAndOffset(Node *followedNode, float xOffset,float yOf
             _boundaryFullyCovered = true;
         }
     }
-
+    
     return true;
 }
 
 bool Follow::initWithTarget(Node *followedNode, const Rect& rect /*= Rect::ZERO*/){
-
+    
     return initWithTargetAndOffset(followedNode, 0.0, 0.0,rect);
-
+    
 }
 void Follow::step(float /*dt*/)
 {

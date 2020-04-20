@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,10 +26,6 @@ THE SOFTWARE.
 #ifndef __CC_EXTENTIONS_CCCOMCONTROLLER_H__
 #define __CC_EXTENTIONS_CCCOMCONTROLLER_H__
 
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 #include "editor-support/cocostudio/CCComBase.h"
 #include "editor-support/cocostudio/CCInputDelegate.h"
 #include "editor-support/cocostudio/CocosStudioExport.h"
@@ -44,7 +41,7 @@ public:
      *  @js ctor
      */
     ComController();
-
+    
 public:
     const static std::string COMPONENT_NAME;
 
@@ -87,7 +84,3 @@ public:
 }
 
 #endif  // __CC_EXTENTIONS_CCCOMCONTROLLER_H__
-
-
-#endif // CC_USE_CCS
-

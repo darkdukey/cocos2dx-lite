@@ -15,8 +15,6 @@
 		1A8A4EDA1F6F9AEB0044495E /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A4ED61F6F9AE70044495E /* config.json */; };
 		1A8A4EDB1F6F9AEE0044495E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A4ED71F6F9AE70044495E /* res */; };
 		1A8A4EDC1F6F9AEE0044495E /* src in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A4ED81F6F9AE80044495E /* src */; };
-		1A8A4EDD1F6F9AEF0044495E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A4ED71F6F9AE70044495E /* res */; };
-		1A8A4EDE1F6F9AEF0044495E /* src in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A4ED81F6F9AE80044495E /* src */; };
 		1ACE45A31FC3F2D000F87E53 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ACE45A21FC3F2D000F87E53 /* Images.xcassets */; };
 		1AF4C403178663F200122817 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AF4C402178663F200122817 /* libz.dylib */; };
 		1AF87BAA1F6F8733007BE51C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF87BA91F6F8730007BE51C /* LaunchScreen.storyboard */; };
@@ -123,6 +121,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 507B40FD1C31BDD30067B53E;
 			remoteInfo = "libcocos2d tvOS";
+		};
+		8464E329244D5A080037D705 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C03781AE18BF654500FE4F13 /* cocos2d_lua_bindings.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 507B43531C31FA0C0067B53E;
+			remoteInfo = "libluacocos2d tvOS";
 		};
 		9FEE0E431A5FC95000FEA1B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -352,6 +357,7 @@
 			children = (
 				15427CC2198F220600DC375D /* libluacocos2d Mac.a */,
 				15427CD2198F220600DC375D /* libluacocos2d iOS.a */,
+				8464E32A244D5A080037D705 /* libluacocos2d tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -550,6 +556,13 @@
 			remoteRef = 1AF87BA31F6F870C007BE51C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		8464E32A244D5A080037D705 /* libluacocos2d tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libluacocos2d tvOS.a";
+			remoteRef = 8464E329244D5A080037D705 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9FF5047E1A5E86D600AFDA55 /* libsimulator Mac.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -574,8 +587,6 @@
 				9FF504841A5E87B100AFDA55 /* ConsoleWindow.xib in Resources */,
 				1A8A4EDA1F6F9AEB0044495E /* config.json in Resources */,
 				5023817617EBBE3400990C9B /* Icon.icns in Resources */,
-				1A8A4EDE1F6F9AEF0044495E /* src in Resources */,
-				1A8A4EDD1F6F9AEF0044495E /* res in Resources */,
 				9FFC07361A4A764100AED399 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -697,7 +708,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = ../../../simulator/mac;
+				CONFIGURATION_BUILD_DIR = ../../../;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mac/Prefix.pch;

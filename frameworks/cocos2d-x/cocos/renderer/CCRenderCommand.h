@@ -60,7 +60,7 @@ public:
         /**Group command, which can group command in a tree hierarchy.*/
         GROUP_COMMAND,
         /**Mesh command, used to draw 3D meshes.*/
-//        MESH_COMMAND,
+        MESH_COMMAND,
         /**Primitive command, used to draw primitives such as lines, points and triangles.*/
         PRIMITIVE_COMMAND,
         /**Triangles command, used to draw triangles.*/

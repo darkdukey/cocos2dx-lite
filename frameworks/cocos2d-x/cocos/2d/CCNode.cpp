@@ -43,6 +43,7 @@ THE SOFTWARE.
 #include "2d/CCComponent.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
+#include "renderer/CCMaterial.h"
 #include "math/TransformUtils.h"
 
 
@@ -74,6 +75,7 @@ Node::Node()
 , _normalizedPositionDirty(false)
 , _skewX(0.0f)
 , _skewY(0.0f)
+, _anchorPoint(0, 0)
 , _contentSize(Size::ZERO)
 , _contentSizeDirty(true)
 , _transformDirty(true)
@@ -94,7 +96,6 @@ Node::Node()
 , _userData(nullptr)
 , _userObject(nullptr)
 , _glProgramState(nullptr)
-//, _orderOfArrival(0)
 , _running(false)
 , _visible(true)
 , _ignoreAnchorPointForPosition(false)
@@ -111,6 +112,10 @@ Node::Node()
 , _cascadeColorEnabled(false)
 , _cascadeOpacityEnabled(false)
 , _cameraMask(1)
+, _onEnterCallback(nullptr)
+, _onExitCallback(nullptr)
+, _onEnterTransitionDidFinishCallback(nullptr)
+, _onExitTransitionDidStartCallback(nullptr)
 #if CC_USE_PHYSICS
 , _physicsBody(nullptr)
 #endif
@@ -153,14 +158,6 @@ Node::~Node()
     if (_updateScriptHandler)
     {
         ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(_updateScriptHandler);
-    }
-    
-    if ( _scriptType != kScriptTypeNone)
-    {
-        int action = kNodeOnDestroy;
-        BasicScriptData data(this,(void*)&action);
-        ScriptEvent scriptEvent(kNodeEvent,(void*)&data);
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&scriptEvent);
     }
 #endif
 
@@ -423,7 +420,7 @@ void Node::setRotationSkewY(float rotationY)
 }
 
 /// scale getter
-float Node::getScale(void) const
+float Node::getScale() const
 {
     CCASSERT( _scaleX == _scaleY, "CCNode#scale. ScaleX != ScaleY. Don't know which one to return");
     return _scaleX;
@@ -714,6 +711,16 @@ void Node::setUserData(void *userData)
 
 void Node::setUserObject(Ref* userObject)
 {
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+    auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+    if (sEngine)
+    {
+        if (userObject)
+            sEngine->retainScriptObject(this, userObject);
+        if (_userObject)
+            sEngine->releaseScriptObject(this, _userObject);
+    }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     CC_SAFE_RETAIN(userObject);
     CC_SAFE_RELEASE(_userObject);
     _userObject = userObject;
@@ -805,13 +812,13 @@ Node* Node::getChildByName(const std::string& name) const
     for (const auto& child : _children)
     {
         // Different strings may have the same hash code, but can use it to compare first for speed
-        if(child->_hashOfName == hash && child->_name.compare(name) == 0)
+        if(child->_hashOfName == hash && child->_name == name)
             return child;
     }
     return nullptr;
 }
 
-void Node::enumerateChildren(const std::string &name, std::function<bool (Node *)> callback) const
+void Node::enumerateChildren(const std::string &name, const std::function<bool (Node *)>& callback) const
 {
     CCASSERT(!name.empty(), "Invalid name");
     CCASSERT(callback != nullptr, "Invalid callback function");
@@ -843,26 +850,31 @@ void Node::enumerateChildren(const std::string &name, std::function<bool (Node *
     
     // Remove '//', '/..' if exist
     std::string newName = name.substr(subStrStartPos, subStrlength);
-
+    
+    const Node* target = this;
+    
     if (searchFromParent)
     {
-        newName.insert(0, "[[:alnum:]]+/");
+        if (nullptr == _parent)
+        {
+            return;
+        }
+        target = _parent;
     }
-    
     
     if (searchRecursively)
     {
         // name is '//xxx'
-        doEnumerateRecursive(this, newName, callback);
+        target->doEnumerateRecursive(target, newName, callback);
     }
     else
     {
         // name is xxx
-        doEnumerate(newName, callback);
+        target->doEnumerate(newName, callback);
     }
 }
 
-bool Node::doEnumerateRecursive(const Node* node, const std::string &name, std::function<bool (Node *)> callback) const
+bool Node::doEnumerateRecursive(const Node* node, const std::string &name, const std::function<bool (Node *)>& callback) const
 {
     bool ret =false;
     
@@ -887,7 +899,7 @@ bool Node::doEnumerateRecursive(const Node* node, const std::string &name, std::
     return ret;
 }
 
-bool Node::doEnumerate(std::string name, std::function<bool (Node *)> callback) const
+bool Node::doEnumerate(std::string name, const std::function<bool (Node *)>& callback) const
 {
     // name may be xxx/yyy, should find its parent
     size_t pos = name.find('/');
@@ -1097,6 +1109,13 @@ void Node::removeAllChildrenWithCleanup(bool cleanup)
         {
             child->cleanup();
         }
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+        auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+        if (sEngine)
+        {
+            sEngine->releaseScriptObject(this, child);
+        }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
         // set parent nil at the end
         child->setParent(nullptr);
     }
@@ -1121,7 +1140,14 @@ void Node::detachChild(Node *child, ssize_t childIndex, bool doCleanup)
     {
         child->cleanup();
     }
-
+    
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+    auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+    if (sEngine)
+    {
+        sEngine->releaseScriptObject(this, child);
+    }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     // set parent nil at the end
     child->setParent(nullptr);
 
@@ -1132,6 +1158,13 @@ void Node::detachChild(Node *child, ssize_t childIndex, bool doCleanup)
 // helper used by reorderChild & add
 void Node::insertChild(Node* child, int z)
 {
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+    auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+    if (sEngine)
+    {
+        sEngine->retainScriptObject(this, child);
+    }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     _transformUpdated = true;
     _reorderChildDirty = true;
     _children.pushBack(child);
@@ -1161,7 +1194,7 @@ void Node::sortAllChildren()
 void Node::draw()
 {
     auto renderer = _director->getRenderer();
-    draw(renderer, _modelViewTransform, true);
+    draw(renderer, _modelViewTransform, FLAGS_TRANSFORM_DIRTY);
 }
 
 void Node::draw(Renderer* /*renderer*/, const Mat4 & /*transform*/, uint32_t /*flags*/)
@@ -1172,7 +1205,7 @@ void Node::visit()
 {
     auto renderer = _director->getRenderer();
     auto& parentTransform = _director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-    visit(renderer, parentTransform, true);
+    visit(renderer, parentTransform, FLAGS_TRANSFORM_DIRTY);
 }
 
 uint32_t Node::processParentFlags(const Mat4& parentTransform, uint32_t parentFlags)
@@ -1226,14 +1259,12 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
 
     uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
-#if CC_MIGRATION_TO_3_0 > 0
     // IMPORTANT:
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
     _director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     _director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
-
+    
     bool visibleByCamera = isVisitableByVisitingCamera();
 
     int i = 0;
@@ -1263,14 +1294,12 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
         this->draw(renderer, _modelViewTransform, flags);
     }
 
-#if CC_MIGRATION_TO_3_0 > 0
-//    _director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-
+    _director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+    
     // FIX ME: Why need to set _orderOfArrival to 0??
     // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
     // reset for next frame
     // _orderOfArrival = 0;
-#endif // CC_MIGRATION_TO_3_0
 }
 
 Mat4 Node::transform(const Mat4& parentTransform)
@@ -1286,9 +1315,6 @@ void Node::onEnter()
     {
         ++__attachedNodeCount;
     }
-    
-    _running = true;
-    
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
     {
@@ -1311,6 +1337,8 @@ void Node::onEnter()
         child->onEnter();
     
     this->resume();
+    
+    _running = true;
     
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeLua)
@@ -1385,12 +1413,12 @@ void Node::onExit()
     
     if (_onExitCallback)
         _onExitCallback();
-
+    
     if (_componentContainer && !_componentContainer->isEmpty())
     {
         _componentContainer->onExit();
     }
-
+    
     this->pause();
     
     _running = false;
@@ -1639,7 +1667,7 @@ void Node::update(float fDelta)
         ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
     }
 #endif
-
+    
     if (_componentContainer && !_componentContainer->isEmpty())
     {
         _componentContainer->visit(fDelta);
@@ -1927,7 +1955,7 @@ Component* Node::getComponent(const std::string& name)
 {
     if (_componentContainer)
         return _componentContainer->get(name);
-
+    
     return nullptr;
 }
 
@@ -1936,10 +1964,10 @@ bool Node::addComponent(Component *component)
     // lazy alloc
     if (!_componentContainer)
         _componentContainer = new (std::nothrow) ComponentContainer(this);
-
+    
     // should enable schedule update, then all components can receive this call back
     scheduleUpdate();
-
+    
     return _componentContainer->add(component);
 }
 
@@ -1947,7 +1975,7 @@ bool Node::removeComponent(const std::string& name)
 {
     if (_componentContainer)
         return _componentContainer->remove(name);
-
+    
     return false;
 }
 
@@ -1957,7 +1985,7 @@ bool Node::removeComponent(Component *component)
     {
         return _componentContainer->remove(component);
     }
-
+    
     return false;
 }
 
@@ -1969,7 +1997,7 @@ void Node::removeAllComponents()
 
 // MARK: Opacity and Color
 
-GLubyte Node::getOpacity(void) const
+GLubyte Node::getOpacity() const
 {
     return _realOpacity;
 }
@@ -2000,7 +2028,7 @@ void Node::updateDisplayedOpacity(GLubyte parentOpacity)
     }
 }
 
-bool Node::isCascadeOpacityEnabled(void) const
+bool Node::isCascadeOpacityEnabled() const
 {
     return _cascadeOpacityEnabled;
 }
@@ -2054,7 +2082,7 @@ bool Node::isOpacityModifyRGB() const
     return false;
 }
 
-const Color3B& Node::getColor(void) const
+const Color3B& Node::getColor() const
 {
     return _realColor;
 }
@@ -2087,7 +2115,7 @@ void Node::updateDisplayedColor(const Color3B& parentColor)
     }
 }
 
-bool Node::isCascadeColorEnabled(void) const
+bool Node::isCascadeColorEnabled() const
 {
     return _cascadeColorEnabled;
 }
@@ -2192,6 +2220,13 @@ void Node::setCameraMask(unsigned short mask, bool applyChildren)
 int Node::getAttachedNodeCount()
 {
     return __attachedNodeCount;
+}
+
+// MARK: Deprecated
+
+__NodeRGBA::__NodeRGBA()
+{
+    CCLOG("NodeRGBA deprecated.");
 }
 
 NS_CC_END

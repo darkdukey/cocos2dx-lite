@@ -1,11 +1,7 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2013-2016 zilongshanren
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -38,7 +34,3 @@
 @property (nonatomic, assign) int maximumLength;
 
 @end
-
-
-#endif // CC_USE_UI
-

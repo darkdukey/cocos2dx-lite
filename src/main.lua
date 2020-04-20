@@ -26,12 +26,12 @@ __G__TRACKBACK__ = function ( msg )
     local msg, origin_error = debug.traceback(msg, 3)
     print(msg)
 
-    -- report lua exception
-    if ismobile() then -- ios
-        -- buglyReportLuaException(tostring(message), _traceback())
-    else -- desktop
-        require('ccdebug')()
-    end
+    -- -- report lua exception
+    -- if ismobile() then -- ios
+    --     -- buglyReportLuaException(tostring(message), _traceback())
+    -- else -- desktop
+    --     require('ccdebug')()
+    -- end
 
     return msg
 end
@@ -40,8 +40,8 @@ local function main()
     require "config"
     require "cocos.init"
 
-    require 'pack'
-    require 'pbc.pbc'
+    -- require 'pack'
+    -- require 'pbc.pbc'
     --
     math.randomseed( tonumber(tostring(os.time()):reverse():sub(1,6)) )
 
@@ -63,7 +63,7 @@ local function main()
 
     -- --
     -- require 'test.cryptoNumbTest'
-    require 'test.t_sproto'
+    -- require 'test.t_sproto'
 end
 
 local status, msg = xpcall(main, __G__TRACKBACK__)

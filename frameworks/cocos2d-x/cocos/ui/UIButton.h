@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -301,7 +297,7 @@ public:
      * @since v3.9
      */
     Scale9Sprite* getRendererClicked() const { return _buttonClickedRenderer; }
-
+    
     /**
      * @brief Return the nine-patch sprite of disabled state
      * @return the nine-patch sprite of disabled state
@@ -345,9 +341,10 @@ protected:
     void disabledTextureScaleChangedWithSize();
 
     virtual void adaptRenderers() override;
-    void updateTitleLocation();
+    virtual void updateTitleLocation();
     void updateContentSize();
-    void createTitleRenderer();
+    virtual void createTitleRenderer();
+    bool createTitleRendererIfNull();
 
     virtual Widget* createCloneInstance() override;
     virtual void copySpecialProperties(Widget* model) override;
@@ -387,15 +384,6 @@ protected:
     TextureResType _disabledTexType;
 
 private:
-    enum class FontType
-    {
-        SYSTEM,
-        TTF,
-        BMFONT
-    };
-
-    int _fontSize;
-    FontType _type;
     std::string _fontName;
 };
 
@@ -406,7 +394,3 @@ NS_CC_END
 /// @}
 
 #endif /* defined(__CocoGUI__Button__) */
-
-
-#endif // CC_USE_UI
-

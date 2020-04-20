@@ -56,7 +56,7 @@ static id s_sharedDirectorCaller;
     {
         s_sharedDirectorCaller = [[CCDirectorCaller alloc] init];
     }
-
+    
     return s_sharedDirectorCaller;
 }
 
@@ -76,7 +76,9 @@ static id s_sharedDirectorCaller;
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(appDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
         [nc addObserver:self selector:@selector(appDidBecomeInactive) name:UIApplicationWillResignActiveNotification object:nil];
-
+        [nc addObserver:self selector:@selector(appDidBecomeActive) name:UIApplicationWillEnterForegroundNotification object:nil];
+        [nc addObserver:self selector:@selector(appDidBecomeInactive) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        
         self.interval = 1;
     }
     return self;
@@ -108,7 +110,7 @@ static id s_sharedDirectorCaller;
 {
     // Director::setAnimationInterval() is called, we should invalidate it first
     [self stopMainLoop];
-
+    
     displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(doCaller:)];
     [displayLink setFrameInterval: self.interval];
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -124,14 +126,14 @@ static id s_sharedDirectorCaller;
 {
     // Director::setAnimationInterval() is called, we should invalidate it first
     [self stopMainLoop];
-
+        
     self.interval = 60.0 * intervalNew;
-
+        
     displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(doCaller:)];
     [displayLink setFrameInterval: self.interval];
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
-
+                      
 -(void) doCaller: (id) sender
 {
     if (isAppActive) {
@@ -139,7 +141,7 @@ static id s_sharedDirectorCaller;
         EAGLContext* cocos2dxContext = [(CCEAGLView*)director->getOpenGLView()->getEAGLView() context];
         if (cocos2dxContext != [EAGLContext currentContext])
             glFlush();
-
+        
         [EAGLContext setCurrentContext: cocos2dxContext];
 
         CFTimeInterval dt = ((CADisplayLink*)displayLink).timestamp - lastDisplayTime;
@@ -156,6 +158,12 @@ static id s_sharedDirectorCaller;
     clockFrequency *= 1000000000.0;
     // convert absolute time to seconds and should minus one frame time interval
     lastDisplayTime = (mach_absolute_time() / clockFrequency) - ((1.0 / 60) * self.interval);
+}
+
+//
+-(void)setActive:(BOOL)isActive
+{
+    isAppActive = isActive;
 }
 
 @end

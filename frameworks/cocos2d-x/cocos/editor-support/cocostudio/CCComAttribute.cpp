@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -21,12 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 
 #include "editor-support/cocostudio/CCComAttribute.h"
 #include "platform/CCFileUtils.h"
@@ -81,12 +76,12 @@ int ComAttribute::getInt(const std::string& key, int def) const
         const cocos2d::Value& v = _dict.at(key);
         return v.asInt();
     }
-
+   
     if (!DICTOOL->checkObjectExist_json(_doc, key.c_str()))
     {
         return def;
     }
-
+  
     return DICTOOL->getIntValue_json(_doc, key.c_str());
 }
 
@@ -112,12 +107,12 @@ bool ComAttribute::getBool(const std::string& key, bool def) const
         const cocos2d::Value& v = _dict.at(key);
         return v.asBool();
     }
-
+    
     if (!DICTOOL->checkObjectExist_json(_doc, key.c_str()))
     {
         return def;
     }
-
+  
     return DICTOOL->getBooleanValue_json(_doc, key.c_str());
 }
 
@@ -128,12 +123,12 @@ std::string ComAttribute::getString(const std::string& key, const std::string& d
         const cocos2d::Value& v = _dict.at(key);
         return v.asString();
     }
-
+    
     if (!DICTOOL->checkObjectExist_json(_doc, key.c_str()))
     {
         return def;
     }
-
+  
     return DICTOOL->getStringValue_json(_doc, key.c_str());
 }
 
@@ -151,7 +146,7 @@ ComAttribute* ComAttribute::create()
 	return pRet;
 }
 
-bool ComAttribute::serialize(void* r)
+bool ComAttribute::serialize(void* r) 
 {
     bool ret = false;
 	do
@@ -206,7 +201,7 @@ bool ComAttribute::serialize(void* r)
 		{
             ret = true;
 		}
-
+        
 	}while (0);
 	return ret;
 }
@@ -224,7 +219,3 @@ bool ComAttribute::parse(const std::string &jsonFile)
 }
 
 }
-
-
-#endif // CC_USE_CCS
-

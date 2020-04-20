@@ -81,12 +81,6 @@ extern "C"
 #if CC_USE_PNG
 #include "png.h"
 #endif //CC_USE_PNG
-    
-#if CC_USE_STB_IMAGE > 0
-#define  STB_IMAGE_IMPLEMENTATION
-//#define  STBI_ONLY_PNG 1
-#include "stb_image.h"
-#endif
 
 #if CC_USE_TIFF
 #include "tiffio.h"
@@ -102,10 +96,7 @@ extern "C"
 #include "base/s3tc.h"
 #include "base/atitc.h"
 #include "base/pvr.h"
-
-#if CC_USE_TGA
 #include "base/TGAlib.h"
-#endif // CC_USE_TGA
 
 #if CC_USE_WEBP
 #include "decode.h"
@@ -117,11 +108,7 @@ extern "C"
 #include "platform/CCFileUtils.h"
 #include "base/CCConfiguration.h"
 #include "base/ccUtils.h"
-
-#if CC_USE_IMAGE_ZIP > 0
-    #include "base/ZipUtils.h"
-#endif // CC_USE_IMAGE_ZIP
-
+#include "base/ZipUtils.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/CCFileUtils-android.h"
 #endif
@@ -437,7 +424,7 @@ namespace
         uint32_t bytesOfKeyValueData;
     };
 }
-//atittc struct end
+//atitc struct end
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -450,7 +437,7 @@ namespace
         int offset;
     }tImageSource;
  
-#if CC_USE_PNG > 0
+#if CC_USE_PNG
     static void pngReadCallback(png_structp png_ptr, png_bytep data, png_size_t length)
     {
         tImageSource* isource = (tImageSource*)png_get_io_ptr(png_ptr);
@@ -560,7 +547,6 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
         unsigned char* unpackedData = nullptr;
         ssize_t unpackedLen = 0;
         
-#if CC_USE_IMAGE_ZIP > 0
         //detect and unzip the compress file
         if (ZipUtils::isCCZBuffer(data, dataLen))
         {
@@ -571,7 +557,6 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
             unpackedLen = ZipUtils::inflateMemory(const_cast<unsigned char*>(data), dataLen, &unpackedData);
         }
         else
-#endif // CC_USE_IMAGE_ZIP
         {
             unpackedData = const_cast<unsigned char*>(data);
             unpackedLen = dataLen;
@@ -607,7 +592,6 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
             break;
         default:
             {
-#if CC_USE_TGA > 0
                 // load and detect image format
                 tImageTGA* tgaData = tgaLoadBuffer(unpackedData, unpackedLen);
                 
@@ -621,7 +605,6 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
                 }
                 
                 free(tgaData);
-#endif // CC_USE_TGA
                 break;
             }
         }
@@ -766,7 +749,6 @@ Image::Format Image::detectFormat(const unsigned char * data, ssize_t dataLen)
     }
     else
     {
-        CCLOG("cocos2d: can't detect image format");
         return Format::UNKNOWN;
     }
 }
@@ -845,46 +827,7 @@ namespace
 #endif // CC_USE_JPEG
 }
 
-#if CC_USE_STB_IMAGE > 0
-bool Image::decodeWithStbImage(const unsigned char *data, ssize_t datalen)
-{
-    int comp=0;
-    int req_comp=0;
-    
-    stbi__context s;
-    stbi__start_mem(&s,data,(int)datalen);
-    _data = stbi__load_flip(&s,&_width,&_height,&comp,req_comp);
-    {
-        _dataLen = s.buflen;
-        switch (comp)
-        {
-            case 1:
-                _renderFormat = Texture2D::PixelFormat::I8;
-                break;
-                
-            case 2:
-                _renderFormat = Texture2D::PixelFormat::AI88;
-                break;
-            case 3:
-                _renderFormat = Texture2D::PixelFormat::RGB888;
-                break;
-                
-            case 4:
-                _renderFormat = Texture2D::PixelFormat::RGBA8888;
-                premultipliedAlpha();
-                break;
-            default:
-                _renderFormat = Texture2D::PixelFormat::RGBA4444;
-                break;
-        }
-        return true;
-    }
-    
-    return true;
-}
-#endif
-
-#if CC_USE_WIC > 0
+#if CC_USE_WIC
 bool Image::decodeWithWIC(const unsigned char *data, ssize_t dataLen)
 {
     bool bRet = false;
@@ -1076,10 +1019,6 @@ bool Image::initWithJpgData(const unsigned char * data, ssize_t dataLen)
 
 bool Image::initWithPngData(const unsigned char * data, ssize_t dataLen)
 {
-#if CC_USE_STB_IMAGE > 0
-    return decodeWithStbImage(data, dataLen);
-#endif
-    
 #if CC_USE_WIC
     return decodeWithWIC(data, dataLen);
 #elif CC_USE_PNG
@@ -1107,7 +1046,7 @@ bool Image::initWithPngData(const unsigned char * data, ssize_t dataLen)
         info_ptr = png_create_info_struct(png_ptr);
         CC_BREAK_IF(!info_ptr);
 
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_BADA && CC_TARGET_PLATFORM != CC_PLATFORM_NACL)
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_BADA && CC_TARGET_PLATFORM != CC_PLATFORM_NACL && CC_TARGET_PLATFORM != CC_PLATFORM_TIZEN)
         CC_BREAK_IF(setjmp(png_jmpbuf(png_ptr)));
 #endif
 
@@ -1160,7 +1099,6 @@ bool Image::initWithPngData(const unsigned char * data, ssize_t dataLen)
         }
         // update info
         png_read_update_info(png_ptr, info_ptr);
-        bit_depth = png_get_bit_depth(png_ptr, info_ptr);
         color_type = png_get_color_type(png_ptr, info_ptr);
 
         switch (color_type)
@@ -1207,9 +1145,18 @@ bool Image::initWithPngData(const unsigned char * data, ssize_t dataLen)
         png_read_end(png_ptr, nullptr);
 
         // premultiplied alpha for RGBA8888
-        if (PNG_PREMULTIPLIED_ALPHA_ENABLED && color_type == PNG_COLOR_TYPE_RGB_ALPHA)
+        if (color_type == PNG_COLOR_TYPE_RGB_ALPHA)
         {
-            premultipliedAlpha();
+            if (PNG_PREMULTIPLIED_ALPHA_ENABLED)
+            {
+                premultiplyAlpha();
+            }
+            else
+            {
+#if CC_ENABLE_PREMULTIPLIED_ALPHA != 0
+                _hasPremultipliedAlpha = true;
+#endif
+            }
         }
 
         if (row_pointers != nullptr)
@@ -1831,7 +1778,6 @@ bool Image::initWithTGAData(tImageTGA* tgaData)
 {
     bool ret = false;
     
-#if CC_USE_TGA > 0
     do
     {
         CC_BREAK_IF(tgaData == nullptr);
@@ -1899,7 +1845,6 @@ bool Image::initWithTGAData(tImageTGA* tgaData)
             _data = nullptr;
         }
     }
-#endif // CC_USE_TGA
     
     return ret;
 }
@@ -1998,7 +1943,6 @@ bool Image::initWithS3TCData(const unsigned char * data, ssize_t dataLen)
         else
         {   //if it is not gles or device do not support S3TC, decode texture by software
             
-#if CC_USE_S3TC > 0
             CCLOG("cocos2d: Hardware S3TC decoder not present. Using software decoder");
 
             int bytePerPixel = 4;
@@ -2022,9 +1966,6 @@ bool Image::initWithS3TCData(const unsigned char * data, ssize_t dataLen)
             _mipmaps[i].len = (stride * height);
             memcpy((void *)_mipmaps[i].address, (void *)&decodeImageData[0], _mipmaps[i].len);
             decodeOffset += stride * height;
-#else
-            CCLOG("cocos2d: S3TC decoder has been disable");
-#endif
         }
         
         encodeOffset += size;
@@ -2291,7 +2232,6 @@ bool Image::saveImageToPNG(const std::string& filePath, bool isToRGB)
         FILE *fp;
         png_structp png_ptr;
         png_infop info_ptr;
-        png_colorp palette;
         png_bytep *row_pointers;
 
         fp = fopen(FileUtils::getInstance()->getSuitableFOpen(filePath).c_str(), "wb");
@@ -2312,7 +2252,7 @@ bool Image::saveImageToPNG(const std::string& filePath, bool isToRGB)
             png_destroy_write_struct(&png_ptr, nullptr);
             break;
         }
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_BADA && CC_TARGET_PLATFORM != CC_PLATFORM_NACL)
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_BADA && CC_TARGET_PLATFORM != CC_PLATFORM_NACL && CC_TARGET_PLATFORM != CC_PLATFORM_TIZEN)
         if (setjmp(png_jmpbuf(png_ptr)))
         {
             fclose(fp);
@@ -2332,10 +2272,7 @@ bool Image::saveImageToPNG(const std::string& filePath, bool isToRGB)
             png_set_IHDR(png_ptr, info_ptr, _width, _height, 8, PNG_COLOR_TYPE_RGB,
                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
         }
-
-        palette = (png_colorp)png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH * sizeof (png_color));
-        png_set_PLTE(png_ptr, info_ptr, palette, PNG_MAX_PALETTE_LENGTH);
-
+        
         png_write_info(png_ptr, info_ptr);
 
         png_set_packing(png_ptr);
@@ -2416,9 +2353,6 @@ bool Image::saveImageToPNG(const std::string& filePath, bool isToRGB)
 
         png_write_end(png_ptr, info_ptr);
 
-        png_free(png_ptr, palette);
-        palette = nullptr;
-
         png_destroy_write_struct(&png_ptr, &info_ptr);
 
         fclose(fp);
@@ -2491,7 +2425,7 @@ bool Image::saveImageToJPG(const std::string& filePath)
             while (cinfo.next_scanline < cinfo.image_height)
             {
                 row_pointer[0] = & tempData[cinfo.next_scanline * row_stride];
-                (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
+                (void)jpeg_write_scanlines(&cinfo, row_pointer, 1);
             }
 
             if (tempData != nullptr)
@@ -2503,7 +2437,7 @@ bool Image::saveImageToJPG(const std::string& filePath)
         {
             while (cinfo.next_scanline < cinfo.image_height) {
                 row_pointer[0] = & _data[cinfo.next_scanline * row_stride];
-                (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
+                (void)jpeg_write_scanlines(&cinfo, row_pointer, 1);
             }
         }
 
@@ -2520,7 +2454,7 @@ bool Image::saveImageToJPG(const std::string& filePath)
 #endif // CC_USE_JPEG
 }
 
-void Image::premultipliedAlpha()
+void Image::premultiplyAlpha()
 {
 #if CC_ENABLE_PREMULTIPLIED_ALPHA == 0
         _hasPremultipliedAlpha = false;
@@ -2539,6 +2473,29 @@ void Image::premultipliedAlpha()
 #endif
 }
 
+static inline unsigned char clamp(int x) {
+    return (unsigned char)(x >= 0 ? (x < 255 ? x : 255) : 0);
+}
+
+void Image::reversePremultipliedAlpha()
+{
+    CCASSERT(_renderFormat == Texture2D::PixelFormat::RGBA8888, "The pixel format should be RGBA8888!");
+
+    unsigned int* fourBytes = (unsigned int*)_data;
+    for (int i = 0; i < _width * _height; i++)
+    {
+        unsigned char* p = _data + i * 4;
+        if (p[3] > 0)
+        {
+            fourBytes[i] = clamp(int(std::ceil((p[0] * 255.0f) / p[3]))) |
+                clamp(int(std::ceil((p[1] * 255.0f) / p[3]))) << 8 |
+                clamp(int(std::ceil((p[2] * 255.0f) / p[3]))) << 16 |
+                p[3] << 24;
+        }
+    }
+
+    _hasPremultipliedAlpha = false;
+}
 
 void Image::setPVRImagesHavePremultipliedAlpha(bool haveAlphaPremultiplied)
 {

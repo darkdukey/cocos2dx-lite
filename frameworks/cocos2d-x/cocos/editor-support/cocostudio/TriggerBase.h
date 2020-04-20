@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,10 +26,6 @@ THE SOFTWARE.
 #ifndef __TRIGGEREVENT_H__
 #define __TRIGGEREVENT_H__
 
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 #include "editor-support/cocostudio/CocoStudio.h"
 #include "base/ObjectFactory.h"
 #include "editor-support/cocostudio/TriggerObj.h"
@@ -39,10 +36,10 @@ THE SOFTWARE.
 #define DECLARE_CLASS_INFO \
     public: \
         static cocos2d::ObjectFactory::TInfo Type; \
-        static cocos2d::Ref* createInstance(void); \
-
+        static cocos2d::Ref* createInstance(); \
+        
 #define IMPLEMENT_CLASS_INFO(className) \
-        cocos2d::Ref* className::createInstance(void) \
+        cocos2d::Ref* className::createInstance() \
         { \
             auto ret = new (std::nothrow) className; \
             ret->autorelease(); \
@@ -55,7 +52,3 @@ void CC_STUDIO_DLL sendEvent(unsigned int event);
 
 
 #endif
-
-
-#endif // CC_USE_CCS
-

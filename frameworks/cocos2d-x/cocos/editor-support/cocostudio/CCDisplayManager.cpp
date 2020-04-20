@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -21,11 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 
 #include "editor-support/cocostudio/CCDisplayManager.h"
 #include "editor-support/cocostudio/CCBone.h"
@@ -176,7 +172,7 @@ void DisplayManager::addDisplay(Node *display, int index)
 
         display->removeFromParent();
         display->cleanup();
-
+        
         Armature *armature = _bone->getArmature();
         if (armature)
         {
@@ -452,7 +448,3 @@ Vec2 DisplayManager::getAnchorPointInPoints() const
 
 
 }
-
-
-#endif // CC_USE_CCS
-

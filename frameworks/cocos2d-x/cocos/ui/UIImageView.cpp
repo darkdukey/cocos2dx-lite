@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -31,7 +27,7 @@ THE SOFTWARE.
 #include "ui/UIScale9Sprite.h"
 #include "ui/UIHelper.h"
 #include "2d/CCSprite.h"
-#include "base/CCResourceData.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 NS_CC_BEGIN
 
@@ -45,11 +41,11 @@ ImageView::ImageView():
 _scale9Enabled(false),
 _prevIgnoreSize(true),
 _capInsets(Rect::ZERO),
-_textureFile(""),
 _imageRenderer(nullptr),
 _imageTexType(TextureResType::LOCAL),
 _imageTextureSize(_contentSize),
-_imageRendererAdaptDirty(true)
+_imageRendererAdaptDirty(true),
+_textureFile("")
 {
 
 }
@@ -320,10 +316,16 @@ void ImageView::setGLProgramState(cocos2d::GLProgramState* glProgramState)
     _imageRenderer->setGLProgramState(glProgramState);
 }
 
+void ImageView::setBlendFunc(const BlendFunc &blendFunc)
+{
+    _imageRenderer->setBlendFunc(blendFunc);
+}
+    
+const BlendFunc& ImageView::getBlendFunc() const
+{
+    return _imageRenderer->getBlendFunc();
+}
+
 }
 
 NS_CC_END
-
-
-#endif // CC_USE_UI
-

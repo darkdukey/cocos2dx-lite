@@ -1,6 +1,7 @@
 /****************************************************************************
  Copyright (c) 2013      cocos2d-x.org
- Copyright (c) 2013-2017 Chukong Technologies Inc.
+ Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -48,24 +49,24 @@
 #include "2d/CCClippingNode.h"
 #include "2d/CCGrid.h"
 #include "2d/CCLabelAtlas.h"
-//#include "2d/CCLabelBMFont.h"
-//#include "2d/CCLabelTTF.h"
+#include "2d/CCLabelBMFont.h"
+#include "2d/CCLabelTTF.h"
 #include "2d/CCLayer.h"
-//#include "2d/CCMenu.h"
-//#include "2d/CCMenuItem.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
 #include "2d/CCMotionStreak.h"
-//#include "2d/CCParallaxNode.h"
+#include "2d/CCParallaxNode.h"
 #include "2d/CCParticleBatchNode.h"
 #include "2d/CCParticleExamples.h"
 #include "2d/CCParticleSystemQuad.h"
 #include "2d/CCProgressTimer.h"
 #include "2d/CCSpriteFrameCache.h"
-//#include "2d/CCTMXLayer.h"
-//#include "2d/CCTMXObjectGroup.h"
-//#include "2d/CCTMXTiledMap.h"
-//#include "2d/CCTMXXMLParser.h"
-//#include "2d/CCTileMapAtlas.h"
+#include "2d/CCTMXLayer.h"
+#include "2d/CCTMXObjectGroup.h"
+#include "2d/CCTMXTiledMap.h"
+#include "2d/CCTMXXMLParser.h"
 #include "2d/CCTextFieldTTF.h"
+#include "2d/CCTileMapAtlas.h"
 #include "2d/CCTransition.h"
 #include "2d/CCTransitionPageTurn.h"
 #include "2d/CCTransitionProgress.h"
@@ -784,13 +785,13 @@ CC_DEPRECATED_ATTRIBUTE typedef TransitionProgressVertical CCTransitionProgressV
 CC_DEPRECATED_ATTRIBUTE typedef TransitionProgressInOut CCTransitionProgressInOut;
 CC_DEPRECATED_ATTRIBUTE typedef TransitionProgressOutIn CCTransitionProgressOutIn;
 CC_DEPRECATED_ATTRIBUTE typedef MenuItem CCMenuItem;
-//CC_DEPRECATED_ATTRIBUTE typedef MenuItemLabel CCMenuItemLabel;
-//CC_DEPRECATED_ATTRIBUTE typedef MenuItemAtlasFont CCMenuItemAtlasFont;
-//CC_DEPRECATED_ATTRIBUTE typedef MenuItemFont CCMenuItemFont;
-//CC_DEPRECATED_ATTRIBUTE typedef MenuItemSprite CCMenuItemSprite;
-//CC_DEPRECATED_ATTRIBUTE typedef MenuItemImage CCMenuItemImage;
-//CC_DEPRECATED_ATTRIBUTE typedef MenuItemToggle CCMenuItemToggle;
-//CC_DEPRECATED_ATTRIBUTE typedef Menu CCMenu;
+CC_DEPRECATED_ATTRIBUTE typedef MenuItemLabel CCMenuItemLabel;
+CC_DEPRECATED_ATTRIBUTE typedef MenuItemAtlasFont CCMenuItemAtlasFont;
+CC_DEPRECATED_ATTRIBUTE typedef MenuItemFont CCMenuItemFont;
+CC_DEPRECATED_ATTRIBUTE typedef MenuItemSprite CCMenuItemSprite;
+CC_DEPRECATED_ATTRIBUTE typedef MenuItemImage CCMenuItemImage;
+CC_DEPRECATED_ATTRIBUTE typedef MenuItemToggle CCMenuItemToggle;
+CC_DEPRECATED_ATTRIBUTE typedef Menu CCMenu;
 CC_DEPRECATED_ATTRIBUTE typedef ClippingNode CCClippingNode;
 CC_DEPRECATED_ATTRIBUTE typedef MotionStreak CCMotionStreak;
 CC_DEPRECATED_ATTRIBUTE typedef ProgressTimer CCProgressTimer;
@@ -816,14 +817,14 @@ CC_DEPRECATED_ATTRIBUTE typedef GLProgramCache ShaderCache;
 CC_DEPRECATED_ATTRIBUTE typedef AnimationCache CCAnimationCache;
 CC_DEPRECATED_ATTRIBUTE typedef SpriteFrameCache CCSpriteFrameCache;
 CC_DEPRECATED_ATTRIBUTE typedef TextureCache CCTextureCache;
-//CC_DEPRECATED_ATTRIBUTE typedef ParallaxNode CCParallaxNode;
-//CC_DEPRECATED_ATTRIBUTE typedef TMXObjectGroup CCTMXObjectGroup;
-//CC_DEPRECATED_ATTRIBUTE typedef TMXLayerInfo CCTMXLayerInfo;
-//CC_DEPRECATED_ATTRIBUTE typedef TMXTilesetInfo CCTMXTilesetInfo;
-//CC_DEPRECATED_ATTRIBUTE typedef TMXMapInfo CCTMXMapInfo;
-//CC_DEPRECATED_ATTRIBUTE typedef TMXLayer CCTMXLayer;
-//CC_DEPRECATED_ATTRIBUTE typedef TMXTiledMap CCTMXTiledMap;
-//CC_DEPRECATED_ATTRIBUTE typedef TileMapAtlas CCTileMapAtlas;
+CC_DEPRECATED_ATTRIBUTE typedef ParallaxNode CCParallaxNode;
+CC_DEPRECATED_ATTRIBUTE typedef TMXObjectGroup CCTMXObjectGroup;
+CC_DEPRECATED_ATTRIBUTE typedef TMXLayerInfo CCTMXLayerInfo;
+CC_DEPRECATED_ATTRIBUTE typedef TMXTilesetInfo CCTMXTilesetInfo;
+CC_DEPRECATED_ATTRIBUTE typedef TMXMapInfo CCTMXMapInfo;
+CC_DEPRECATED_ATTRIBUTE typedef TMXLayer CCTMXLayer;
+CC_DEPRECATED_ATTRIBUTE typedef TMXTiledMap CCTMXTiledMap;
+CC_DEPRECATED_ATTRIBUTE typedef TileMapAtlas CCTileMapAtlas;
 CC_DEPRECATED_ATTRIBUTE typedef Timer CCTimer;
 CC_DEPRECATED_ATTRIBUTE typedef Scheduler CCScheduler;
 CC_DEPRECATED_ATTRIBUTE typedef GLView CCEGLView;
@@ -846,10 +847,10 @@ CC_DEPRECATED_ATTRIBUTE typedef Quad2 ccQuad2;
 CC_DEPRECATED_ATTRIBUTE typedef Quad3 ccQuad3;
 CC_DEPRECATED_ATTRIBUTE typedef V2F_C4B_T2F ccV2F_C4B_T2F;
 CC_DEPRECATED_ATTRIBUTE typedef V2F_C4F_T2F ccV2F_C4F_T2F;
-CC_DEPRECATED_ATTRIBUTE typedef V2F_C4B_T2F ccV2F_C4B_T2F;
+CC_DEPRECATED_ATTRIBUTE typedef V3F_C4B_T2F ccV3F_C4B_T2F;
 CC_DEPRECATED_ATTRIBUTE typedef V2F_C4B_T2F_Triangle ccV2F_C4B_T2F_Triangle;
 CC_DEPRECATED_ATTRIBUTE typedef V2F_C4B_T2F_Quad ccV2F_C4B_T2F_Quad;
-CC_DEPRECATED_ATTRIBUTE typedef V2F_C4B_T2F_Quad ccV2F_C4B_T2F_Quad;
+CC_DEPRECATED_ATTRIBUTE typedef V3F_C4B_T2F_Quad ccV3F_C4B_T2F_Quad;
 CC_DEPRECATED_ATTRIBUTE typedef V2F_C4F_T2F_Quad ccV2F_C4F_T2F_Quad;
 CC_DEPRECATED_ATTRIBUTE typedef BlendFunc ccBlendFunc;
 CC_DEPRECATED_ATTRIBUTE typedef T2F_Quad ccT2F_Quad;
@@ -964,20 +965,20 @@ CC_DEPRECATED_ATTRIBUTE typedef ParticleSystem::PositionType tPositionType;
 #define kCCLabelAutomaticWidth  kLabelAutomaticWidth
 
 
-//CC_DEPRECATED_ATTRIBUTE const Menu::State kCCMenuStateWaiting = Menu::State::WAITING;
-//CC_DEPRECATED_ATTRIBUTE const Menu::State kCCMenuStateTrackingTouch = Menu::State::TRACKING_TOUCH;
+CC_DEPRECATED_ATTRIBUTE const Menu::State kCCMenuStateWaiting = Menu::State::WAITING;
+CC_DEPRECATED_ATTRIBUTE const Menu::State kCCMenuStateTrackingTouch = Menu::State::TRACKING_TOUCH;
 
-//CC_DEPRECATED_ATTRIBUTE typedef Menu::State tMenuState;
+CC_DEPRECATED_ATTRIBUTE typedef Menu::State tMenuState;
 
 CC_DEPRECATED_ATTRIBUTE const Touch::DispatchMode kCCTouchesOneByOne = Touch::DispatchMode::ONE_BY_ONE;
 CC_DEPRECATED_ATTRIBUTE const Touch::DispatchMode kCCTouchesAllAtOnce = Touch::DispatchMode::ALL_AT_ONCE;
 
 CC_DEPRECATED_ATTRIBUTE typedef Touch::DispatchMode ccTouchesMode;
 
-//CC_DEPRECATED_ATTRIBUTE const Image::Format kCCImageFormatPNG = Image::Format::PNG;
-//CC_DEPRECATED_ATTRIBUTE const Image::Format kCCImageFormatJPEG = Image::Format::JPG;
+CC_DEPRECATED_ATTRIBUTE const Image::Format kCCImageFormatPNG = Image::Format::PNG;
+CC_DEPRECATED_ATTRIBUTE const Image::Format kCCImageFormatJPEG = Image::Format::JPG;
 
-//CC_DEPRECATED_ATTRIBUTE typedef Image::Format tImageFormat;
+CC_DEPRECATED_ATTRIBUTE typedef Image::Format tImageFormat;
 
 CC_DEPRECATED_ATTRIBUTE const TransitionScene::Orientation kCCTransitionOrientationLeftOver = TransitionScene::Orientation::LEFT_OVER;
 CC_DEPRECATED_ATTRIBUTE const TransitionScene::Orientation kCCTransitionOrientationRightOver = TransitionScene::Orientation::RIGHT_OVER;
@@ -1082,7 +1083,7 @@ CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBindTexture2DN(GLuint textureUnit
 CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLDeleteTexture(GLuint textureId) { GL::deleteTexture(textureId); }
 CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLDeleteTextureN(GLuint textureUnit, GLuint textureId) { GL::deleteTexture(textureId); }
 CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBindVAO(GLuint vaoId) { GL::bindVAO(vaoId); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLEnable( int flags ) { /* ignore */ };
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLEnable( int flags ) { /* ignore */ }
 CC_DEPRECATED_ATTRIBUTE typedef int ccGLServerState;
 
 CC_DEPRECATED_ATTRIBUTE typedef Data CCData;
@@ -1109,7 +1110,7 @@ CC_DEPRECATED_ATTRIBUTE typedef __String CCString;
 CC_DEPRECATED_ATTRIBUTE typedef __String String;
 
 CC_DEPRECATED_ATTRIBUTE typedef __RGBAProtocol RGBAProtocol;
-//CC_DEPRECATED_ATTRIBUTE typedef __NodeRGBA NodeRGBA;
+CC_DEPRECATED_ATTRIBUTE typedef __NodeRGBA NodeRGBA;
 CC_DEPRECATED_ATTRIBUTE typedef __LayerRGBA LayerRGBA;
 
 //deprecated attributes and methods for kazMath
@@ -1121,11 +1122,11 @@ CC_DEPRECATED_ATTRIBUTE const unsigned int KM_GL_MODELVIEW = 0x1700;
 CC_DEPRECATED_ATTRIBUTE const unsigned int KM_GL_PROJECTION = 0x1701;
 CC_DEPRECATED_ATTRIBUTE const unsigned int KM_GL_TEXTURE = 0x1702;
 
-CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLFreeAll(void);
-CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLPushMatrix(void);
-CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLPopMatrix(void);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLFreeAll();
+CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLPushMatrix();
+CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLPopMatrix();
 CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLMatrixMode(unsigned int mode);
-CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLLoadIdentity(void);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLLoadIdentity();
 CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLLoadMatrix(const Mat4* pIn);
 CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLMultMatrix(const Mat4* pIn);
 CC_DEPRECATED_ATTRIBUTE void CC_DLL kmGLTranslatef(float x, float y, float z);

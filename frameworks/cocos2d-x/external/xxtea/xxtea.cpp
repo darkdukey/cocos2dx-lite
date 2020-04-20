@@ -20,7 +20,6 @@
 #include <memory.h>
 #include <stdlib.h>
 
-static char _XXTEA_FILL_CHAR = '^'; // '\0' is default
 static void xxtea_long_encrypt(xxtea_long *v, xxtea_long len, xxtea_long *k)
 {
     xxtea_long n = len - 1;
@@ -63,7 +62,7 @@ static unsigned char *fix_key_length(unsigned char *key, xxtea_long key_len)
 {
     unsigned char *tmp = (unsigned char *)malloc(16);
     memcpy(tmp, key, key_len);
-    memset(tmp + key_len, _XXTEA_FILL_CHAR, 16 - key_len);
+    memset(tmp + key_len, '\0', 16 - key_len);
     return tmp;
 }
 

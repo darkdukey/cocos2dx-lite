@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -294,7 +290,7 @@ namespace ui {
         * get tab header's width
         * @return header's width
         */
-        float getHeaderWidth() const { return _headerWidth; }
+        float getHeaderWidth() const { return (float)_headerWidth; }
 
         /**
         * set header height, affect all tab
@@ -392,8 +388,4 @@ namespace ui {
 NS_CC_END
 
 #endif // __UITABVIEW_H__
-
-
-
-#endif // CC_USE_UI
 

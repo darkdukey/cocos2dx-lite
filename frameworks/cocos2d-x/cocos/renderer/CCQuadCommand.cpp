@@ -28,10 +28,10 @@
 
 #include "renderer/ccGLStateCache.h"
 #include "renderer/CCGLProgram.h"
-//#include "renderer/CCMaterial.h"
-//#include "renderer/CCTechnique.h"
+#include "renderer/CCMaterial.h"
+#include "renderer/CCTechnique.h"
 #include "renderer/CCRenderer.h"
-//#include "renderer/CCPass.h"
+#include "renderer/CCPass.h"
 #include "renderer/CCTexture2D.h"
 
 NS_CC_BEGIN
@@ -53,7 +53,7 @@ QuadCommand::~QuadCommand()
     }
 }
 
-void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V2F_C4B_T2F_Quad* quads, ssize_t quadCount,
+void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
                        const Mat4& mv, uint32_t flags)
 {
     CCASSERT(glProgramState, "Invalid GLProgramState");
@@ -104,12 +104,12 @@ void QuadCommand::reIndex(int indicesCount)
     _indexSize = indicesCount;
 }
 
-void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V2F_C4B_T2F_Quad* quads, ssize_t quadCount, const Mat4 &mv)
+void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount, const Mat4 &mv)
 {
     init(globalOrder, textureID, shader, blendType, quads, quadCount, mv, 0);
 }
 
-void QuadCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, const BlendFunc& blendType, V2F_C4B_T2F_Quad* quads, ssize_t quadCount,
+void QuadCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
     const Mat4& mv, uint32_t flags)
 {
     init(globalOrder, texture->getName(), glProgramState, blendType, quads, quadCount, mv, flags);

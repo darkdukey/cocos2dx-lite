@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 /****************************************************************************
 Copyright (c) 2013 cocos2d-x.org
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -154,7 +150,8 @@ TextureFrame* TextureFrame::create()
 }
 
 TextureFrame::TextureFrame()
-    : _textureName("")
+    : _sprite(nullptr)
+    , _textureName("")
 {
 }
 
@@ -956,7 +953,3 @@ Frame* PlayableFrame::clone()
     return frame;
 }
 NS_TIMELINE_END
-
-
-#endif // CC_USE_CCS
-

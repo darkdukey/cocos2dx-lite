@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -52,6 +48,13 @@ class CC_GUI_DLL UICCTextField: public TextFieldTTF, public TextFieldDelegate
 {
 public:
     /**
+     * @brief Create an empty UICCTextField.
+     *
+     * @return A UICCTextField instance.
+     */
+    static UICCTextField* create();
+    
+    /**
      * Default constructor
      */
     UICCTextField();
@@ -84,7 +87,6 @@ public:
                                            const char * delText,
                                            size_t nLen) override;
     void insertText(const char* text, size_t len) override;
-    void deleteBackward() override;
     
     /**
      * Open up the IME.
@@ -693,7 +695,8 @@ private:
     enum class FontType
     {
         SYSTEM,
-        TTF
+        TTF,
+        BMFONT
     };
 
     std::string _fontName;
@@ -708,7 +711,3 @@ private:
 NS_CC_END
 
 #endif /* defined(__TextField__) */
-
-
-#endif // CC_USE_UI
-

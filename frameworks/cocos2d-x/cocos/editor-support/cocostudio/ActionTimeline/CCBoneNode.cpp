@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 /****************************************************************************
-Copyright (c) 2015-2017 Chukong Technologies Inc.
+Copyright (c) 2015-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -39,12 +35,12 @@ THE SOFTWARE.
 NS_TIMELINE_BEGIN
 
 BoneNode::BoneNode()
-: _isRackShow(false)
+: _blendFunc(cocos2d::BlendFunc::ALPHA_NON_PREMULTIPLIED)
+, _isRackShow(false)
 , _rackColor(cocos2d::Color4F::WHITE)
 , _rackLength(50)
 , _rackWidth(20)
 , _rootSkeleton(nullptr)
-, _blendFunc(cocos2d::BlendFunc::ALPHA_NON_PREMULTIPLIED)
 {
 }
 
@@ -340,13 +336,11 @@ void BoneNode::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTra
 
     uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
-#if CC_MIGRATION_TO_3_0 > 0
     // IMPORTANT:
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
     _director->pushMatrix(cocos2d::MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     _director->loadMatrix(cocos2d::MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
 
     bool visibleByCamera = isVisitableByVisitingCamera();
     bool isdebugdraw = visibleByCamera && _isRackShow && nullptr == _rootSkeleton;
@@ -383,14 +377,12 @@ void BoneNode::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTra
         this->draw(renderer, _modelViewTransform, flags);
     }
 
-#if CC_MIGRATION_TO_3_0 > 0
     _director->popMatrix(cocos2d::MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
     // FIX ME: Why need to set _orderOfArrival to 0??
     // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
     // reset for next frame
     // _orderOfArrival = 0;
-#endif // CC_MIGRATION_TO_3_0
 }
 
 void BoneNode::draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)
@@ -526,7 +518,7 @@ cocos2d::Vector<BoneNode*> BoneNode::getAllSubBones() const
         boneStack.push(bone);
     }
 
-    while (boneStack.size() > 0)
+    while (!boneStack.empty())
     {
         auto top = boneStack.top();
         allBones.pushBack(top);
@@ -637,13 +629,11 @@ void BoneNode::visitSkins(cocos2d::Renderer* renderer, BoneNode* bone) const
         return;
     }
 
-#if CC_MIGRATION_TO_3_0 > 0
     // IMPORTANT:
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
     _director->pushMatrix(cocos2d::MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     _director->loadMatrix(cocos2d::MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, bone->_modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
 
     if (!bone->_boneSkins.empty())
     {
@@ -652,14 +642,12 @@ void BoneNode::visitSkins(cocos2d::Renderer* renderer, BoneNode* bone) const
             (*it)->visit(renderer, bone->_modelViewTransform, true);
     }
 
-#if CC_MIGRATION_TO_3_0 > 0
     _director->popMatrix(cocos2d::MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
     // FIX ME: Why need to set _orderOfArrival to 0??
     // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
     // reset for next frame
     // _orderOfArrival = 0;
-#endif // CC_MIGRATION_TO_3_0
 }
 
 void BoneNode::setRootSkeleton(BoneNode* bone, SkeletonNode* skeleton) const
@@ -752,7 +740,3 @@ void BoneNode::setAnchorPoint(const cocos2d::Vec2& anchorPoint)
 }
 
 NS_TIMELINE_END
-
-
-#endif // CC_USE_CCS
-

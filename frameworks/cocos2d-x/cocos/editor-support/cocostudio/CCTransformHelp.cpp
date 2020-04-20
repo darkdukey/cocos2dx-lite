@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,12 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
-
 #include "editor-support/cocostudio/CCTransformHelp.h"
+#include <cmath>
 #include "editor-support/cocostudio/CCUtilMath.h"
 
 using namespace cocos2d;
@@ -103,9 +100,9 @@ void TransformHelp::nodeToMatrix(const BaseData &node, AffineTransform &matrix)
 {
     if (node.skewX == -node.skewY)
     {
-        double sine   = sin(node.skewX);
-        double cosine = cos(node.skewX);
-
+        double sine   = std::sin(node.skewX);
+        double cosine = std::cos(node.skewX);
+        
         matrix.a = node.scaleX * cosine;
         matrix.b = node.scaleX * -sine;
         matrix.c = node.scaleY * sine;
@@ -113,10 +110,10 @@ void TransformHelp::nodeToMatrix(const BaseData &node, AffineTransform &matrix)
     }
     else
     {
-        matrix.a = node.scaleX * cos(node.skewY);
-        matrix.b = node.scaleX * sin(node.skewY);
-        matrix.c = node.scaleY * sin(node.skewX);
-        matrix.d = node.scaleY * cos(node.skewX);
+        matrix.a = node.scaleX * std::cos(node.skewY);
+        matrix.b = node.scaleX * std::sin(node.skewY);
+        matrix.c = node.scaleY * std::sin(node.skewX);
+        matrix.d = node.scaleY * std::cos(node.skewX);
     }
 
     matrix.tx = node.x;
@@ -129,8 +126,8 @@ void TransformHelp::nodeToMatrix(const BaseData &node, Mat4 &matrix)
 
     if (node.skewX == -node.skewY)
     {
-        double sine   = sin(node.skewX);
-        double cosine = cos(node.skewX);
+        double sine   = std::sin(node.skewX);
+        double cosine = std::cos(node.skewX);
 
         matrix.m[0] = node.scaleX * cosine;
         matrix.m[1] = node.scaleX * -sine;
@@ -139,12 +136,12 @@ void TransformHelp::nodeToMatrix(const BaseData &node, Mat4 &matrix)
     }
     else
     {
-        matrix.m[0] = node.scaleX * cos(node.skewY);
-        matrix.m[1] = node.scaleX * sin(node.skewY);
-        matrix.m[4] = node.scaleY * sin(node.skewX);
-        matrix.m[5] = node.scaleY * cos(node.skewX);
+        matrix.m[0] = node.scaleX * std::cos(node.skewY);
+        matrix.m[1] = node.scaleX * std::sin(node.skewY);
+        matrix.m[4] = node.scaleY * std::sin(node.skewX);
+        matrix.m[5] = node.scaleY * std::cos(node.skewX);
     }
-
+    
     matrix.m[12] = node.x;
     matrix.m[13] = node.y;
 }
@@ -170,8 +167,8 @@ void TransformHelp::matrixToNode(const AffineTransform &matrix, BaseData &node)
 
     node.skewX = -(atan2f(helpPoint1.y, helpPoint1.x) - 1.5707964f);
     node.skewY = atan2f(helpPoint2.y, helpPoint2.x);
-    node.scaleX = sqrt(matrix.a * matrix.a + matrix.b * matrix.b);
-    node.scaleY = sqrt(matrix.c * matrix.c + matrix.d * matrix.d);
+    node.scaleX = std::sqrt(matrix.a * matrix.a + matrix.b * matrix.b);
+    node.scaleY = std::sqrt(matrix.c * matrix.c + matrix.d * matrix.d);
     node.x = matrix.tx;
     node.y = matrix.ty;
 }
@@ -196,8 +193,8 @@ void TransformHelp::matrixToNode(const Mat4 &matrix, BaseData &node)
 
     node.skewX = -(atan2f(helpPoint1.y, helpPoint1.x) - 1.5707964f);
     node.skewY = atan2f(helpPoint2.y, helpPoint2.x);
-    node.scaleX = sqrt(matrix.m[0] * matrix.m[0] + matrix.m[1] * matrix.m[1]);
-    node.scaleY = sqrt(matrix.m[4] * matrix.m[4] + matrix.m[5] * matrix.m[5]);
+    node.scaleX = std::sqrt(matrix.m[0] * matrix.m[0] + matrix.m[1] * matrix.m[1]);
+    node.scaleY = std::sqrt(matrix.m[4] * matrix.m[4] + matrix.m[5] * matrix.m[5]);
     node.x = matrix.m[12];
     node.y = matrix.m[13];
 }
@@ -224,7 +221,3 @@ void TransformHelp::nodeSub(BaseData &target, BaseData &source)
 }
 
 }
-
-
-#endif // CC_USE_CCS
-

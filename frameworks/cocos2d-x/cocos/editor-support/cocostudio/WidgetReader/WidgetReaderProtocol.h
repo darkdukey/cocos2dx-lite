@@ -1,9 +1,6 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
-/****************************************************************************
+﻿/****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -61,5 +58,3 @@ namespace cocostudio
 }
 
 #endif /* defined(__TestCpp__WidgetReaderProtocol__) */
-
-#endif // CC_USE_CCS

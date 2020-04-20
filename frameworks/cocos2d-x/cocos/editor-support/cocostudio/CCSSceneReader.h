@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,9 +25,6 @@ THE SOFTWARE.
 
 #ifndef __CCSSCENEREADER_H__
 #define __CCSSCENEREADER_H__
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include "editor-support/cocostudio/DictionaryHelper.h"
 #include "editor-support/cocostudio/CocosStudioExport.h"
@@ -69,13 +67,13 @@ public:
     cocos2d::Node* getNodeByTag(int nTag);
     inline AttachComponentType getAttachComponentType(){return _attachComponent;}
 CC_CONSTRUCTOR_ACCESS:
-    SceneReader(void);
-    virtual ~SceneReader(void);
+    SceneReader();
+    virtual ~SceneReader();
     
 private:
     std::string getComponentClassName(const std::string& name);
 
-    cocos2d::Component* createComponent(const std::string classname);
+    cocos2d::Component* createComponent(const std::string& classname);
 
     
     cocos2d::Node* createObject(const rapidjson::Value& dict, cocos2d::Node* parent, AttachComponentType attachComponent);
@@ -97,7 +95,3 @@ private:
 }
 
 #endif
-
-
-#endif // CC_USE_CCS
-

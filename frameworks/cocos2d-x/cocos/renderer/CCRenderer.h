@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2013-2017 Chukong Technologies Inc.
+ Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -60,7 +61,7 @@ NS_CC_BEGIN
 
 class EventListenerCustom;
 class TrianglesCommand;
-//class MeshCommand;
+class MeshCommand;
 
 /** Class that knows how to sort `RenderCommand` objects.
  Since the commands that have `z == 0` are "pushed back" in
@@ -111,11 +112,11 @@ public:
     void saveRenderState();
     /**Restore the saved DepthState, CullState, DepthWriteState render state.*/
     void restoreRenderState();
-
+    
 protected:
     /**The commands in the render queue.*/
     std::vector<RenderCommand*> _commands[QUEUE_COUNT];
-
+    
     /**Cull state.*/
     bool _isCullEnabled;
     /**Depth test enable state.*/
@@ -160,7 +161,7 @@ public:
     void addCommand(RenderCommand* command);
 
     /** Adds a `RenderComamnd` into the renderer specifying a particular render queue ID */
-    void addCommand(RenderCommand* command, int renderQueue);
+    void addCommand(RenderCommand* command, int renderQueueID);
 
     /** Pushes a group into the render queue */
     void pushGroup(int renderQueueID);
@@ -182,6 +183,8 @@ public:
 
     /** set color for clear screen */
     void setClearColor(const Color4F& clearColor);
+    /** get color for clear screen */
+    const Color4F& getClearColor() const { return _clearColor; };
     /* returns the number of drawn batches in the last frame */
     ssize_t getDrawnBatches() const { return _drawnBatches; }
     /* RenderCommands (except) TrianglesCommand should update this value */
@@ -199,7 +202,7 @@ public:
      * For 2D object depth test is disabled by default
      */
     void setDepthTest(bool enable);
-
+    
     //This will not be used outside.
     GroupCommandManager* getGroupCommandManager() const { return _groupCommandManager; }
 
@@ -217,10 +220,10 @@ protected:
 
     //Draw the previews queued triangles and flush previous context
     void flush();
-
+    
     void flush2D();
-
-//    void flush3D();
+    
+    void flush3D();
 
     void flushTriangles();
 
@@ -234,14 +237,14 @@ protected:
     Color4F _clearColor;
 
     std::stack<int> _commandGroupStack;
-
+    
     std::vector<RenderQueue> _renderGroups;
 
-//    MeshCommand* _lastBatchedMeshCommand;
+    MeshCommand* _lastBatchedMeshCommand;
     std::vector<TrianglesCommand*> _queuedTriangleCommands;
 
     //for TrianglesCommand
-    V2F_C4B_T2F _verts[VBO_SIZE];
+    V3F_C4B_T2F _verts[VBO_SIZE];
     GLushort _indices[INDEX_VBO_SIZE];
     GLuint _buffersVAO;
     GLuint _buffersVBO[2]; //0: vertex  1: indices
@@ -267,11 +270,11 @@ protected:
     ssize_t _drawnVertices;
     //the flag for checking whether renderer is rendering
     bool _isRendering;
-
+    
     bool _isDepthTestFor2D;
-
+    
     GroupCommandManager* _groupCommandManager;
-
+    
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     EventListenerCustom* _cacheTextureListener;
 #endif

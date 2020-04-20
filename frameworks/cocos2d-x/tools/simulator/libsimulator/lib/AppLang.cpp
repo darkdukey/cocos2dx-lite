@@ -47,7 +47,7 @@ void AppLang::readLocalizationFile()
         
         if (!fileUtils->isFileExist(_localizationFileName))
         {
-//            cocos2d::log("[WARNING]:not find %s", _localizationFileName.c_str());
+            cocos2d::log("[WARNING]:not find %s", _localizationFileName.c_str());
             return;
         }
         auto fullFilePath = fileUtils->fullPathForFilename(_localizationFileName);

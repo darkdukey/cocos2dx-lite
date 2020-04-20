@@ -60,7 +60,7 @@ ProgressTimer* ProgressTimer::create(Sprite* sp)
         progressTimer->autorelease();
         return progressTimer;
     }
-
+    
     delete progressTimer;
     return nullptr;
 }
@@ -83,7 +83,7 @@ bool ProgressTimer::initWithSprite(Sprite* sp)
     return true;
 }
 
-ProgressTimer::~ProgressTimer(void)
+ProgressTimer::~ProgressTimer()
 {
     CC_SAFE_FREE(_vertexData);
     CC_SAFE_RELEASE(_sprite);
@@ -124,7 +124,7 @@ void ProgressTimer::setSprite(Sprite *sprite)
             _vertexDataCount = 0;
             updateProgress();
         }
-    }
+    }        
 }
 
 void ProgressTimer::setType(Type type)
@@ -165,7 +165,7 @@ Tex2F ProgressTimer::textureCoordFromAlphaPoint(Vec2 alpha)
     if (!_sprite) {
         return ret;
     }
-    V2F_C4B_T2F_Quad quad = _sprite->getQuad();
+    V3F_C4B_T2F_Quad quad = _sprite->getQuad();
     Vec2 min(quad.bl.texCoords.u,quad.bl.texCoords.v);
     Vec2 max(quad.tr.texCoords.u,quad.tr.texCoords.v);
     //  Fix bug #1303 so that progress timer handles sprite frame texture rotation
@@ -181,7 +181,7 @@ Vec2 ProgressTimer::vertexFromAlphaPoint(Vec2 alpha)
     if (!_sprite) {
         return ret;
     }
-    V2F_C4B_T2F_Quad quad = _sprite->getQuad();
+    V3F_C4B_T2F_Quad quad = _sprite->getQuad();
     Vec2 min(quad.bl.vertices.x,quad.bl.vertices.y);
     Vec2 max(quad.tr.vertices.x,quad.tr.vertices.y);
     ret.x = min.x * (1.f - alpha.x) + max.x * alpha.x;
@@ -189,7 +189,7 @@ Vec2 ProgressTimer::vertexFromAlphaPoint(Vec2 alpha)
     return ret;
 }
 
-void ProgressTimer::updateColor(void)
+void ProgressTimer::updateColor()
 {
     if (!_sprite) {
         return;
@@ -201,11 +201,11 @@ void ProgressTimer::updateColor(void)
         for (int i = 0; i < _vertexDataCount; ++i)
         {
             _vertexData[i].colors = sc;
-        }
+        }            
     }
 }
 
-void ProgressTimer::updateProgress(void)
+void ProgressTimer::updateProgress()
 {
     switch (_type)
     {
@@ -262,11 +262,11 @@ void ProgressTimer::setMidpoint(const Vec2& midPoint)
 //    It now doesn't occur the cost of free/alloc data every update cycle.
 //    It also only changes the percentage point but no other points if they have not
 //    been modified.
-//
+//    
 //    It now deals with flipped texture. If you run into this problem, just use the
 //    sprite property and enable the methods flipX, flipY.
 ///
-void ProgressTimer::updateRadial(void)
+void ProgressTimer::updateRadial()
 {
     if (!_sprite) {
         return;
@@ -394,11 +394,11 @@ void ProgressTimer::updateRadial(void)
 //    It now doesn't occur the cost of free/alloc data every update cycle.
 //    It also only changes the percentage point but no other points if they have not
 //    been modified.
-//
+//    
 //    It now deals with flipped texture. If you run into this problem, just use the
 //    sprite property and enable the methods flipX, flipY.
 ///
-void ProgressTimer::updateBar(void)
+void ProgressTimer::updateBar()
 {
     if (!_sprite) {
         return;
@@ -526,12 +526,12 @@ void ProgressTimer::onDraw(const Mat4 &transform, uint32_t /*flags*/)
     }
     else if (_type == Type::BAR)
     {
-        if (!_reverseDirection)
+        if (!_reverseDirection) 
         {
             glDrawArrays(GL_TRIANGLE_STRIP, 0, _vertexDataCount);
             CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1,_vertexDataCount);
         }
-        else
+        else 
         {
             glDrawArrays(GL_TRIANGLE_STRIP, 0, _vertexDataCount/2);
             glDrawArrays(GL_TRIANGLE_STRIP, 4, _vertexDataCount/2);

@@ -1,5 +1,6 @@
 ﻿/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,8 +26,6 @@ THE SOFTWARE.
 #ifndef __CCARMATUREDEFINE_H__
 #define __CCARMATUREDEFINE_H__
 
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #define VERSION_COMBINED 0.30f
 #define VERSION_CHANGE_ROTATION_RANGE 1.0f
@@ -45,7 +44,7 @@ THE SOFTWARE.
 #define ENABLE_PHYSICS_CHIPMUNK_DETECT 0
 #endif
 
-#ifndef ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
+#ifndef ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX 
 #define ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX 1
 #endif
 
@@ -59,7 +58,3 @@ const char *armatureVersion();
 }
 
 #endif /*__CCARMATUREDEFINE_H__*/
-
-
-#endif // CC_USE_CCS
-

@@ -11,20 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CCProtectedNode.h" />
     <ClInclude Include="..\CocosGUI.h" />
     <ClInclude Include="..\GUIExport.h" />
     <ClInclude Include="..\UIButton.h" />
     <ClInclude Include="..\UICheckBox.h" />
     <ClInclude Include="..\UIDeprecated.h" />
     <ClInclude Include="..\UIEditBox\UIEditBox.h" />
-    <ClInclude Include="..\UIEditBox\UIEditBoxImpl-win32.h" />
     <ClInclude Include="..\UIEditBox\UIEditBoxImpl.h" />
+    <ClInclude Include="..\UIEditBox\UIEditBoxImplWin.h" />
     <ClInclude Include="..\UIHBox.h" />
     <ClInclude Include="..\UIHelper.h" />
     <ClInclude Include="..\UIImageView.h" />
     <ClInclude Include="..\UILayout.h" />
-    <ClInclude Include="..\UILayoutComponent.h" />
     <ClInclude Include="..\UILayoutManager.h" />
     <ClInclude Include="..\UILayoutParameter.h" />
     <ClInclude Include="..\UIListView.h" />
@@ -45,16 +43,14 @@
     <ClInclude Include="..\UIWidget.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\CCProtectedNode.cpp" />
     <ClCompile Include="..\CocosGUI.cpp" />
     <ClCompile Include="..\UIButton.cpp" />
     <ClCompile Include="..\UIAbstractCheckButton.cpp" />
     <ClCompile Include="..\UICheckBox.cpp" />
-    <ClCompile Include="..\UIEditBox\UIEditBoxImpl-win32.cpp" />
-    <ClCompile Include="..\UILayoutComponent.cpp" />
     <ClCompile Include="..\UIRadioButton.cpp" />
     <ClCompile Include="..\UIDeprecated.cpp" />
     <ClCompile Include="..\UIEditBox\UIEditBox.cpp" />
+    <ClCompile Include="..\UIEditBox\UIEditBoxImplWin.cpp" />
     <ClCompile Include="..\UIHBox.cpp" />
     <ClCompile Include="..\UIHelper.cpp" />
     <ClCompile Include="..\UIImageView.cpp" />
@@ -88,7 +84,6 @@
     <ProjectGuid>{7E06E92C-537A-442B-9E4A-4761C84F8A1A}</ProjectGuid>
     <RootNamespace>libui</RootNamespace>
     <ProjectName>libui</ProjectName>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -97,7 +92,6 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0'">v120</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120_xp</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>

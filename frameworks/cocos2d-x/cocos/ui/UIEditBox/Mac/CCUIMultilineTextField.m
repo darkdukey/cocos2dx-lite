@@ -23,9 +23,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 #import "ui/UIEditBox/Mac/CCUIMultilineTextField.h"
 
 @interface CCUIMultilineTextField()
@@ -132,5 +129,3 @@
     return 0;
 }
 @end
-
-#endif

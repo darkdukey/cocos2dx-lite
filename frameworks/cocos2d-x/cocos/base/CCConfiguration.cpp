@@ -50,18 +50,16 @@ Configuration::Configuration()
 , _supportsBGRA8888(false)
 , _supportsDiscardFramebuffer(false)
 , _supportsShareableVAO(false)
+, _supportsOESMapBuffer(false)
 , _supportsOESDepth24(false)
 , _supportsOESPackedDepthStencil(false)
-, _supportsOESMapBuffer(false)
 , _maxSamplesAllowed(0)
 , _maxTextureUnits(0)
 , _glExtensions(nullptr)
 , _maxDirLightInShader(1)
 , _maxPointLightInShader(1)
 , _maxSpotLightInShader(1)
-#if CC_USE_3D
 , _animate3DQuality(Animate3DQuality::QUALITY_LOW)
-#endif
 {
     _loadedEvent = new (std::nothrow) EventCustom(CONFIG_FILE_LOADED);
 }
@@ -88,85 +86,6 @@ bool Configuration::init()
 #else
     _valueDict["cocos2d.x.build_type"] = Value("RELEASE");
 #endif
-
-    //
-    ValueVector enableModule;
-    ValueVector disalbeModule;
-
-#if CC_USE_PNG > 0
-    enableModule.push_back(Value("png"));
-#else
-    disalbeModule.push_back(Value("png"));
-#endif
-
-#if CC_USE_JPEG > 0
-    enableModule.push_back(Value("jpeg"));
-#else
-    disalbeModule.push_back(Value("jpeg"));
-#endif
-
-#if CC_USE_TIFF > 0
-    enableModule.push_back(Value("tiff"));
-#else
-    disalbeModule.push_back(Value("tiff"));
-#endif
-
-#if CC_USE_WIC > 0
-    enableModule.push_back(Value("wic"));
-#else
-    disalbeModule.push_back(Value("wic"));
-#endif
-
-#if CC_USE_WEBP > 0
-    enableModule.push_back(Value("webp"));
-#else
-    disalbeModule.push_back(Value("webp"));
-#endif
-
-#if CC_USE_TGA > 0
-    enableModule.push_back(Value("tga"));
-#else
-    disalbeModule.push_back(Value("tga"));
-#endif
-
-#if CC_USE_S3TC > 0
-    enableModule.push_back(Value("s3tc"));
-#else
-    disalbeModule.push_back(Value("s3tc"));
-#endif
-
-#if CC_USE_FREETYPE > 0
-    enableModule.push_back(Value("freetype"));
-#else
-    disalbeModule.push_back(Value("freetype"));
-#endif
-
-#if CC_USE_IMAGE_ZIP > 0
-    enableModule.push_back(Value("image_zip"));
-#else
-    disalbeModule.push_back(Value("image_zip"));
-#endif
-
-#if CC_USE_SPINE > 0
-    enableModule.push_back(Value("spine"));
-#else
-    disalbeModule.push_back(Value("spine"));
-#endif
-
-#if CC_USE_AUDIO_ENGINE > 0
-    enableModule.push_back(Value("audioengine"));
-#else
-    disalbeModule.push_back(Value("audioengine"));
-#endif
-
-#if CC_USE_NETWORK > 0
-    enableModule.push_back(Value("network"));
-#else
-    disalbeModule.push_back(Value("network"));
-#endif
-
-    _valueDict["cocos2d.x.module.enabled"] = enableModule;
-    _valueDict["cocos2d.x.module.disabled"] = disalbeModule;
 
 	return true;
 }
@@ -210,22 +129,22 @@ void Configuration::gatherGPUInfo()
     glGetIntegerv(GL_MAX_SAMPLES_APPLE, &_maxSamplesAllowed);
 	_valueDict["gl.max_samples_allowed"] = Value((int)_maxSamplesAllowed);
 #endif
-
+    
     _supportsETC1 = checkForGLExtension("GL_OES_compressed_ETC1_RGB8_texture");
     _valueDict["gl.supports_ETC1"] = Value(_supportsETC1);
-
+    
     _supportsS3TC = checkForGLExtension("GL_EXT_texture_compression_s3tc");
     _valueDict["gl.supports_S3TC"] = Value(_supportsS3TC);
-
+    
     _supportsATITC = checkForGLExtension("GL_AMD_compressed_ATC_texture");
     _valueDict["gl.supports_ATITC"] = Value(_supportsATITC);
-
+    
     _supportsPVRTC = checkForGLExtension("GL_IMG_texture_compression_pvrtc");
 	_valueDict["gl.supports_PVRTC"] = Value(_supportsPVRTC);
 
     _supportsNPOT = true;
 	_valueDict["gl.supports_NPOT"] = Value(_supportsNPOT);
-
+	
     _supportsBGRA8888 = checkForGLExtension("GL_IMG_texture_format_BGRA8888");
 	_valueDict["gl.supports_BGRA8888"] = Value(_supportsBGRA8888);
 
@@ -245,9 +164,10 @@ void Configuration::gatherGPUInfo()
     _supportsOESDepth24 = checkForGLExtension("GL_OES_depth24");
     _valueDict["gl.supports_OES_depth24"] = Value(_supportsOESDepth24);
 
-
+    
     _supportsOESPackedDepthStencil = checkForGLExtension("GL_OES_packed_depth_stencil");
     _valueDict["gl.supports_OES_packed_depth_stencil"] = Value(_supportsOESPackedDepthStencil);
+
 
     CHECK_GL_ERROR_DEBUG();
 }
@@ -259,7 +179,7 @@ Configuration* Configuration::getInstance()
         s_sharedConfiguration = new (std::nothrow) Configuration();
         s_sharedConfiguration->init();
     }
-
+    
     return s_sharedConfiguration;
 }
 
@@ -378,7 +298,7 @@ bool Configuration::supportsMapBuffer() const
 bool Configuration::supportsOESDepth24() const
 {
     return _supportsOESDepth24;
-
+    
 }
 bool Configuration::supportsOESPackedDepthStencil() const
 {
@@ -402,12 +322,10 @@ int Configuration::getMaxSupportSpotLightInShader() const
     return _maxSpotLightInShader;
 }
 
-#if CC_USE_3D
 Animate3DQuality Configuration::getAnimate3DQuality() const
 {
     return _animate3DQuality;
 }
-#endif
 
 //
 // generic getters for properties
@@ -416,7 +334,7 @@ const Value& Configuration::getValue(const std::string& key, const Value& defaul
 {
     auto iter = _valueDict.find(key);
     if (iter != _valueDict.cend())
-        return _valueDict.at(key);
+        return iter->second;
 
     return defaultValue;
 }
@@ -440,10 +358,10 @@ void Configuration::loadConfigFile(const std::string& filename)
 	auto metadataIter = dict.find("metadata");
 	if (metadataIter != dict.cend() && metadataIter->second.getType() == Value::Type::MAP)
     {
-
+        
 		const auto& metadata = metadataIter->second.asValueMap();
         auto formatIter = metadata.find("format");
-
+        
 		if (formatIter != metadata.cend())
         {
 			int format = formatIter->second.asInt();
@@ -470,7 +388,7 @@ void Configuration::loadConfigFile(const std::string& filename)
 	}
 
 	// Add all keys in the existing dictionary
-
+    
 	const auto& dataMap = dataIter->second.asValueMap();
     for (const auto& dataMapIter : dataMap)
     {
@@ -479,34 +397,32 @@ void Configuration::loadConfigFile(const std::string& filename)
         else
             CCLOG("Key already present. Ignoring '%s'",dataMapIter.first.c_str());
     }
-
+    
     //light info
     std::string name = "cocos2d.x.3d.max_dir_light_in_shader";
 	if (_valueDict.find(name) != _valueDict.end())
         _maxDirLightInShader = _valueDict[name].asInt();
     else
         _valueDict[name] = Value(_maxDirLightInShader);
-
+    
     name = "cocos2d.x.3d.max_point_light_in_shader";
 	if (_valueDict.find(name) != _valueDict.end())
         _maxPointLightInShader = _valueDict[name].asInt();
     else
         _valueDict[name] = Value(_maxPointLightInShader);
-
+    
     name = "cocos2d.x.3d.max_spot_light_in_shader";
 	if (_valueDict.find(name) != _valueDict.end())
         _maxSpotLightInShader = _valueDict[name].asInt();
     else
         _valueDict[name] = Value(_maxSpotLightInShader);
-
-#if CC_USE_3D
+    
     name = "cocos2d.x.3d.animate_quality";
     if (_valueDict.find(name) != _valueDict.end())
         _animate3DQuality = (Animate3DQuality)_valueDict[name].asInt();
     else
         _valueDict[name] = Value((int)_animate3DQuality);
-#endif
-
+    
     Director::getInstance()->getEventDispatcher()->dispatchEvent(_loadedEvent);
 }
 

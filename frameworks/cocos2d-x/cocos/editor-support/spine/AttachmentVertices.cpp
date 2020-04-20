@@ -28,7 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-#include <spine/AttachmentVertices.h>
+#include "spine/AttachmentVertices.h"
 
 USING_NS_CC;
 
@@ -38,7 +38,7 @@ AttachmentVertices::AttachmentVertices (Texture2D* texture, int verticesCount, u
 	_texture = texture;
 
 	_triangles = new TrianglesCommand::Triangles();
-	_triangles->verts = new V2F_C4B_T2F[verticesCount];
+	_triangles->verts = new V3F_C4B_T2F[verticesCount];
 	_triangles->vertCount = verticesCount;
 	_triangles->indices = triangles;
 	_triangles->indexCount = trianglesCount;

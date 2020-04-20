@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2015-2017 Chukong Technologies Inc.
+Copyright (c) 2015-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
 http://www.cocos2d-x.org
 
@@ -25,11 +26,6 @@ THE SOFTWARE.
 
 #ifndef __CCBONENODE_H__
 #define __CCBONENODE_H__
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 
 #include "base/CCProtocols.h"
 #include "2d/CCNode.h"
@@ -233,6 +229,3 @@ private:
 
 NS_TIMELINE_END
 #endif //__CCBONENODE_H__
-
-#endif // CC_USE_CCS
-

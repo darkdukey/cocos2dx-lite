@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,10 +25,6 @@ THE SOFTWARE.
 
 #ifndef __CCTRANSFORMHELP_H__
 #define __CCTRANSFORMHELP_H__
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include "editor-support/cocostudio/CCArmatureDefine.h"
 #include "editor-support/cocostudio/CCDatas.h"
@@ -69,7 +66,3 @@ public:
 }
 
 #endif /*__CCTRANSFORMHELP_H__*/
-
-
-#endif // CC_USE_CCS
-

@@ -138,12 +138,8 @@ function Node:onNodeEvent(eventName, callback)
         self.onExitTransitionStartCallback_ = callback
     elseif "cleanup" == eventName then
         self.onCleanupCallback_ = callback
-    elseif 'destroy' == eventName then
-        self.onDestroyCallback_ = callback
     end
     self:enableNodeEvents()
-
-    return self
 end
 
 function Node:enableNodeEvents()
@@ -162,8 +158,6 @@ function Node:enableNodeEvents()
             self:onExitTransitionStart_()
         elseif state == "cleanup" then
             self:onCleanup_()
-        elseif state == "destroy" then
-            self:onDestroy_()
         end
     end)
     self.isNodeEventEnabled_ = true
@@ -191,9 +185,6 @@ function Node:onExitTransitionStart()
 end
 
 function Node:onCleanup()
-end
-
-function Node:onDestroy()
 end
 
 function Node:onEnter_()
@@ -234,41 +225,4 @@ function Node:onCleanup_()
         return
     end
     self:onCleanupCallback_()
-end
-
-function Node:onDestroy_()
-    self:onDestroy()
-    if not self.onDestroyCallback_ then
-        return
-    end
-    self:onDestroyCallback_()
-end
-
-
-function Node:schedule(callback,interval)
-    local seq = transition.sequence({
-        cc.DelayTime:create(interval),
-        cc.CallFunc:create(callback),
-    })
-    local action = cc.RepeatForever:create(seq)
-    self:runAction(action)
-    return action
-end
---[[
-@path 'a.b.c'
-]]
-function Node:getnode( path )
-    local node = self
-    for _,v in pairs(path:split('.')) do
-        node = node:getChildByName(v)
-    end
-    return node
-end
-
-function Node:performWithDelay( callback, delay)
-  local seq = transition.sequence({
-    cc.DelayTime:create(delay),
-    cc.CallFunc:create(callback),
-  })
-  self:runAction(seq)
 end

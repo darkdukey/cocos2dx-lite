@@ -1,6 +1,7 @@
 /****************************************************************************
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2012 Jozef Pridavok
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -22,9 +23,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
@@ -231,4 +229,3 @@ NS_CC_END
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
 
-#endif //

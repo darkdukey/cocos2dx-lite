@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -21,9 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include "editor-support/cocostudio/CCBatchNode.h"
 #include "editor-support/cocostudio/CCArmature.h"
@@ -119,25 +117,21 @@ void BatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t 
 
     if (isVisitableByVisitingCamera())
     {
-#if CC_MIGRATION_TO_3_0 > 0
         // IMPORTANT:
         // To ease the migration to v3.0, we still support the Mat4 stack,
         // but it is deprecated and your code should not rely on it
         Director* director = Director::getInstance();
         director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
         director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
-
+        
         sortAllChildren();
         draw(renderer, _modelViewTransform, flags);
-
-#if CC_MIGRATION_TO_3_0 > 0
+        
         // FIX ME: Why need to set _orderOfArrival to 0??
         // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
         // setOrderOfArrival(0);
-
+        
         director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-#endif // CC_MIGRATION_TO_3_0
     }
 }
 
@@ -161,14 +155,14 @@ void BatchNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
                 generateGroupCommand();
                 pushed = true;
             }
-
+        
             armature->visit(renderer, transform, flags);
         }
         else
         {
             renderer->popGroup();
             pushed = false;
-
+            
             ((Node *)object)->visit(renderer, transform, flags);
         }
     }
@@ -184,7 +178,3 @@ void BatchNode::generateGroupCommand()
 }
 
 }
-
-
-#endif // CC_USE_CCS
-

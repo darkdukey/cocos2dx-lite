@@ -92,7 +92,7 @@ bool ParticleBatchNode::initWithTexture(Texture2D *tex, int capacity)
     _textureAtlas->initWithTexture(tex, capacity);
 
     _children.reserve(capacity);
-
+    
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 
     setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR, tex));
@@ -131,20 +131,16 @@ void ParticleBatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, u
 
     if (isVisitableByVisitingCamera())
     {
-#if CC_MIGRATION_TO_3_0 > 0
         // IMPORTANT:
         // To ease the migration to v3.0, we still support the Mat4 stack,
         // but it is deprecated and your code should not rely on it
         Director* director = Director::getInstance();
         director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
         director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
-
+        
         draw(renderer, _modelViewTransform, flags);
-
-#if CC_MIGRATION_TO_3_0 > 0
+        
         director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-#endif // CC_MIGRATION_TO_3_0
     }
 }
 
@@ -155,7 +151,7 @@ void ParticleBatchNode::addChild(Node * aChild, int zOrder, int tag)
     CCASSERT( dynamic_cast<ParticleSystem*>(aChild) != nullptr, "CCParticleBatchNode only supports QuadParticleSystems as children");
     ParticleSystem* child = static_cast<ParticleSystem*>(aChild);
     CCASSERT( child->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCParticleSystem is not using the same texture id");
-
+    
     addChildByTagOrName(child, zOrder, tag, "", true);
 }
 
@@ -165,7 +161,7 @@ void ParticleBatchNode::addChild(Node * aChild, int zOrder, const std::string &n
     CCASSERT( dynamic_cast<ParticleSystem*>(aChild) != nullptr, "CCParticleBatchNode only supports QuadParticleSystems as children");
     ParticleSystem* child = static_cast<ParticleSystem*>(aChild);
     CCASSERT( child->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCParticleSystem is not using the same texture id");
-
+   
     addChildByTagOrName(child, zOrder, 0, name, false);
 }
 
@@ -176,19 +172,19 @@ void ParticleBatchNode::addChildByTagOrName(ParticleSystem* child, int zOrder, i
     {
         setBlendFunc(child->getBlendFunc());
     }
-
+    
     CCASSERT( _blendFunc.src  == child->getBlendFunc().src && _blendFunc.dst  == child->getBlendFunc().dst, "Can't add a ParticleSystem that uses a different blending function");
-
+    
     //no lazy sorting, so don't call super addChild, call helper instead
     int pos = 0;
     if (setTag)
         pos = addChildHelper(child, zOrder, tag, "", true);
     else
         pos = addChildHelper(child, zOrder, 0, name, false);
-
+    
     //get new atlasIndex
     int atlasIndex = 0;
-
+    
     if (pos != 0)
     {
         ParticleSystem* p = static_cast<ParticleSystem*>(_children.at(pos-1));
@@ -198,9 +194,9 @@ void ParticleBatchNode::addChildByTagOrName(ParticleSystem* child, int zOrder, i
     {
         atlasIndex = 0;
     }
-
+    
     insertChild(child, atlasIndex);
-
+    
     // update quad info
     child->setBatchNode(this);
 }
@@ -225,7 +221,7 @@ int ParticleBatchNode::addChildHelper(ParticleSystem* child, int z, int aTag, co
         child->setTag(aTag);
     else
         child->setName(name);
-
+    
     child->setLocalZOrder(z);
 
     child->setParent(this);
@@ -433,7 +429,7 @@ void ParticleBatchNode::increaseAtlasCapacityTo(ssize_t quantity)
 //sets a 0'd quad into the quads array
 void ParticleBatchNode::disableParticle(int particleIndex)
 {
-    V2F_C4B_T2F_Quad* quad = &((_textureAtlas->getQuads())[particleIndex]);
+    V3F_C4B_T2F_Quad* quad = &((_textureAtlas->getQuads())[particleIndex]);
     quad->br.vertices.x = quad->br.vertices.y = quad->tr.vertices.x = quad->tr.vertices.y = quad->tl.vertices.x = quad->tl.vertices.y = quad->bl.vertices.x = quad->bl.vertices.y = 0.0f;
 }
 
@@ -468,7 +464,7 @@ void ParticleBatchNode::insertChild(ParticleSystem* system, int index)
 void ParticleBatchNode::updateAllAtlasIndexes()
 {
     int index = 0;
-
+    
     for(const auto &child : _children) {
         ParticleSystem* partiSys = static_cast<ParticleSystem*>(child);
         partiSys->setAtlasIndex(index);

@@ -64,19 +64,15 @@ Ref::Ref()
 Ref::~Ref()
 {
 #if CC_ENABLE_SCRIPT_BINDING
-    // if the object is referenced by Lua engine, remove it
-    if (_luaID)
+    ScriptEngineProtocol* pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+    if (pEngine != nullptr && _luaID)
     {
-        ScriptEngineProtocol* pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
-        if (pEngine)
-        {
-            pEngine->removeScriptObjectByObject(this);
-        }
+        // if the object is referenced by Lua engine, remove it
+        pEngine->removeScriptObjectByObject(this);
     }
 #if !CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     else
     {
-        ScriptEngineProtocol* pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
         if (pEngine != nullptr && pEngine->getScriptType() == kScriptTypeJavascript)
         {
             pEngine->removeScriptObjectByObject(this);
@@ -139,6 +135,14 @@ void Ref::release()
             CCASSERT(false, "The reference shouldn't be 0 because it is still in autorelease pool.");
         }
 #endif
+
+#if CC_ENABLE_SCRIPT_BINDING
+        ScriptEngineProtocol* pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+        if (pEngine != nullptr && pEngine->getScriptType() == kScriptTypeJavascript)
+        {
+            pEngine->removeObjectProxy(this);
+        }
+#endif // CC_ENABLE_SCRIPT_BINDING
 
 #if CC_REF_LEAK_DETECTION
         untrackRef(this);

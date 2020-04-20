@@ -32,11 +32,11 @@ THE SOFTWARE.
 #include <string>
 #include "2d/CCNode.h"
 #include "2d/CCDrawNode.h"
-#include "2d/CCPolygonInfo.h"
 #include "base/CCProtocols.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCTrianglesCommand.h"
 #include "renderer/CCCustomCommand.h"
+#include "2d/CCAutoPolygon.h"
 
 NS_CC_BEGIN
 
@@ -126,7 +126,7 @@ public:
      * @return  An autoreleased sprite object.
      */
     static Sprite* create(const std::string& filename);
-
+    
     /**
      * Creates a polygon sprite with a polygon info.
      *
@@ -184,7 +184,7 @@ public:
      * A SpriteFrame will be fetched from the SpriteFrameCache by spriteFrameName param.
      * If the SpriteFrame doesn't exist it will raise an exception.
      *
-     * @param   spriteFrameName A null terminated string which indicates the sprite frame name.
+     * @param   spriteFrameName The name of sprite frame.
      * @return  An autoreleased sprite object.
      */
     static Sprite* createWithSpriteFrameName(const std::string& spriteFrameName);
@@ -358,7 +358,7 @@ public:
      * @js  NA
      * @lua NA
      */
-    V2F_C4B_T2F_Quad getQuad() const { return _quad; }
+    V3F_C4B_T2F_Quad getQuad() const { return _quad; }
 
     /**
      * Returns whether or not the texture rectangle is rotated.
@@ -533,9 +533,9 @@ public:
     virtual void setPositionZ(float positionZ) override;
     virtual void setAnchorPoint(const Vec2& anchor) override;
     virtual void setContentSize(const Size& size) override;
-
+    
     virtual void setIgnoreAnchorPointForPosition(bool value) override;
-
+    
     virtual void setVisible(bool bVisible) override;
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
     virtual void setOpacityModifyRGB(bool modify) override;
@@ -565,8 +565,8 @@ CC_CONSTRUCTOR_ACCESS :
      * @return  True if the sprite is initialized properly, false otherwise.
      */
     virtual bool initWithTexture(Texture2D *texture);
-
-
+    
+    
     /**
      * Initializes a sprite with a PolygonInfo.
      *
@@ -647,14 +647,14 @@ CC_CONSTRUCTOR_ACCESS :
      * @lua     init
      */
     virtual bool initWithFile(const std::string& filename, const Rect& rect);
-
+    
 protected:
 
     virtual void updateColor() override;
     virtual void setTextureCoords(const Rect& rect);
-    virtual void setTextureCoords(const Rect& rect, V2F_C4B_T2F_Quad* outQuad);
-    virtual void setVertexCoords(const Rect& rect, V2F_C4B_T2F_Quad* outQuad);
-    void populateTriangle(int quadIndex, const V2F_C4B_T2F_Quad& quad);
+    virtual void setTextureCoords(const Rect& rect, V3F_C4B_T2F_Quad* outQuad);
+    virtual void setVertexCoords(const Rect& rect, V3F_C4B_T2F_Quad* outQuad);
+    void populateTriangle(int quadIndex, const V3F_C4B_T2F_Quad& quad);
     virtual void updateBlendFunc();
     virtual void setReorderChildDirtyRecursively();
     virtual void setDirtyRecursively(bool value);
@@ -706,13 +706,13 @@ protected:
     Vec2 _unflippedOffsetPositionFromCenter;
 
     // vertex coords, texture coords and color info
-    V2F_C4B_T2F_Quad _quad;
-    V2F_C4B_T2F* _trianglesVertex;
+    V3F_C4B_T2F_Quad _quad;
+    V3F_C4B_T2F* _trianglesVertex;
     unsigned short* _trianglesIndex;
     PolygonInfo  _polyInfo;
 
     // opacity and RGB protocol
-    bool _opacityModifyRGB;
+    bool _opacityModifyRGB = false;
 
     // image is flipped
     bool _flippedX;                         /// Whether the sprite is flipped horizontally or not

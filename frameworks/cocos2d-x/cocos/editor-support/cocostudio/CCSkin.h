@@ -1,5 +1,6 @@
 ﻿/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,11 +25,6 @@ THE SOFTWARE.
 
 #ifndef __CCSKIN_H__
 #define __CCSKIN_H__
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 
 #include "2d/CCSprite.h"
 #include "renderer/CCQuadCommand.h"
@@ -89,7 +85,3 @@ protected:
 }
 
 #endif /*__CCSKIN_H__*/
-
-
-#endif // CC_USE_CCS
-

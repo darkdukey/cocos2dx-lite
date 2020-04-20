@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,10 +25,6 @@ THE SOFTWARE.
 #ifndef __TRIGGERMNG_H__
 #define __TRIGGERMNG_H__
 
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 #include "editor-support/cocostudio/CocoStudio.h"
 
 namespace cocos2d {
@@ -42,13 +39,13 @@ class TriggerObj;
 class CC_STUDIO_DLL ArmatureMovementDispatcher : public cocos2d::Ref
 {
 public:
-	ArmatureMovementDispatcher(void);
-	~ArmatureMovementDispatcher(void);
+	ArmatureMovementDispatcher();
+	~ArmatureMovementDispatcher();
 public:
 	void addAnimationEventCallBack(cocos2d::Ref*pTarget, SEL_MovementEventCallFunc mecf);
 	void removeAnnimationEventCallBack(cocos2d::Ref*pTarget, SEL_MovementEventCallFunc mecf);
 	void animationEvent(Armature *armature, MovementEventType movementType, const std::string& movementID);
-
+    
 private:
 	std::unordered_map<cocos2d::Ref*, SEL_MovementEventCallFunc> *_mapEventAnimation;
 
@@ -57,23 +54,23 @@ private:
 class CC_STUDIO_DLL TriggerMng
 {
 public:
-    TriggerMng(void);
-    virtual ~TriggerMng(void);
+    TriggerMng();
+    virtual ~TriggerMng();
 
 public:
     static TriggerMng* getInstance();
     static void destroyInstance();
     static const char* triggerMngVersion();
-
+    
 public:
     void parse(const rapidjson::Value &root);
     void parse(cocostudio::CocoLoader *pCocoLoader, cocostudio::stExpCocoNode *pCocoNode);
-    void removeAll(void);
+    void removeAll();
     cocos2d::Vector<TriggerObj*>* get(unsigned int event) const;
     TriggerObj* getTriggerObj(unsigned int id) const;
     bool removeTriggerObj(TriggerObj *Obj);
     bool removeTriggerObj(unsigned int id);
-    bool isEmpty(void) const;
+    bool isEmpty() const;
 
     void addArmatureMovementCallBack(Armature *pAr, cocos2d::Ref *pTarget, SEL_MovementEventCallFunc mecf);
     void removeArmatureMovementCallBack(Armature *pAr, cocos2d::Ref *pTarget, SEL_MovementEventCallFunc mecf);
@@ -95,7 +92,3 @@ private:
 }
 
 #endif
-
-
-#endif // CC_USE_CCS
-

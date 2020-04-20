@@ -60,18 +60,18 @@ public:
      *
      * @return the instance of LuaEngine.
      */
-    static LuaEngine* getInstance(void);
+    static LuaEngine* getInstance();
     /**
      * Get defaultEngine of LuaEngine, it was deprecated.
      *
      * @return the instance of LuaEngine.
      */
-    CC_DEPRECATED_ATTRIBUTE static LuaEngine* defaultEngine(void) { return LuaEngine::getInstance(); }
+    CC_DEPRECATED_ATTRIBUTE static LuaEngine* defaultEngine() { return LuaEngine::getInstance(); }
     
     /** 
      * Destructor of LuaEngine.
      */
-    virtual ~LuaEngine(void);
+    virtual ~LuaEngine();
     
     /**
      * Get ccScriptType of LuaEngine used, it is always kScriptTypeLua.
@@ -88,7 +88,7 @@ public:
      *
      * @return LuaStack object.
      */
-    LuaStack *getLuaStack(void) {
+    LuaStack *getLuaStack() {
         return _stack;
     }
     
@@ -215,13 +215,13 @@ public:
      * @param func The callback would be called when numResults is > 0.
      * @return default return 0 otherwise return values according different ScriptHandlerMgr::HandlerType.
      */
-    //virtual int handleEvent(ScriptHandlerMgr::HandlerType type, void* data, int numResults, const std::function<void(lua_State*,int)>& func);
+    virtual int handleEvent(ScriptHandlerMgr::HandlerType type, void* data, int numResults, const std::function<void(lua_State*,int)>& func);
 private:
-    LuaEngine(void)
+    LuaEngine()
     : _stack(nullptr)
     {
     }
-    bool init(void);
+    bool init();
     int handleNodeEvent(void* data);
     int handleMenuClickedEvent(void* data);
     int handleCallFuncActionEvent(void* data);
@@ -233,6 +233,10 @@ private:
     int handleTouchesEvent(void* data);
     int handlerControlEvent(void* data);
     int handleEvenCustom(void* data);
+    int handleAssetsManagerEvent(ScriptHandlerMgr::HandlerType type,void* data);
+    int handleTableViewEvent(ScriptHandlerMgr::HandlerType type,void* data);
+    int handleTableViewEvent(ScriptHandlerMgr::HandlerType type,void* data, int numResults, const std::function<void(lua_State*,int)>& func);
+    int handleArmatureWrapper(ScriptHandlerMgr::HandlerType type,void* data);
     int handleEventAcc(void* data);
     int handleEventKeyboard(ScriptHandlerMgr::HandlerType type,void* data);
     int handleEventTouch(ScriptHandlerMgr::HandlerType type, void* data);

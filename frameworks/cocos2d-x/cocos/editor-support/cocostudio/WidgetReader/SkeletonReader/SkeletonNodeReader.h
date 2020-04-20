@@ -1,9 +1,6 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 /****************************************************************************
-Copyright (c) 2015 Chukong Technologies Inc.
+Copyright (c) 2015-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
 http://www.cocos2d-x.org
 
@@ -48,4 +45,3 @@ public:
     cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* boneOptions) override;
 };
 #endif //_SKELETONNODEREADER_H_
-#endif // CC_USE_CCS

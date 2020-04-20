@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -35,8 +31,6 @@ namespace ui {
     
 const Margin MarginZero =  Margin::ZERO ;
     
-}}
-
-
-#endif // CC_USE_UI
-
+}
+ 
+NS_CC_END

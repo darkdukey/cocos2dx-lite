@@ -333,7 +333,7 @@ static void glfwDropFunc(GLFWwindow *window, int count, const char **files)
     NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
     fs->addSearchPath(resourcePath.UTF8String);
     
-    auto resRootPath = getCurAppPath() + "/../../../";
+    auto resRootPath = getCurAppPath() + "/../";
     fs->setDefaultResourceRootPath(resRootPath);
 
     // app

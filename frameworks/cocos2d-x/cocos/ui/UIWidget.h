@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -31,7 +27,6 @@ THE SOFTWARE.
 #define __UIWIDGET_H__
 
 #include "2d/CCProtectedNode.h"
-
 #include "ui/UILayoutParameter.h"
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
@@ -61,7 +56,7 @@ typedef enum
     TOUCH_EVENT_ENDED,
     TOUCH_EVENT_CANCELED
 }TouchEventType;
-
+    
 /**
  * Touch event callback.
  *@deprecated use `Widget::ccWidgetTouchCallback` instead
@@ -94,7 +89,7 @@ public:
         UP,
         DOWN
     };
-
+    
     /**
      * Widget position type for layout.
      */
@@ -103,7 +98,7 @@ public:
         ABSOLUTE,
         PERCENT
     };
-
+    
     /**
      * Widget size type for layout.
      */
@@ -112,7 +107,7 @@ public:
         ABSOLUTE,
         PERCENT
     };
-
+    
     /**
      * Touch event type.
      */
@@ -123,7 +118,7 @@ public:
         ENDED,
         CANCELED
     };
-
+    
     /**
      * Texture resource type.
      * - LOCAL:  It means the texture is loaded from image.
@@ -134,7 +129,7 @@ public:
         LOCAL = 0,
         PLIST = 1
     };
-
+    
     /**
      * Widget bright style.
      */
@@ -145,7 +140,7 @@ public:
         HIGHLIGHT
     };
 
-
+    
     /**
      * Widget touch event callback.
      */
@@ -164,8 +159,8 @@ public:
      * @js ctor
      * @lua new
      */
-    Widget(void);
-
+    Widget();
+    
     /**
      * Default destructor
      * @js NA
@@ -179,7 +174,7 @@ public:
 
     /**
      * Sets whether the widget is enabled
-     *
+     * 
      * true if the widget is enabled, widget may be touched , false if the widget is disabled, widget cannot be touched.
      *
      * Note: If you want to change the widget's appearance  to disabled state, you should also call  `setBright(false)`.
@@ -317,7 +312,7 @@ public:
      *@param callback  The callback in `ccWidgetEventCallback.`
      */
     void addTouchEventListener(const ccWidgetTouchCallback& callback);
-
+    
     /**
      * Set a click event handler to the widget.
      * @param callback The callback in `ccWidgetClickCallback`.
@@ -430,7 +425,7 @@ public:
     virtual float getScaleY() const override;
     virtual float getScale() const override;
     using Node::getScaleZ;
-
+    
     /**
      * Checks a point if in parent's area.
      *
@@ -525,17 +520,17 @@ public:
      * @return Widget content size.
      */
     CC_DEPRECATED_ATTRIBUTE const Size& getSize() const;
-
+    
     /**
      * Get the user defined widget size.
      *@return User defined size.
      */
     const Size& getCustomSize() const;
-
+    
     /**
      * Get the content size of widget.
      * @warning This API exists mainly for keeping back compatibility.
-     * @return
+     * @return 
      */
     virtual const Size& getLayoutSize() {return _contentSize;};
 
@@ -614,7 +609,7 @@ public:
 
     /**
      * Toggle whether ignore user defined content size for widget.
-     * Set true will ignore user defined content size which means
+     * Set true will ignore user defined content size which means 
      * the widget size is always equal to the return value of `getVirtualRendererSize`.
      *
      * @param ignore set member variable _ignoreSize to ignore
@@ -650,7 +645,7 @@ public:
      *@return Widget virtual renderer size.
      */
     virtual Size getVirtualRendererSize() const;
-
+    
 
     /**
      * Returns the string representation of widget class name
@@ -667,7 +662,7 @@ public:
      * @lua NA
      */
     virtual void onEnter() override;
-
+    
     /**
      * @lua NA
      */
@@ -683,7 +678,7 @@ public:
      * Update all children's contents size and position recursively.
      */
     void updateSizeAndPosition(const Size& parentSize);
-
+    
     /**
      * Set the tag of action.
      *@param tag  A integer tag value.
@@ -695,22 +690,22 @@ public:
      *@return Action tag.
      */
     int getActionTag()const;
-
+    
     /**
      * @brief Allow widget touch events to propagate to its parents. Set false will disable propagation
      * @param isPropagate  True to allow propagation, false otherwise.
      * @since v3.3
      */
     void setPropagateTouchEvents(bool isPropagate);
-
+    
     /**
      * Return whether the widget is propagate touch events to its parents or not
      * @return whether touch event propagation is allowed or not.
      * @since v3.3
      */
-
+     
     bool isPropagateTouchEvents()const;
-
+    
     /**
      * Toggle widget swallow touch option.
      * @brief Specify widget to swallow touches or not
@@ -718,47 +713,47 @@ public:
      * @since v3.3
      */
     void setSwallowTouches(bool swallow);
-
+    
     /**
      * Return whether the widget is swallowing touch or not
      * @return Whether touch is swallowed.
      * @since v3.3
      */
     bool isSwallowTouches()const;
-
+    
     /**
      * Query whether widget is focused or not.
      *@return  whether the widget is focused or not
      */
     bool isFocused()const;
-
+    
     /**
      * Toggle widget focus status.
      *@param focus  pass true to let the widget get focus or pass false to let the widget lose focus
      */
     void setFocused(bool focus);
-
+    
     /**
      * Query widget's focus enable state.
      *@return true represent the widget could accept focus, false represent the widget couldn't accept focus
      */
     bool isFocusEnabled()const;
-
+    
     /**
      * Allow widget to accept focus.
      *@param enable pass true/false to enable/disable the focus ability of a widget
      */
     void setFocusEnabled(bool enable);
-
+    
     /**
-     *  When a widget is in a layout, you could call this method to get the next focused widget within a specified direction.
+     *  When a widget is in a layout, you could call this method to get the next focused widget within a specified direction. 
      *  If the widget is not in a layout, it will return itself
      *@param direction the direction to look for the next focused widget in a layout
      *@param current  the current focused widget
      *@return the next focused widget in a layout
      */
     virtual Widget* findNextFocusedWidget(FocusDirection direction, Widget* current);
-
+    
     /**
      * when a widget calls this method, it will get focus immediately.
      */
@@ -786,7 +781,7 @@ public:
     static void enableDpadNavigation(bool enable);
 
     /**
-     * When a widget lose/get focus, this method will be called. Be Caution when you provide your own version,
+     * When a widget lose/get focus, this method will be called. Be Caution when you provide your own version, 
      * you must call widget->setFocused(true/false) to change the focus state of the current focused widget;
      */
     std::function<void(Widget*,Widget*)> onFocusChanged;
@@ -795,7 +790,7 @@ public:
      * use this function to manually specify the next focused widget regards to each direction
      */
     std::function<Widget*(FocusDirection)> onNextFocusedWidget;
-
+    
     /**
      *Toggle use unify size.
      *@param enable True to use unify size, false otherwise.
@@ -803,7 +798,7 @@ public:
     void setUnifySizeEnabled(bool enable);
 
     /**
-     * Query whether unify size enable state.
+     * Query whether unify size enable state. 
      *@return true represent the widget use Unify Size, false represent the widget couldn't use Unify Size
      */
     bool isUnifySizeEnabled()const;
@@ -820,7 +815,7 @@ public:
      *@return The callback name.
      */
     const std::string& getCallbackName() const{ return _callbackName; }
-
+    
     /**
      * Set callback type.
      * @param callbackType A string representation of callback type.
@@ -840,7 +835,7 @@ public:
     void setLayoutComponentEnabled(bool enable);
 
     /**
-     * Query whether layout component is enabled or not.
+     * Query whether layout component is enabled or not. 
      *@return true represent the widget use Layout Component, false represent the widget couldn't use Layout Component.
      */
     bool isLayoutComponentEnabled()const;
@@ -851,19 +846,19 @@ CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
 
     /*
-     * @brief Sends the touch event to widget's parent, if a widget wants to handle touch event under another widget,
+     * @brief Sends the touch event to widget's parent, if a widget wants to handle touch event under another widget, 
      *        it must override this function.
      * @param  event  the touch event type, it could be BEGAN/MOVED/CANCELED/ENDED
      * @param parent
      * @param point
      */
     virtual void interceptTouchEvent(TouchEventType event, Widget* sender, Touch *touch);
-
+    
     /**
      *@brief Propagate touch events to its parents
      */
     void propagateTouchEvent(TouchEventType event, Widget* sender, Touch *touch);
-
+    
     friend class PageView;
     /**
      * This method is called when a focus change event happens
@@ -871,29 +866,29 @@ CC_CONSTRUCTOR_ACCESS:
      *@param widgetGetFocus  The widget which get its focus
      */
     void onFocusChange(Widget* widgetLostFocus, Widget* widgetGetFocus);
-
+    
     /**
      * Dispatch a EventFocus through a EventDispatcher
      *@param widgetLoseFocus  The widget which lose its focus
      *@param widgetGetFocus he widget which get its focus
      */
     void  dispatchFocusEvent(Widget* widgetLoseFocus, Widget* widgetGetFocus);
-
+    
 protected:
     /**
      * Get a normal state GLProgramState
      *@since v3.4
      */
-
+    
     GLProgramState* getNormalGLProgramState(Texture2D* texture)const;
-
+    
     /**
      * Get a disabled state GLProgramState
      *@since v3.4
      */
     GLProgramState* getGrayGLProgramState(Texture2D* texture)const;
-
-
+     
+    
     //call back function called when size changed.
     virtual void onSizeChanged();
 
@@ -913,18 +908,18 @@ protected:
     virtual void releaseUpEvent();
     virtual void cancelUpEvent();
 
-
+    
     virtual void adaptRenderers(){};
     void updateChildrenDisplayedRGBA();
-
+    
     void copyProperties(Widget* model);
     virtual Widget* createCloneInstance();
     virtual void copySpecialProperties(Widget* model);
     virtual void copyClonedWidgetChildren(Widget* model);
-
+    
     Widget* getWidgetParent();
     void updateContentSizeWithTextureSize(const Size& size);
-
+    
     bool isAncestorsEnabled();
     Widget* getAncestorWidget(Node* node);
     bool isAncestorsVisible(Node* node);
@@ -997,7 +992,7 @@ protected:
     ccWidgetTouchCallback _touchEventCallback;
     ccWidgetClickCallback _clickEventListener;
     ccWidgetEventCallback _ccEventCallback;
-
+    
     std::string _callbackType;
     std::string _callbackName;
 private:
@@ -1011,7 +1006,3 @@ NS_CC_END
 /// @}
 
 #endif /* defined(__Widget__) */
-
-
-#endif // CC_USE_UI
-

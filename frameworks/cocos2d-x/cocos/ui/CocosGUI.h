@@ -1,8 +1,3 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
@@ -64,7 +59,7 @@ THE SOFTWARE.
 #include "ui/UIEditBox/UIEditBox.h"
 #include "ui/UILayoutComponent.h"
 #include "ui/UITabControl.h"
-#include "base/CCResourceData.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 /**
  * @addtogroup ui
@@ -87,7 +82,3 @@ NS_CC_END
 /// @}
 
 #endif /* defined(__CocosGUITest__Cocos__) */
-
-
-#endif // CC_USE_UI
-

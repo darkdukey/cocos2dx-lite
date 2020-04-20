@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
-/****************************************************************************
+﻿/****************************************************************************
 Copyright (c) 2013 cocos2d-x.org
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -31,7 +27,6 @@ THE SOFTWARE.
 #define __CCTIMELINE_ACTION_CACHE_H__
 
 #include <unordered_map>
-#include <functional>
 #include "base/CCMap.h"
 #include "base/CCData.h"
 
@@ -42,7 +37,7 @@ THE SOFTWARE.
 namespace flatbuffers
 {
     class FlatBufferBuilder;
-
+    
     struct NodeAction;
     struct TimeLine;
     struct PointFrame;
@@ -65,8 +60,8 @@ class Frame;
 
 class CC_STUDIO_DLL ActionTimelineCache
 {
-public:
-
+public:    
+    
     /** Gets the singleton */
     static ActionTimelineCache* getInstance();
 
@@ -79,7 +74,7 @@ public:
 
     /** Remove action with filename, and also remove other resource relate with this file */
     void removeAction(const std::string& fileName);
-
+    
     static ActionTimeline* createAction(const std::string& fileName);
 
     /** Clone a action with the specified name from the container. */
@@ -88,15 +83,15 @@ public:
 
     ActionTimeline* loadAnimationActionWithFile(const std::string& fileName);
     ActionTimeline* loadAnimationActionWithContent(const std::string&fileName, const std::string& content);
-
+    
     ActionTimeline* createActionWithFlatBuffersFile(const std::string& fileName);
-    ActionTimeline* createActionWithDataBuffer(cocos2d::Data data, const std::string &fileName);
+    ActionTimeline* createActionWithDataBuffer(const cocos2d::Data& data, const std::string &fileName);
 
     ActionTimeline* loadAnimationActionWithFlatBuffersFile(const std::string& fileName);
     ActionTimeline* loadAnimationWithDataBuffer(const cocos2d::Data& data, const std::string& fileName);
-
+    
     ActionTimeline* createActionWithFlatBuffersForSimulator(const std::string& fileName);
-
+    
 protected:
 
     Timeline* loadTimeline(const rapidjson::Value& json);
@@ -113,8 +108,8 @@ protected:
     Frame* loadTextureFrame     (const rapidjson::Value& json);
     Frame* loadEventFrame       (const rapidjson::Value& json);
     Frame* loadZOrderFrame      (const rapidjson::Value& json);
-
-
+    
+    
     Timeline* loadTimelineWithFlatBuffers(const flatbuffers::TimeLine* flatbuffers);
 
     Frame* loadVisibleFrameWithFlatBuffers      (const flatbuffers::BoolFrame* flatbuffers);
@@ -144,7 +139,3 @@ protected:
 NS_TIMELINE_END
 
 #endif /*__CCTIMELINE_ACTION_CACHE_H__*/
-
-
-#endif // CC_USE_CCS
-

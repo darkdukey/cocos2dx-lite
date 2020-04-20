@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -21,11 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 
 #include "2d/CCSpriteFrame.h"
 #include "2d/CCSpriteFrameCache.h"
@@ -93,7 +89,7 @@ Skin::Skin()
 
 bool Skin::initWithSpriteFrameName(const std::string& spriteFrameName)
 {
-    CCAssert(spriteFrameName != "", "");
+    CCAssert(!spriteFrameName.empty(), "");
 
     SpriteFrame *pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
     bool ret = true;
@@ -183,7 +179,7 @@ void Skin::updateTransform()
         {
             std::swap(y1, y2);
         }
-
+        
         float x = transform.m[12];
         float y = transform.m[13];
 
@@ -203,10 +199,10 @@ void Skin::updateTransform()
         float dx = x1 * cr - y2 * sr2 + x;
         float dy = x1 * sr + y2 * cr2 + y;
 
-        _quad.bl.vertices.set(RENDER_IN_SUBPIXEL(ax), RENDER_IN_SUBPIXEL(ay));
-        _quad.br.vertices.set(RENDER_IN_SUBPIXEL(bx), RENDER_IN_SUBPIXEL(by));
-        _quad.tl.vertices.set(RENDER_IN_SUBPIXEL(dx), RENDER_IN_SUBPIXEL(dy));
-        _quad.tr.vertices.set(RENDER_IN_SUBPIXEL(cx), RENDER_IN_SUBPIXEL(cy));
+        _quad.bl.vertices.set(RENDER_IN_SUBPIXEL(ax), RENDER_IN_SUBPIXEL(ay), _positionZ);
+        _quad.br.vertices.set(RENDER_IN_SUBPIXEL(bx), RENDER_IN_SUBPIXEL(by), _positionZ);
+        _quad.tl.vertices.set(RENDER_IN_SUBPIXEL(dx), RENDER_IN_SUBPIXEL(dy), _positionZ);
+        _quad.tr.vertices.set(RENDER_IN_SUBPIXEL(cx), RENDER_IN_SUBPIXEL(cy), _positionZ);
     }
 
     // MARMALADE CHANGE: ADDED CHECK FOR nullptr, TO PERMIT SPRITES WITH NO BATCH NODE / TEXTURE ATLAS
@@ -239,13 +235,13 @@ void Skin::draw(Renderer *renderer, const Mat4 &/*transform*/, uint32_t flags)
     auto mv = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
     // TODO: implement z order
-    _quadCommand.init(_globalZOrder,
-        _texture,
-        getGLProgramState(),
-        _blendFunc,
-        &_quad,
+    _quadCommand.init(_globalZOrder, 
+        _texture, 
+        getGLProgramState(), 
+        _blendFunc, 
+        &_quad, 
         1,
-        mv,
+        mv, 
         flags);
 
     renderer->addCommand(&_quadCommand);
@@ -266,7 +262,3 @@ Bone *Skin::getBone() const
 }
 
 }
-
-
-#endif // CC_USE_CCS
-

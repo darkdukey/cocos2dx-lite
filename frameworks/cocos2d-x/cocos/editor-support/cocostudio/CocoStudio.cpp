@@ -1,7 +1,26 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
+/****************************************************************************
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
+ http://www.cocos2d-x.org
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 
 
 #include "editor-support/cocostudio/CocoStudio.h"
@@ -28,12 +47,10 @@
 #include "editor-support/cocostudio/WidgetReader/PageViewReader/PageViewReader.h"
 #include "editor-support/cocostudio/WidgetReader/ListViewReader/ListViewReader.h"
 #include "editor-support/cocostudio/WidgetReader/ArmatureNodeReader/ArmatureNodeReader.h"
-
-// 3D
-//#include "editor-support/cocostudio/WidgetReader/Node3DReader/Node3DReader.h"
-//#include "editor-support/cocostudio/WidgetReader/Sprite3DReader/Sprite3DReader.h"
-//#include "editor-support/cocostudio/WidgetReader/UserCameraReader/UserCameraReader.h"
-//#include "editor-support/cocostudio/WidgetReader/Particle3DReader/Particle3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/Node3DReader/Node3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/Sprite3DReader/Sprite3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/UserCameraReader/UserCameraReader.h"
+#include "editor-support/cocostudio/WidgetReader/Particle3DReader/Particle3DReader.h"
 
 
 namespace cocostudio
@@ -64,13 +81,11 @@ namespace cocostudio
         ListViewReader::destroyInstance();
         
         ArmatureNodeReader::destroyInstance();
-
-        // 3D
-//        Node3DReader::destroyInstance();
-//        Sprite3DReader::destroyInstance();
-//        UserCameraReader::destroyInstance();
-//        Particle3DReader::destroyInstance();
-
+        Node3DReader::destroyInstance();
+        Sprite3DReader::destroyInstance();
+        UserCameraReader::destroyInstance();
+        Particle3DReader::destroyInstance();
+        
         cocos2d::CSLoader::destroyInstance();
         
         
@@ -80,7 +95,3 @@ namespace cocostudio
         GUIReader::destroyInstance();
     }
 }
-
-
-#endif // CC_USE_CCS
-

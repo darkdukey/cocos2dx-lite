@@ -1,18 +1,19 @@
 /****************************************************************************
  Copyright (c) 2015 cocos2d-x.org
-
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,11 +22,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 
 #include "editor-support/cocostudio/CCComExtensionData.h"
 #include "editor-support/cocostudio/ActionTimeline/CCActionTimeline.h"
@@ -61,16 +57,16 @@ namespace cocostudio
         }
         return ret;
     }
-
-
+    
+    
     bool ComExtensionData::init()
     {
         _timelineData = cocostudio::timeline::ActionTimelineData::create(0);
         CC_SAFE_RETAIN(_timelineData);
-
+        
         return true;
     }
-
+    
     void ComExtensionData::onEnter()
     {
     }
@@ -92,14 +88,10 @@ namespace cocostudio
     {
         _timelineData->setActionTag(actionTag);
     }
-
+    
     int ComExtensionData::getActionTag() const
     {
         return _timelineData->getActionTag();
     }
-
+    
 }
-
-
-#endif // CC_USE_CCS
-

@@ -116,16 +116,14 @@ void NodeGrid::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t p
     renderer->addCommand(&_groupCommand);
     renderer->pushGroup(_groupCommand.getRenderQueueID());
 
-    Director* director = Director::getInstance();
-#if CC_MIGRATION_TO_3_0 > 0
     // IMPORTANT:
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
+    Director* director = Director::getInstance();
     CCASSERT(nullptr != director, "Director is null when setting matrix stack");
     
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
 
     Director::Projection beforeProjectionType = Director::Projection::DEFAULT;
     if(_nodeGrid && _nodeGrid->isActive())
@@ -188,10 +186,8 @@ void NodeGrid::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t p
     renderer->addCommand(&_gridEndCommand);
 
     renderer->popGroup();
-
-#if CC_MIGRATION_TO_3_0 > 0
+ 
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-#endif // CC_MIGRATION_TO_3_0
 }
 
 void NodeGrid::setGrid(GridBase *grid)

@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -21,11 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 
 #include "editor-support/cocostudio/CCDisplayFactory.h"
 #include "editor-support/cocostudio/CCBone.h"
@@ -148,7 +144,7 @@ void DisplayFactory::createSpriteDisplay(Bone *bone, DecorativeDisplay *decoDisp
     SpriteDisplayData *displayData = (SpriteDisplayData *)decoDisplay->getDisplayData();
 
     std::string textureName = displayData->displayName;
-    size_t startPos = textureName.find_last_of(".");
+    size_t startPos = textureName.find_last_of('.');
 
     if(startPos != std::string::npos)
     {
@@ -195,7 +191,7 @@ void DisplayFactory::initSpriteDisplay(Bone *bone, DecorativeDisplay *decoDispla
 {
     //! remove .xxx
     std::string textureName = displayName;
-    size_t startPos = textureName.find_last_of(".");
+    size_t startPos = textureName.find_last_of('.');
 
     if(startPos != std::string::npos)
     {
@@ -211,7 +207,7 @@ void DisplayFactory::initSpriteDisplay(Bone *bone, DecorativeDisplay *decoDispla
 
 
 #if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
-    if (textureData && textureData->contourDataList.size() > 0)
+    if (textureData && !textureData->contourDataList.empty())
     {
 
         //! create ContourSprite
@@ -268,7 +264,7 @@ void DisplayFactory::createParticleDisplay(Bone *bone, DecorativeDisplay *decoDi
 
     system->removeFromParent();
     system->cleanup();
-
+    
     Armature *armature = bone->getArmature();
     if (armature)
     {
@@ -290,7 +286,3 @@ void DisplayFactory::updateParticleDisplay(Bone *bone, Node *display, float dt)
 
 
 }
-
-
-#endif // CC_USE_CCS
-

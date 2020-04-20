@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -31,7 +27,7 @@ THE SOFTWARE.
 #include "ui/UIHelper.h"
 #include "ui/UIScale9Sprite.h"
 #include "2d/CCSprite.h"
-#include "base/CCResourceData.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 NS_CC_BEGIN
 
@@ -50,7 +46,6 @@ LoadingBar::LoadingBar():
 _direction(Direction::LEFT),
 _percent(100.0),
 _totalLength(0),
-_textureFile(""),
 _barRenderer(nullptr),
 _renderBarTexType(TextureResType::LOCAL),
 _barRendererTextureSize(Size::ZERO),
@@ -58,7 +53,8 @@ _originalRect(Rect::ZERO),
 _scale9Enabled(false),
 _prevIgnoreSize(true),
 _capInsets(Rect::ZERO),
-_barRendererAdaptDirty(true)
+_barRendererAdaptDirty(true),
+_textureFile("")
 {
 }
 
@@ -446,7 +442,3 @@ ResourceData LoadingBar::getRenderFile()
 }
 
 NS_CC_END
-
-
-#endif // CC_USE_UI
-

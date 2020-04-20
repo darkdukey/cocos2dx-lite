@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,10 +25,6 @@ THE SOFTWARE.
 
 #ifndef __CCBATCHNODE_H__
 #define __CCBATCHNODE_H__
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include "2d/CCNode.h"
 #include "editor-support/cocostudio/CCArmatureDefine.h"
@@ -73,7 +70,3 @@ protected:
 }
 
 #endif /*__CCBATCHNODE_H__*/
-
-
-#endif // CC_USE_CCS
-

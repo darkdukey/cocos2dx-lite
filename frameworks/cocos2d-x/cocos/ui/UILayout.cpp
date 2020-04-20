@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -43,7 +39,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "base/CCEventFocus.h"
 #include "base/CCStencilStateManager.h"
-#include "base/CCResourceData.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 
 NS_CC_BEGIN
@@ -258,7 +254,6 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     
     uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
-#if CC_MIGRATION_TO_3_0 > 0
     // IMPORTANT:
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
@@ -266,8 +261,6 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     CCASSERT(nullptr != director, "Director is null when setting matrix stack");
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
-
     //Add group command
 
     _groupCommand.init(_globalZOrder);
@@ -334,10 +327,8 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     renderer->addCommand(&_afterVisitCmdStencil);
     
     renderer->popGroup();
-
-#if CC_MIGRATION_TO_3_0 > 0
+    
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-#endif // CC_MIGRATION_TO_3_0
 }
     
 void Layout::onBeforeVisitScissor()
@@ -472,11 +463,10 @@ const Rect& Layout::getClippingRect()
 {
     if (_clippingRectDirty)
     {
-        Vec2 worldPos = convertToWorldSpace(Vec2::ZERO);
-        AffineTransform t = getNodeToWorldAffineTransform();
-        float scissorWidth = _contentSize.width*t.a;
-        float scissorHeight = _contentSize.height*t.d;
-        Rect parentClippingRect;
+        const Vec2 worldPos = convertToWorldSpace(Vec2::ZERO);
+        const AffineTransform t = getNodeToWorldAffineTransform();
+        const float scissorWidth = _contentSize.width * t.a;
+        const float scissorHeight = _contentSize.height * t.d;
         Layout* parent = this;
 
         while (parent)
@@ -494,29 +484,29 @@ const Rect& Layout::getClippingRect()
         
         if (_clippingParent)
         {
-            parentClippingRect = _clippingParent->getClippingRect();
-            float finalX = worldPos.x - (scissorWidth * _anchorPoint.x);
-            float finalY = worldPos.y - (scissorHeight * _anchorPoint.y);
+            const Rect& parentClippingRect = _clippingParent->getClippingRect();
+            float finalX = worldPos.x;
+            float finalY = worldPos.y;
             float finalWidth = scissorWidth;
             float finalHeight = scissorHeight;
             
-            float leftOffset = worldPos.x - parentClippingRect.origin.x;
+            const float leftOffset = worldPos.x - parentClippingRect.origin.x;
             if (leftOffset < 0.0f)
             {
                 finalX = parentClippingRect.origin.x;
                 finalWidth += leftOffset;
             }
-            float rightOffset = (worldPos.x + scissorWidth) - (parentClippingRect.origin.x + parentClippingRect.size.width);
+            const float rightOffset = (worldPos.x + scissorWidth) - (parentClippingRect.origin.x + parentClippingRect.size.width);
             if (rightOffset > 0.0f)
             {
                 finalWidth -= rightOffset;
             }
-            float topOffset = (worldPos.y + scissorHeight) - (parentClippingRect.origin.y + parentClippingRect.size.height);
+            const float topOffset = (worldPos.y + scissorHeight) - (parentClippingRect.origin.y + parentClippingRect.size.height);
             if (topOffset > 0.0f)
             {
                 finalHeight -= topOffset;
             }
-            float bottomOffset = worldPos.y - parentClippingRect.origin.y;
+            const float bottomOffset = worldPos.y - parentClippingRect.origin.y;
             if (bottomOffset < 0.0f)
             {
                 finalY = parentClippingRect.origin.y;
@@ -537,8 +527,8 @@ const Rect& Layout::getClippingRect()
         }
         else
         {
-            _clippingRect.origin.x = worldPos.x - (scissorWidth * _anchorPoint.x);
-            _clippingRect.origin.y = worldPos.y - (scissorHeight * _anchorPoint.y);
+            _clippingRect.origin.x = worldPos.x;
+            _clippingRect.origin.y = worldPos.y;
             _clippingRect.size.width = scissorWidth;
             _clippingRect.size.height = scissorHeight;
         }
@@ -1927,7 +1917,3 @@ ResourceData Layout::getRenderFile()
 
 }
 NS_CC_END
-
-
-#endif // CC_USE_UI
-

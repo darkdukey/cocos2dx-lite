@@ -329,16 +329,6 @@ function display.newLayer(...)
     return layer
 end
 
---[[
-source: a image file, WxH should be 2^n (cann't be in spritesheet)
---]]
-function display.tiledSprite( source, w, h )
-    local spr = cc.Sprite:create(source)
-    spr:setTextureRect(cc.rect(0,0,w,h))
-    spr:getTexture():setTexParameters(gl.LINEAR, gl.LINEAR, gl.REPEAT, gl.REPEAT)
-    return spr
-end
-
 function display.newSprite(source, x, y, params)
     local spriteClass = cc.Sprite
     local scale9 = false
@@ -547,25 +537,6 @@ end
 function display.removeUnusedSpriteFrames()
     spriteFrameCache:removeUnusedSpriteFrames()
     textureCache:removeUnusedTextures()
-end
-
-function  display.newLabel( ... )
-    local label = nil
-    local params = {...}
-    local argc = #params
-    if argc == 0 then
-        label = cc.Label:create()
-    else
-        local text = params[1]
-        local font = params[2] or display.DEFAULT_TTF_FONT
-        local fontSize = params[3] or display.DEFAULT_TTF_FONT_SIZE
-        if cc.FileUtils:getInstance():isFileExist(font) then
-            label = cc.Label:createWithTTF(text, font, fontSize)
-        else
-            label = cc.Label:createWithSystemFont(text,font,fontSize)
-        end
-    end
-    return label
 end
 
 return display

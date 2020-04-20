@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 /****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -70,12 +66,12 @@
 #include "editor-support/cocostudio/WidgetReader/PageViewReader/PageViewReader.h"
 #include "editor-support/cocostudio/WidgetReader/ListViewReader/ListViewReader.h"
 #include "editor-support/cocostudio/WidgetReader/ArmatureNodeReader/ArmatureNodeReader.h"
-//#include "editor-support/cocostudio/WidgetReader/Node3DReader/Node3DReader.h"
-//#include "editor-support/cocostudio/WidgetReader/Sprite3DReader/Sprite3DReader.h"
-//#include "editor-support/cocostudio/WidgetReader/UserCameraReader/UserCameraReader.h"
-//#include "editor-support/cocostudio/WidgetReader/Particle3DReader/Particle3DReader.h"
-//#include "editor-support/cocostudio/WidgetReader/GameNode3DReader/GameNode3DReader.h"
-//#include "editor-support/cocostudio/WidgetReader/Light3DReader/Light3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/Node3DReader/Node3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/Sprite3DReader/Sprite3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/UserCameraReader/UserCameraReader.h"
+#include "editor-support/cocostudio/WidgetReader/Particle3DReader/Particle3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/GameNode3DReader/GameNode3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/Light3DReader/Light3DReader.h"
 #include "editor-support/cocostudio/WidgetReader/TabControlReader/TabControlReader.h"
 
 #include "editor-support/cocostudio/WidgetReader/SkeletonReader/BoneNodeReader.h"
@@ -224,12 +220,12 @@ CSLoader::CSLoader()
     CREATE_CLASS_NODE_READER_INFO(ListViewReader);
     
     CREATE_CLASS_NODE_READER_INFO(ArmatureNodeReader);
-//    CREATE_CLASS_NODE_READER_INFO(Node3DReader);
-//    CREATE_CLASS_NODE_READER_INFO(Sprite3DReader);
-//    CREATE_CLASS_NODE_READER_INFO(UserCameraReader);
-//    CREATE_CLASS_NODE_READER_INFO(Particle3DReader);
-//    CREATE_CLASS_NODE_READER_INFO(GameNode3DReader);
-//    CREATE_CLASS_NODE_READER_INFO(Light3DReader);
+    CREATE_CLASS_NODE_READER_INFO(Node3DReader);
+    CREATE_CLASS_NODE_READER_INFO(Sprite3DReader);
+    CREATE_CLASS_NODE_READER_INFO(UserCameraReader);
+    CREATE_CLASS_NODE_READER_INFO(Particle3DReader);
+    CREATE_CLASS_NODE_READER_INFO(GameNode3DReader);
+    CREATE_CLASS_NODE_READER_INFO(Light3DReader);
     CREATE_CLASS_NODE_READER_INFO(TabControlReader);
 
     CREATE_CLASS_NODE_READER_INFO(BoneNodeReader);
@@ -274,7 +270,7 @@ void CSLoader::init()
 
 Node* CSLoader::createNode(const std::string& filename)
 {
-    std::string path = filename;
+    const std::string& path = filename;
     size_t pos = path.find_last_of('.');
     std::string suffix = path.substr(pos + 1, path.length());
     
@@ -294,7 +290,7 @@ Node* CSLoader::createNode(const std::string& filename)
 
 Node* CSLoader::createNode(const std::string &filename, const ccNodeLoadCallback &callback)
 {
-    std::string path = filename;
+    const std::string& path = filename;
     size_t pos = path.find_last_of('.');
     std::string suffix = path.substr(pos + 1, path.length());
     
@@ -334,11 +330,9 @@ Node* CSLoader::createNodeWithVisibleSize(const std::string &filename, const ccN
 
 std::string CSLoader::getExtentionName(const std::string& name)
 {
-    std::string result = "";
-
-    std::string path = name;
+    const std::string& path = name;
     size_t pos = path.find_last_of('.');
-    result = path.substr(pos + 1, path.length());
+    std::string result = path.substr(pos + 1, path.length());
 
     return result;
 }
@@ -1025,7 +1019,7 @@ Node* CSLoader::nodeWithFlatBuffers(const flatbuffers::NodeTree *nodetree, const
             std::string filePath = projectNodeOptions->fileName()->c_str();
             
             cocostudio::timeline::ActionTimeline* action = nullptr;
-            if (filePath != "" && FileUtils::getInstance()->isFileExist(filePath))
+            if (!filePath.empty() && FileUtils::getInstance()->isFileExist(filePath))
             {
                 Data buf = FileUtils::getInstance()->getDataFromFile(filePath);
                 node = createNode(buf, callback);
@@ -1058,7 +1052,7 @@ Node* CSLoader::nodeWithFlatBuffers(const flatbuffers::NodeTree *nodetree, const
         else
         {
             std::string customClassName = nodetree->customClassName()->c_str();
-            if (customClassName != "")
+            if (!customClassName.empty())
             {
                 classname = customClassName;
             }
@@ -1372,7 +1366,7 @@ Node* CSLoader::nodeWithFlatBuffersForSimulator(const flatbuffers::NodeTree *nod
         std::string filePath = projectNodeOptions->fileName()->c_str();
         
         cocostudio::timeline::ActionTimeline* action = nullptr;
-        if (filePath != "" && FileUtils::getInstance()->isFileExist(filePath))
+        if (!filePath.empty() && FileUtils::getInstance()->isFileExist(filePath))
         {
             node = createNodeWithFlatBuffersForSimulator(filePath);
             action = cocostudio::timeline::ActionTimelineCache::getInstance()->createActionWithFlatBuffersForSimulator(filePath);
@@ -1472,7 +1466,3 @@ Node* CSLoader::nodeWithFlatBuffersForSimulator(const flatbuffers::NodeTree *nod
 }
 
 NS_CC_END
-
-
-#endif // CC_USE_CCS
-

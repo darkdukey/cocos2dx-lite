@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,11 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
-
 #include "editor-support/cocostudio/CCProcessBase.h"
 #include "editor-support/cocostudio/CCUtilMath.h"
 
@@ -34,7 +30,7 @@ using namespace cocos2d;
 
 namespace cocostudio {
 
-ProcessBase::ProcessBase(void)
+ProcessBase::ProcessBase()
     : _processScale(1)
     , _isPause(true)
     , _isComplete(true)
@@ -52,7 +48,7 @@ ProcessBase::ProcessBase(void)
 }
 
 
-ProcessBase::~ProcessBase(void)
+ProcessBase::~ProcessBase()
 {
 }
 
@@ -150,7 +146,7 @@ void ProcessBase::gotoFrame(int frameIndex)
     }
 
     _curFrameIndex = frameIndex;
-
+    
     _nextFrameIndex = _durationTween;
 }
 
@@ -161,7 +157,3 @@ int ProcessBase::getCurrentFrameIndex()
 }
 
 }
-
-
-#endif // CC_USE_CCS
-

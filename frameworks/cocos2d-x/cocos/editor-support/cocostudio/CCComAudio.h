@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,10 +26,6 @@ THE SOFTWARE.
 #ifndef __CC_EXTENTIONS_CCCOMAUDIO_H__
 #define __CC_EXTENTIONS_CCCOMAUDIO_H__
 
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 #include "editor-support/cocostudio/CCComBase.h"
 #include "base/CCProtocols.h"
 #include "2d/CCComponent.h"
@@ -51,7 +48,7 @@ public:
      * @lua NA
      */
     virtual ~ComAudio();
-
+    
 public:
     static ComAudio* create();
 
@@ -113,7 +110,7 @@ public:
     const char* getFile();
     void setLoop(bool bLoop);
     bool isLoop();
-
+    
     /// @{
     /// @name implement Playable Protocol
     // play the effect sound path in _filePath
@@ -132,7 +129,3 @@ private:
 }
 
 #endif  // __CC_EXTENTIONS_CCCOMAUDIO_H__
-
-
-#endif // CC_USE_CCS
-

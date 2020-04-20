@@ -1,9 +1,6 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 /****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -88,7 +85,7 @@ namespace cocostudio
             std::string value = objattri->Value();
             if (name == "InnerActionSpeed")
             {
-                    innerspeed = std::atof(objattri->Value());
+                    innerspeed = atof(objattri->Value());
                     break;
             }
             objattri = objattri->Next();
@@ -140,6 +137,9 @@ namespace cocostudio
         
         nodeReader->setPropsWithFlatBuffers(node, (Table*)options->nodeOptions());
     }
+    
+    Node* ProjectNodeReader::createNodeWithFlatBuffers(const flatbuffers::Table* /*nodeOptions*/)
+    {
+        return nullptr;
+    }
 }
-
-#endif // CC_USE_CCS

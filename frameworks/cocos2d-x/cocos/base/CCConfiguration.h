@@ -33,10 +33,7 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "base/CCValue.h"
 #include "platform/CCGL.h"
-
-#if CC_USE_3D
 #include "3d/CCAnimate3D.h"
-#endif
 
 /**
  * @addtogroup base
@@ -196,10 +193,8 @@ public:
      */
     int getMaxSupportSpotLightInShader() const;
 
-#if CC_USE_3D
     /** get 3d animate quality*/
     Animate3DQuality getAnimate3DQuality() const;
-#endif
     
     /** Returns whether or not an OpenGL is supported. 
      *
@@ -234,6 +229,15 @@ public:
      * @return The Configuration info.
      */
     std::string getInfo() const;
+    
+    /**
+     Returns the configuration as value map
+     @return the configuration map
+     @since 3.18
+     @js NA
+     @lua NA
+    */
+    const ValueMap& getInfoAsMap()const { return _valueDict; }
 
 	/** Gathers OpenGL / GPU information.
      */
@@ -248,7 +252,7 @@ public:
     static const char* CONFIG_FILE_LOADED;
 
 private:
-    Configuration(void);
+    Configuration();
     static Configuration    *s_sharedConfiguration;
 	static std::string		s_configfile;
     
@@ -273,10 +277,7 @@ protected:
     int             _maxDirLightInShader; //max support directional light in shader
     int             _maxPointLightInShader; // max support point light in shader
     int             _maxSpotLightInShader; // max support spot light in shader
-
-#if CC_USE_3D
     Animate3DQuality  _animate3DQuality; // animate 3d quality
-#endif
 	
 	ValueMap        _valueDict;
     

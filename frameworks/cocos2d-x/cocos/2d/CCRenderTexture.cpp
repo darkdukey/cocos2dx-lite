@@ -27,6 +27,8 @@ THE SOFTWARE.
 
 #include "2d/CCRenderTexture.h"
 
+#include <utility>
+
 #include "base/ccUtils.h"
 #include "platform/CCFileUtils.h"
 #include "base/CCEventType.h"
@@ -54,6 +56,7 @@ RenderTexture::RenderTexture()
 , _textureCopy(0)
 , _UITextureImage(nullptr)
 , _pixelFormat(Texture2D::PixelFormat::RGBA8888)
+, _depthAndStencilFormat(0)
 , _clearFlags(0)
 , _clearColor(Color4F(0,0,0,0))
 , _clearDepth(0.0f)
@@ -61,7 +64,6 @@ RenderTexture::RenderTexture()
 , _autoDraw(false)
 , _sprite(nullptr)
 , _saveFileCallback(nullptr)
-, _depthAndStencilFormat(0)
 {
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     // Listen this event to save render texture before come to background.
@@ -251,7 +253,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         _texture = new (std::nothrow) Texture2D();
         if (_texture)
         {
-            _texture->initWithData(data, dataLen, (Texture2D::PixelFormat)_pixelFormat, powW, powH, Size((float)w, (float)h));
+            _texture->initWithData(data, dataLen, (Texture2D::PixelFormat)_pixelFormat, powW, powH, Size((float)w, (float)h), CC_ENABLE_PREMULTIPLIED_ALPHA != 0);
         }
         else
         {
@@ -265,7 +267,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
             _textureCopy = new (std::nothrow) Texture2D();
             if (_textureCopy)
             {
-                _textureCopy->initWithData(data, dataLen, (Texture2D::PixelFormat)_pixelFormat, powW, powH, Size((float)w, (float)h));
+                _textureCopy->initWithData(data, dataLen, (Texture2D::PixelFormat)_pixelFormat, powW, powH, Size((float)w, (float)h), CC_ENABLE_PREMULTIPLIED_ALPHA != 0);
             }
             else
             {
@@ -301,8 +303,13 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         _texture->release();
         _sprite->setFlippedY(true);
 
-        _sprite->setBlendFunc( BlendFunc::ALPHA_PREMULTIPLIED );
+#if CC_ENABLE_PREMULTIPLIED_ALPHA != 0
+        _sprite->setBlendFunc(BlendFunc::ALPHA_PREMULTIPLIED);
         _sprite->setOpacityModifyRGB(true);
+#else
+        _sprite->setBlendFunc(BlendFunc::ALPHA_NON_PREMULTIPLIED);
+        _sprite->setOpacityModifyRGB(false);
+#endif
 
         glBindRenderbuffer(GL_RENDERBUFFER, oldRBO);
         glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
@@ -486,31 +493,49 @@ void RenderTexture::visit(Renderer *renderer, const Mat4 &parentTransform, uint3
     
     uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
-#if CC_MIGRATION_TO_3_0 > 0
     Director* director = Director::getInstance();
     // IMPORTANT:
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
 
     _sprite->visit(renderer, _modelViewTransform, flags);
     if (isVisitableByVisitingCamera())
     {
         draw(renderer, _modelViewTransform, flags);
     }
-
-#if CC_MIGRATION_TO_3_0 > 0
+    
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
     // FIX ME: Why need to set _orderOfArrival to 0??
     // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
     // setOrderOfArrival(0);
-#endif // CC_MIGRATION_TO_3_0
 }
 
-bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::function<void (RenderTexture*, const std::string&)> callback)
+bool RenderTexture::saveToFileAsNonPMA(const std::string& filename, bool isRGBA, const std::function<void(RenderTexture*, const std::string&)>& callback)
+{
+    std::string basename(filename);
+    std::transform(basename.begin(), basename.end(), basename.begin(), ::tolower);
+
+    if (basename.find(".png") != std::string::npos)
+    {
+        return saveToFileAsNonPMA(filename, Image::Format::PNG, isRGBA, callback);
+    }
+    else if (basename.find(".jpg") != std::string::npos)
+    {
+        if (isRGBA) CCLOG("RGBA is not supported for JPG format.");
+        return saveToFileAsNonPMA(filename, Image::Format::JPG, false, callback);
+    }
+    else
+    {
+        CCLOG("Only PNG and JPG format are supported now!");
+    }
+
+    return saveToFileAsNonPMA(filename, Image::Format::JPG, false, callback);
+}
+
+bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, const std::function<void (RenderTexture*, const std::string&)>& callback)
 {
     std::string basename(filename);
     std::transform(basename.begin(), basename.end(), basename.begin(), ::tolower);
@@ -532,7 +557,23 @@ bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::fu
     return saveToFile(filename, Image::Format::JPG, false, callback);
 }
 
-bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format, bool isRGBA, std::function<void (RenderTexture*, const std::string&)> callback)
+bool RenderTexture::saveToFileAsNonPMA(const std::string& fileName, Image::Format format, bool isRGBA, const std::function<void(RenderTexture*, const std::string&)>& callback)
+{
+    CCASSERT(format == Image::Format::JPG || format == Image::Format::PNG,
+        "the image can only be saved as JPG or PNG format");
+    if (isRGBA && format == Image::Format::JPG) CCLOG("RGBA is not supported for JPG format");
+
+    _saveFileCallback = callback;
+
+    std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
+    _saveToFileCommand.init(_globalZOrder);
+    _saveToFileCommand.func = CC_CALLBACK_0(RenderTexture::onSaveToFile, this, fullpath, isRGBA, true);
+
+    Director::getInstance()->getRenderer()->addCommand(&_saveToFileCommand);
+    return true;
+}
+
+bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format, bool isRGBA, const std::function<void (RenderTexture*, const std::string&)>& callback)
 {
     CCASSERT(format == Image::Format::JPG || format == Image::Format::PNG,
              "the image can only be saved as JPG or PNG format");
@@ -542,17 +583,21 @@ bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format
     
     std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
     _saveToFileCommand.init(_globalZOrder);
-    _saveToFileCommand.func = CC_CALLBACK_0(RenderTexture::onSaveToFile, this, fullpath, isRGBA);
+    _saveToFileCommand.func = CC_CALLBACK_0(RenderTexture::onSaveToFile, this, fullpath, isRGBA, false);
     
     Director::getInstance()->getRenderer()->addCommand(&_saveToFileCommand);
     return true;
 }
 
-void RenderTexture::onSaveToFile(const std::string& filename, bool isRGBA)
+void RenderTexture::onSaveToFile(const std::string& filename, bool isRGBA, bool forceNonPMA)
 {
     Image *image = newImage(true);
     if (image)
     {
+        if (forceNonPMA && image->hasPremultipliedAlpha())
+        {
+            image->reversePremultipliedAlpha();
+        }
         image->saveToFile(filename, !isRGBA);
     }
     if(_saveFileCallback)
@@ -624,11 +669,11 @@ Image* RenderTexture::newImage(bool flipImage)
                        savedBufferWidth * 4);
             }
 
-            image->initWithRawData(buffer, savedBufferWidth * savedBufferHeight * 4, savedBufferWidth, savedBufferHeight, 8);
+            image->initWithRawData(buffer, savedBufferWidth * savedBufferHeight * 4, savedBufferWidth, savedBufferHeight, 8, _texture->hasPremultipliedAlpha());
         }
         else
         {
-            image->initWithRawData(tempData, savedBufferWidth * savedBufferHeight * 4, savedBufferWidth, savedBufferHeight, 8);
+            image->initWithRawData(tempData, savedBufferWidth * savedBufferHeight * 4, savedBufferWidth, savedBufferHeight, 8, _texture->hasPremultipliedAlpha());
         }
         
     } while (0);

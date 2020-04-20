@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 /****************************************************************************
-Copyright (c) 2015-2017 Chukong Technologies Inc.
+Copyright (c) 2015-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
 http://www.cocos2d-x.org
 
@@ -41,7 +37,3 @@ typedef cocos2d::Node SkinNode;
 NS_TIMELINE_END
 
 #endif //__CCSKINNODE_H__
-
-
-#endif // CC_USE_CCS
-

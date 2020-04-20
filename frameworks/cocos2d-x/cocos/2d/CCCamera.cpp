@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014-2017 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -25,6 +26,7 @@
 
  ****************************************************************************/
 #include "2d/CCCamera.h"
+#include "2d/CCCameraBackgroundBrush.h"
 #include "base/CCDirector.h"
 #include "platform/CCGLView.h"
 #include "2d/CCScene.h"
@@ -40,16 +42,7 @@ NS_CC_BEGIN
 Camera* Camera::_visitingCamera = nullptr;
 experimental::Viewport Camera::_defaultViewport;
 
-Camera* Camera::getDefaultCamera()
-{
-    auto scene = Director::getInstance()->getRunningScene();
-    if(scene)
-    {
-        return scene->getDefaultCamera();
-    }
-
-    return nullptr;
-}
+// start static methods
 
 Camera* Camera::create()
 {
@@ -87,27 +80,42 @@ Camera* Camera::createOrthographic(float zoomX, float zoomY, float nearPlane, fl
     return nullptr;
 }
 
-Camera::Camera()
-: _scene(nullptr)
-, _viewProjectionDirty(true)
-, _cameraFlag(1)
-, _frustumDirty(true)
-, _depth(-1)
-, _fbo(nullptr)
+Camera* Camera::getDefaultCamera()
 {
-#if CC_USE_3D > 0
+    auto scene = Director::getInstance()->getRunningScene();
+    if(scene)
+    {
+        return scene->getDefaultCamera();
+    }
+
+    return nullptr;
+}
+
+const experimental::Viewport& Camera::getDefaultViewport()
+{
+    return _defaultViewport;
+}
+void Camera::setDefaultViewport(const experimental::Viewport& vp)
+{
+    _defaultViewport = vp;
+}
+
+const Camera* Camera::getVisitingCamera()
+{
+    return _visitingCamera;
+}
+
+// end static methods
+
+Camera::Camera()
+{
     _frustum.setClipZ(true);
-    _clearBrush = CameraBackgroundBrush::createDepthBrush(1.f);
-    _clearBrush->retain();
-#endif
 }
 
 Camera::~Camera()
 {
     CC_SAFE_RELEASE_NULL(_fbo);
-#if CC_USE_3D > 0
     CC_SAFE_RELEASE(_clearBrush);
-#endif
 }
 
 const Mat4& Camera::getProjectionMatrix() const
@@ -220,6 +228,7 @@ bool Camera::initPerspective(float fieldOfView, float aspectRatio, float nearPla
     Mat4::createPerspective(_fieldOfView, _aspectRatio, _nearPlane, _farPlane, &_projection);
     _viewProjectionDirty = true;
     _frustumDirty = true;
+    _type = Type::PERSPECTIVE;
     
     return true;
 }
@@ -233,6 +242,7 @@ bool Camera::initOrthographic(float zoomX, float zoomY, float nearPlane, float f
     Mat4::createOrthographicOffCenter(0, _zoom[0], 0, _zoom[1], _nearPlane, _farPlane, &_projection);
     _viewProjectionDirty = true;
     _frustumDirty = true;
+    _type = Type::ORTHOGRAPHIC;
     
     return true;
 }
@@ -325,7 +335,6 @@ void Camera::unprojectGL(const Size& viewport, const Vec3* src, Vec3* dst) const
     dst->set(screen.x, screen.y, screen.z);
 }
 
-#if CC_USE_3D
 bool Camera::isVisibleInFrustum(const AABB* aabb) const
 {
     if (_frustumDirty)
@@ -335,7 +344,6 @@ bool Camera::isVisibleInFrustum(const AABB* aabb) const
     }
     return !_frustum.isOutOfFrustum(*aabb);
 }
-#endif
 
 float Camera::getDepthInView(const Mat4& transform) const
 {
@@ -409,12 +417,10 @@ void Camera::setScene(Scene* scene)
 
 void Camera::clearBackground()
 {
-#if CC_USE_3D > 0
     if (_clearBrush)
     {
         _clearBrush->drawBackground(this);
     }
-#endif // CC_USE_3D
 }
 
 void Camera::setFrameBufferObject(experimental::FrameBuffer *fbo)
@@ -428,11 +434,20 @@ void Camera::setFrameBufferObject(experimental::FrameBuffer *fbo)
     }
 }
 
+void Camera::apply()
+{
+    _viewProjectionUpdated = _transformUpdated;
+    applyFrameBufferObject();
+    applyViewport();
+}
+
 void Camera::applyFrameBufferObject()
 {
     if(nullptr == _fbo)
     {
-        experimental::FrameBuffer::applyDefaultFBO();
+        // inherit from context if it doesn't have a FBO
+        // don't call apply the default one
+//        experimental::FrameBuffer::applyDefaultFBO();
     }
     else
     {
@@ -440,14 +455,10 @@ void Camera::applyFrameBufferObject()
     }
 }
 
-void Camera::apply()
-{
-    applyFrameBufferObject();
-    applyViewport();
-}
-
 void Camera::applyViewport()
 {
+    glGetIntegerv(GL_VIEWPORT, _oldViewport);
+
     if(nullptr == _fbo)
     {
         glViewport(getDefaultViewport()._left, getDefaultViewport()._bottom, getDefaultViewport()._width, getDefaultViewport()._height);
@@ -457,7 +468,36 @@ void Camera::applyViewport()
         glViewport(_viewport._left * _fbo->getWidth(), _viewport._bottom * _fbo->getHeight(),
                    _viewport._width * _fbo->getWidth(), _viewport._height * _fbo->getHeight());
     }
-    
+}
+
+void Camera::setViewport(const experimental::Viewport& vp)
+{
+    _viewport = vp;
+}
+
+void Camera::restore()
+{
+    restoreFrameBufferObject();
+    restoreViewport();
+}
+
+void Camera::restoreFrameBufferObject()
+{
+    if(nullptr == _fbo)
+    {
+        // it was inherited from context if it doesn't have a FBO
+        // don't call restore the default one... just keep using the previous one
+//        experimental::FrameBuffer::applyDefaultFBO();
+    }
+    else
+    {
+        _fbo->restoreFBO();
+    }
+}
+
+void Camera::restoreViewport()
+{
+    glViewport(_oldViewport[0], _oldViewport[1], _oldViewport[2], _oldViewport[3]);
 }
 
 int Camera::getRenderOrder() const
@@ -481,13 +521,16 @@ void Camera::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t par
     return Node::visit(renderer, parentTransform, parentFlags);
 }
 
-#if CC_USE_3D > 0
 void Camera::setBackgroundBrush(CameraBackgroundBrush* clearBrush)
 {
     CC_SAFE_RETAIN(clearBrush);
     CC_SAFE_RELEASE(_clearBrush);
     _clearBrush = clearBrush;
 }
-#endif // CC_USE_3D
+
+bool Camera::isBrushValid()
+{
+    return _clearBrush != nullptr && _clearBrush->isValid();
+}
 
 NS_CC_END

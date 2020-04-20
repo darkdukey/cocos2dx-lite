@@ -1,5 +1,6 @@
 ﻿/****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -24,10 +25,6 @@
 
 #ifndef _COCOLOADER_H
 #define _COCOLOADER_H
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include <stdint.h>
 #include "json/document-wrapper.h"
@@ -115,7 +112,3 @@ public:
 
 #pragma pack ()
 #endif
-
-
-#endif // CC_USE_CCS
-

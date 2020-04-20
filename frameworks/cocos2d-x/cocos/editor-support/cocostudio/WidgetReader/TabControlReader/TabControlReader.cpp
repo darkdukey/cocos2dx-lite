@@ -1,9 +1,6 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -108,7 +105,7 @@ flatbuffers::Offset<flatbuffers::Table> TabControlReader::createOptionsWithFlatB
         }
         else if (attriname == "SelectedTabZoom")
         {
-            selectedTabZoom = std::atof(value.c_str());
+            selectedTabZoom = atof(value.c_str());
         }
         else if (attriname == "SelectedTabIndex")
         {
@@ -148,7 +145,7 @@ flatbuffers::Offset<flatbuffers::Table> TabControlReader::createOptionsWithFlatB
                 
                 if (attriname == "ctype")
                 {
-                    if (value.compare("TabItemObjectData") == 0)
+                    if (value == "TabItemObjectData")
                     {
                         auto itemOption = TabItemReader::getInstance()->createTabItemOptionWithFlatBuffers(child, builder);
                         tabItems.push_back(itemOption);
@@ -287,11 +284,11 @@ flatbuffers::Offset<flatbuffers::Table> TabHeaderReader::createOptionsWithFlatBu
         std::string attriname = attribute->Name();
         std::string value = attribute->Value();
         
-        if (attriname.compare("FontSize") == 0)
+        if (attriname == "FontSize")
         {
             fontsize = atoi(value.c_str());
         }
-        else if (attriname.compare("TitleText") == 0)
+        else if (attriname == "TitleText")
         {
             text = value;
         }
@@ -581,7 +578,7 @@ void TabHeaderReader::setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuf
     bool fileExist = false;
     std::string errorFilePath = "";
     std::string path = resourceData->path()->c_str();
-    if (path != "")
+    if (!path.empty())
     {
         if (FileUtils::getInstance()->isFileExist(path))
         {
@@ -905,7 +902,7 @@ cocos2d::Node* TabHeaderReader::createNodeWithFlatBuffers(const flatbuffers::Tab
     return node;
 }
 
-int TabHeaderReader::getResourceType(std::string key)
+int TabHeaderReader::getResourceType(const std::string& key)
 {
     if (key == "Normal" || key == "Default")
     {
@@ -961,15 +958,15 @@ flatbuffers::Offset<flatbuffers::TabItemOption> TabItemReader::createTabItemOpti
     while (child)
     {
         std::string attriName = child->Name();
-        if (attriName.compare("Children") == 0)
+        if (attriName == "Children")
         {
             containerChildrenData = const_cast<tinyxml2::XMLElement*>(child);
         }
-        if (attriName.compare("Header") == 0)
+        if (attriName == "Header")
         {
             header = TabHeaderReader::getInstance()->createOptionsWithFlatBuffers(child, builder);
         }
-        else if (attriName.compare("Container") == 0)
+        else if (attriName == "Container")
         {
             containerData = const_cast<tinyxml2::XMLElement*>(child);
         }
@@ -990,23 +987,21 @@ flatbuffers::Offset<flatbuffers::TabItemOption> TabItemReader::createTabItemOpti
     return  *(&options);
 }
 
-void TabItemReader::setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* nodeOption)
+void TabItemReader::setPropsWithFlatBuffers(cocos2d::Node* /*node*/, const flatbuffers::Table* /*nodeOption*/)
 {
     // do nothing
 }
 
-cocos2d::Node* TabItemReader::createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions)
+cocos2d::Node* TabItemReader::createNodeWithFlatBuffers(const flatbuffers::Table* /*nodeOptions*/)
 {
     // do nothing
     return nullptr;
 }
 
 flatbuffers::Offset<flatbuffers::Table> TabItemReader::createOptionsWithFlatBuffers(
-                                                                                    const tinyxml2::XMLElement* objectData, flatbuffers::FlatBufferBuilder* builder)
+                                                                                    const tinyxml2::XMLElement* /*objectData*/, flatbuffers::FlatBufferBuilder* /*builder*/)
 {
     
     // nothing
     return flatbuffers::Offset<flatbuffers::Table>();
 }
-
-#endif // CC_USE_CCS

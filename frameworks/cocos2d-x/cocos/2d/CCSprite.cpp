@@ -122,7 +122,7 @@ Sprite* Sprite::createWithSpriteFrameName(const std::string& spriteFrameName)
 
 #if COCOS2D_DEBUG > 0
     char msg[256] = {0};
-    snprintf(msg, sizeof(msg), "Invalid spriteFrameName: %s", spriteFrameName.c_str());
+    sprintf(msg, "Invalid spriteFrameName: %s", spriteFrameName.c_str());
     CCASSERT(frame != nullptr, msg);
 #endif
 
@@ -269,10 +269,6 @@ bool Sprite::initWithTexture(Texture2D *texture, const Rect& rect, bool rotated)
         _recursiveDirty = false;
         setDirty(false);
 
-        _opacityModifyRGB = true;
-
-        _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
-
         _flippedX = _flippedY = false;
 
         // default transform anchor: center
@@ -306,19 +302,19 @@ bool Sprite::initWithTexture(Texture2D *texture, const Rect& rect, bool rotated)
     return result;
 }
 
-Sprite::Sprite(void)
-: _batchNode(nullptr)
-, _textureAtlas(nullptr)
+Sprite::Sprite()
+: _textureAtlas(nullptr)
+, _batchNode(nullptr)
 , _shouldBeHidden(false)
 , _texture(nullptr)
 , _spriteFrame(nullptr)
-, _insideBounds(true)
 , _centerRectNormalized(0,0,1,1)
 , _renderMode(Sprite::RenderMode::QUAD)
-, _trianglesVertex(nullptr)
-, _trianglesIndex(nullptr)
 , _stretchFactor(Vec2::ONE)
 , _originalContentSize(Size::ZERO)
+, _trianglesVertex(nullptr)
+, _trianglesIndex(nullptr)
+, _insideBounds(true)
 , _stretchEnabled(true)
 {
 #if CC_SPRITE_DEBUG_DRAW
@@ -399,11 +395,14 @@ void Sprite::setTexture(Texture2D *texture)
         }
     }
 
-    if ((_renderMode != RenderMode::QUAD_BATCHNODE) && (_texture != texture))
+    if (_renderMode != RenderMode::QUAD_BATCHNODE)
     {
-        CC_SAFE_RETAIN(texture);
-        CC_SAFE_RELEASE(_texture);
-        _texture = texture;
+        if (_texture != texture)
+        {
+            CC_SAFE_RETAIN(texture);
+            CC_SAFE_RELEASE(_texture);
+            _texture = texture;
+        }
         updateBlendFunc();
     }
 }
@@ -651,7 +650,7 @@ void Sprite::updatePoly()
         };
 
         // needed in order to get color from "_quad"
-        V2F_C4B_T2F_Quad tmpQuad = _quad;
+        V3F_C4B_T2F_Quad tmpQuad = _quad;
 
         for (int i=0; i<9; ++i) {
             setTextureCoords(texRects[i], &tmpQuad);
@@ -698,7 +697,7 @@ void Sprite::setCenterRectNormalized(const cocos2d::Rect &rectTopLeft)
             if (_renderMode != RenderMode::SLICE9) {
                 _renderMode = RenderMode::SLICE9;
                 // 9 quads + 7 exterior points = 16
-                _trianglesVertex = (V2F_C4B_T2F*) malloc(sizeof(*_trianglesVertex) * (9 + 3 + 4));
+                _trianglesVertex = (V3F_C4B_T2F*) malloc(sizeof(*_trianglesVertex) * (9 + 3 + 4));
                 // 9 quads, each needs 6 vertices = 54
                 _trianglesIndex = (unsigned short*) malloc(sizeof(*_trianglesIndex) * 6 * 9);
 
@@ -770,7 +769,7 @@ void Sprite::setTextureCoords(const Rect& rectInPoints)
     setTextureCoords(rectInPoints, &_quad);
 }
 
-void Sprite::setTextureCoords(const Rect& rectInPoints, V2F_C4B_T2F_Quad* outQuad)
+void Sprite::setTextureCoords(const Rect& rectInPoints, V3F_C4B_T2F_Quad* outQuad)
 {
     Texture2D *tex = (_renderMode == RenderMode::QUAD_BATCHNODE) ? _textureAtlas->getTexture() : _texture;
     if (tex == nullptr)
@@ -846,7 +845,7 @@ void Sprite::setTextureCoords(const Rect& rectInPoints, V2F_C4B_T2F_Quad* outQua
     }
 }
 
-void Sprite::setVertexCoords(const Rect& rect, V2F_C4B_T2F_Quad* outQuad)
+void Sprite::setVertexCoords(const Rect& rect, V3F_C4B_T2F_Quad* outQuad)
 {
     float relativeOffsetX = _unflippedOffsetPositionFromCenter.x;
     float relativeOffsetY = _unflippedOffsetPositionFromCenter.y;
@@ -888,14 +887,14 @@ void Sprite::setVertexCoords(const Rect& rect, V2F_C4B_T2F_Quad* outQuad)
         const float y2 = y1 + rect.size.height;
 
         // Don't update Z.
-        outQuad->bl.vertices.set(x1, y1);
-        outQuad->br.vertices.set(x2, y1);
-        outQuad->tl.vertices.set(x1, y2);
-        outQuad->tr.vertices.set(x2, y2);
+        outQuad->bl.vertices.set(x1, y1, 0.0f);
+        outQuad->br.vertices.set(x2, y1, 0.0f);
+        outQuad->tl.vertices.set(x1, y2, 0.0f);
+        outQuad->tr.vertices.set(x2, y2, 0.0f);
     }
 }
 
-void Sprite::populateTriangle(int quadIndex, const V2F_C4B_T2F_Quad& quad)
+void Sprite::populateTriangle(int quadIndex, const V3F_C4B_T2F_Quad& quad)
 {
     CCASSERT(quadIndex < 9, "Invalid quadIndex");
     // convert Quad intro Triangle since it takes less memory
@@ -941,7 +940,7 @@ void Sprite::populateTriangle(int quadIndex, const V2F_C4B_T2F_Quad& quad)
         const int index_br = index_bl + 1;
         const int index_tl = index_bl + 4;
         const int index_tr = index_bl + 5;
-
+        
 
         _trianglesVertex[index_tr] = quad.tr;
         _trianglesVertex[index_br] = quad.br;
@@ -953,7 +952,7 @@ void Sprite::populateTriangle(int quadIndex, const V2F_C4B_T2F_Quad& quad)
 
 // MARK: visit, draw, transform
 
-void Sprite::updateTransform(void)
+void Sprite::updateTransform()
 {
     CCASSERT(_renderMode == RenderMode::QUAD_BATCHNODE, "updateTransform is only valid when Sprite is being rendered using an SpriteBatchNode");
 
@@ -1016,10 +1015,10 @@ void Sprite::updateTransform(void)
             float dx = x1 * cr - y2 * sr2 + x;
             float dy = x1 * sr + y2 * cr2 + y;
 
-            _quad.bl.vertices.set(SPRITE_RENDER_IN_SUBPIXEL(ax), SPRITE_RENDER_IN_SUBPIXEL(ay));
-            _quad.br.vertices.set(SPRITE_RENDER_IN_SUBPIXEL(bx), SPRITE_RENDER_IN_SUBPIXEL(by));
-            _quad.tl.vertices.set(SPRITE_RENDER_IN_SUBPIXEL(dx), SPRITE_RENDER_IN_SUBPIXEL(dy));
-            _quad.tr.vertices.set(SPRITE_RENDER_IN_SUBPIXEL(cx), SPRITE_RENDER_IN_SUBPIXEL(cy));
+            _quad.bl.vertices.set(SPRITE_RENDER_IN_SUBPIXEL(ax), SPRITE_RENDER_IN_SUBPIXEL(ay), _positionZ);
+            _quad.br.vertices.set(SPRITE_RENDER_IN_SUBPIXEL(bx), SPRITE_RENDER_IN_SUBPIXEL(by), _positionZ);
+            _quad.tl.vertices.set(SPRITE_RENDER_IN_SUBPIXEL(dx), SPRITE_RENDER_IN_SUBPIXEL(dy), _positionZ);
+            _quad.tr.vertices.set(SPRITE_RENDER_IN_SUBPIXEL(cx), SPRITE_RENDER_IN_SUBPIXEL(cy), _positionZ);
             setTextureCoords(_rect);
         }
 
@@ -1220,7 +1219,7 @@ void Sprite::sortAllChildren()
 // used only when parent is SpriteBatchNode
 //
 
-void Sprite::setReorderChildDirtyRecursively(void)
+void Sprite::setReorderChildDirtyRecursively()
 {
     //only set parents flag the first time
     if ( ! _reorderChildDirty )
@@ -1438,7 +1437,7 @@ void Sprite::setFlippedX(bool flippedX)
     }
 }
 
-bool Sprite::isFlippedX(void) const
+bool Sprite::isFlippedX() const
 {
     return _flippedX;
 }
@@ -1452,7 +1451,7 @@ void Sprite::setFlippedY(bool flippedY)
     }
 }
 
-bool Sprite::isFlippedY(void) const
+bool Sprite::isFlippedY() const
 {
     return _flippedY;
 }
@@ -1499,7 +1498,7 @@ void Sprite::flipY() {
 // MARK: RGBA protocol
 //
 
-void Sprite::updateColor(void)
+void Sprite::updateColor()
 {
     Color4B color4( _displayedColor.r, _displayedColor.g, _displayedColor.b, _displayedOpacity );
 
@@ -1548,7 +1547,7 @@ void Sprite::setOpacityModifyRGB(bool modify)
     }
 }
 
-bool Sprite::isOpacityModifyRGB(void) const
+bool Sprite::isOpacityModifyRGB() const
 {
     return _opacityModifyRGB;
 }
@@ -1676,10 +1675,10 @@ void Sprite::setBatchNode(SpriteBatchNode *spriteBatchNode)
         float y1 = _offsetPosition.y;
         float x2 = x1 + _rect.size.width;
         float y2 = y1 + _rect.size.height;
-        _quad.bl.vertices.set( x1, y1);
-        _quad.br.vertices.set(x2, y1);
-        _quad.tl.vertices.set(x1, y2);
-        _quad.tr.vertices.set(x2, y2);
+        _quad.bl.vertices.set( x1, y1, 0 );
+        _quad.br.vertices.set(x2, y1, 0);
+        _quad.tl.vertices.set(x1, y2, 0);
+        _quad.tr.vertices.set(x2, y2, 0);
 
     } else {
         // using batch
@@ -1691,7 +1690,7 @@ void Sprite::setBatchNode(SpriteBatchNode *spriteBatchNode)
 
 // MARK: Texture protocol
 
-void Sprite::updateBlendFunc(void)
+void Sprite::updateBlendFunc()
 {
     CCASSERT(_renderMode != RenderMode::QUAD_BATCHNODE, "CCSprite: updateBlendFunc doesn't work when the sprite is rendered using a SpriteBatchNode");
 

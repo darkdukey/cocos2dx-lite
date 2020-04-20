@@ -155,3 +155,5 @@ runtime
 project.xcworkspace
 /simulator/
 /frameworks/cocos2d-x/cocos/scripting/lua-bindings/auto/api/
+frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/build
+frameworks/cocos2d-x/tools/simulator/libsimulator/proj.ios_mac/build

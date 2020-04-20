@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,9 +25,6 @@ THE SOFTWARE.
 
 #ifndef __CCARMATUREDATAMANAGER_H__
 #define __CCARMATUREDATAMANAGER_H__
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include "editor-support/cocostudio/CCArmatureDefine.h"
 #include "editor-support/cocostudio/CCDatas.h"
@@ -53,20 +51,20 @@ public:
 
     /** @deprecated Use destroyInstance() instead */
     CC_DEPRECATED_ATTRIBUTE static void purge() { ArmatureDataManager::destroyInstance(); };
-
+    
     static ArmatureDataManager *getInstance();
     static void destroyInstance();
-
+    
 private:
     /**
      * @js ctor
      */
-    ArmatureDataManager(void);
+    ArmatureDataManager();
     /**
      * @js NA
      * @lua NA
      */
-    ~ArmatureDataManager(void);
+    ~ArmatureDataManager();
 
 public:
 
@@ -209,7 +207,3 @@ private:
 }
 
 #endif/*__CCARMATUREDATAMANAGER_H__*/
-
-
-#endif // CC_USE_CCS
-

@@ -118,13 +118,12 @@ function CCMenuDeprecated.createWithItem(self,...)
     deprecatedTip("CCMenuDeprecated:createWithItem","cc.Menu:createWithItem")
     return self:create(...)
 end
+CCMenu.createWithItem = CCMenuDeprecated.createWithItem
 
--- CCMenu.createWithItem = CCMenuDeprecated.createWithItem
-
--- function CCMenuDeprecated.setHandlerPriority(self)
---     print("\n********** \n".."setHandlerPriority was deprecated in 3.0. \n**********")
--- end
--- CCMenu.setHandlerPriority = CCMenuDeprecated.setHandlerPriority
+function CCMenuDeprecated.setHandlerPriority(self)
+    print("\n********** \n".."setHandlerPriority was deprecated in 3.0. \n**********")
+end
+CCMenu.setHandlerPriority = CCMenuDeprecated.setHandlerPriority
 --functions of CCMenu will be deprecated end
 
 --functions of CCNode will be deprecated begin
@@ -788,42 +787,42 @@ CCTimer.numberOfRunningActionsInTarget = CCTimerDeprecated.numberOfRunningAction
 --functions of CCTimer will be deprecated end
 
 
--- --functions of CCMenuItemFont will be deprecated begin
--- local CCMenuItemFontDeprecated = { }
--- function CCMenuItemFontDeprecated.fontSize()
---     deprecatedTip("CCMenuItemFont:fontSize","CCMenuItemFont:getFontSize")
---     return CCMenuItemFont:getFontSize()
--- end
--- CCMenuItemFont.fontSize = CCMenuItemFontDeprecated.fontSize
+--functions of CCMenuItemFont will be deprecated begin
+local CCMenuItemFontDeprecated = { }
+function CCMenuItemFontDeprecated.fontSize()
+    deprecatedTip("CCMenuItemFont:fontSize","CCMenuItemFont:getFontSize")
+    return CCMenuItemFont:getFontSize()
+end
+CCMenuItemFont.fontSize = CCMenuItemFontDeprecated.fontSize
 
--- function CCMenuItemFontDeprecated.fontName()
---     deprecatedTip("CCMenuItemFont:fontName","CCMenuItemFont:getFontName")
---     return CCMenuItemFont:getFontName()
--- end
--- CCMenuItemFont.fontName = CCMenuItemFontDeprecated.fontName
+function CCMenuItemFontDeprecated.fontName()
+    deprecatedTip("CCMenuItemFont:fontName","CCMenuItemFont:getFontName")
+    return CCMenuItemFont:getFontName()
+end
+CCMenuItemFont.fontName = CCMenuItemFontDeprecated.fontName
 
--- function CCMenuItemFontDeprecated.fontSizeObj(self)
---     deprecatedTip("CCMenuItemFont:fontSizeObj","CCMenuItemFont:getFontSizeObj")
---     return self:getFontSizeObj()
--- end
--- CCMenuItemFont.fontSizeObj = CCMenuItemFontDeprecated.fontSizeObj
+function CCMenuItemFontDeprecated.fontSizeObj(self)
+    deprecatedTip("CCMenuItemFont:fontSizeObj","CCMenuItemFont:getFontSizeObj")
+    return self:getFontSizeObj()
+end
+CCMenuItemFont.fontSizeObj = CCMenuItemFontDeprecated.fontSizeObj
 
--- function CCMenuItemFontDeprecated.fontNameObj(self)
---     deprecatedTip("CCMenuItemFont:fontNameObj","CCMenuItemFont:getFontNameObj")
---     return self:getFontNameObj()
--- end
--- CCMenuItemFont.fontNameObj = CCMenuItemFontDeprecated.fontNameObj
--- --functions of CCMenuItemFont will be deprecated end
+function CCMenuItemFontDeprecated.fontNameObj(self)
+    deprecatedTip("CCMenuItemFont:fontNameObj","CCMenuItemFont:getFontNameObj")
+    return self:getFontNameObj()
+end
+CCMenuItemFont.fontNameObj = CCMenuItemFontDeprecated.fontNameObj
+--functions of CCMenuItemFont will be deprecated end
 
 
--- --functions of CCMenuItemToggle will be deprecated begin
--- local CCMenuItemToggleDeprecated = { }
--- function CCMenuItemToggleDeprecated.selectedItem(self)
---     deprecatedTip("CCMenuItemToggle:selectedItem","CCMenuItemToggle:getSelectedItem")
---     return self:getSelectedItem()
--- end
--- CCMenuItemToggle.selectedItem = CCMenuItemToggleDeprecated.selectedItem
--- --functions of CCMenuItemToggle will be deprecated end
+--functions of CCMenuItemToggle will be deprecated begin
+local CCMenuItemToggleDeprecated = { }
+function CCMenuItemToggleDeprecated.selectedItem(self)
+    deprecatedTip("CCMenuItemToggle:selectedItem","CCMenuItemToggle:getSelectedItem")
+    return self:getSelectedItem()
+end
+CCMenuItemToggle.selectedItem = CCMenuItemToggleDeprecated.selectedItem
+--functions of CCMenuItemToggle will be deprecated end
 
 
 --functions of CCTileMapAtlas will be deprecated begin
@@ -832,7 +831,7 @@ function CCTileMapAtlasDeprecated.tileAt(self,pos)
     deprecatedTip("CCTileMapAtlas:tileAt","CCTileMapAtlas:getTileAt")
     return self:getTileAt(pos)
 end
--- CCTileMapAtlas.tileAt = CCTileMapAtlasDeprecated.tileAt
+CCTileMapAtlas.tileAt = CCTileMapAtlasDeprecated.tileAt
 --functions of CCTileMapAtlas will be deprecated end
 
 

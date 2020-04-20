@@ -1,9 +1,9 @@
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := cocostudio_static
+LOCAL_MODULE := ccs
 
-LOCAL_MODULE_FILENAME := libcocostudio
+LOCAL_MODULE_FILENAME := libccs
 
 LOCAL_ARM_MODE := arm
 
@@ -64,8 +64,14 @@ WidgetReader/TextAtlasReader/TextAtlasReader.cpp \
 WidgetReader/TextBMFontReader/TextBMFontReader.cpp \
 WidgetReader/TextFieldReader/TextFieldReader.cpp \
 WidgetReader/TextReader/TextReader.cpp \
+WidgetReader/Node3DReader/Node3DReader.cpp \
+WidgetReader/Sprite3DReader/Sprite3DReader.cpp \
+WidgetReader/UserCameraReader/UserCameraReader.cpp \
+WidgetReader/Particle3DReader/Particle3DReader.cpp \
 WidgetReader/SkeletonReader/BoneNodeReader.cpp \
 WidgetReader/SkeletonReader/SkeletonNodeReader.cpp \
+WidgetReader/GameNode3DReader/GameNode3DReader.cpp \
+WidgetReader/Light3DReader/Light3DReader.cpp \
 ActionTimeline/CCActionTimelineCache.cpp \
 ActionTimeline/CCFrame.cpp \
 ActionTimeline/CCTimeLine.cpp \
@@ -82,24 +88,16 @@ WidgetReader/TabControlReader/TabControlReader.cpp \
 CCComExtensionData.cpp \
 CocoStudio.cpp
 
-#WidgetReader/Node3DReader/Node3DReader.cpp \
-#WidgetReader/Sprite3DReader/Sprite3DReader.cpp \
-#WidgetReader/UserCameraReader/UserCameraReader.cpp \
-#WidgetReader/Particle3DReader/Particle3DReader.cpp \
-#WidgetReader/GameNode3DReader/GameNode3DReader.cpp \
-#WidgetReader/Light3DReader/Light3DReader.cpp \
 
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/.. $(LOCAL_PATH)/../..
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/.. \
-					$(LOCAL_PATH)/../.. \
-                    $(LOCAL_PATH)/WidgetReader \
-                    $(LOCAL_PATH)/../../../external/tinyxml2
+                    $(LOCAL_PATH)/WidgetReader
 
 LOCAL_CFLAGS += -fexceptions
 
-LOCAL_STATIC_LIBRARIES := cocos_ui_static
-LOCAL_STATIC_LIBRARIES += cocosdenshion_static
-LOCAL_STATIC_LIBRARIES += cocos_flatbuffers_static
+LOCAL_STATIC_LIBRARIES := ccui
+LOCAL_STATIC_LIBRARIES += ccds
+LOCAL_STATIC_LIBRARIES += ext_flatbuffers
 
 include $(BUILD_STATIC_LIBRARY)

@@ -24,7 +24,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "external/lua/lua_extensions.h"
 #include "scripting/lua-bindings/manual/CCLuaStack.h"
 #include "scripting/lua-bindings/manual/tolua_fix.h"
 #include <string.h>
@@ -52,12 +51,14 @@ extern "C" {
 #include "scripting/lua-bindings/manual/cocos2d/lua_cocos2dx_manual.hpp"
 #include "scripting/lua-bindings/manual/LuaBasicConversions.h"
 #include "scripting/lua-bindings/manual/cocos2d/lua_cocos2dx_deprecated.h"
+#include "scripting/lua-bindings/auto/lua_cocos2dx_physics_auto.hpp"
+#include "scripting/lua-bindings/manual/cocos2d/lua_cocos2dx_physics_manual.hpp"
+#include "scripting/lua-bindings/auto/lua_cocos2dx_experimental_auto.hpp"
+#include "scripting/lua-bindings/manual/cocos2d/lua_cocos2dx_experimental_manual.hpp"
 #include "base/ZipUtils.h"
 #include "deprecated/CCBool.h"
 #include "deprecated/CCDouble.h"
 #include "platform/CCFileUtils.h"
-
-#include "external/libfairygui/tolua/lua_cocos2dx_libfairygui_auto.hpp"
 
 namespace {
     int get_string_for_print(lua_State * L, std::string* out)
@@ -112,7 +113,7 @@ LuaStack::~LuaStack()
     }
 }
 
-LuaStack *LuaStack::create(void)
+LuaStack *LuaStack::create()
 {
     LuaStack *stack = new (std::nothrow) LuaStack();
     stack->init();
@@ -128,31 +129,28 @@ LuaStack *LuaStack::attach(lua_State *L)
     return stack;
 }
 
-bool LuaStack::init(void)
+bool LuaStack::init()
 {
     _state = lua_open();
-    // crash here ?
-    // Mac/iOS : add "Other Link Flags"
-    // -pagezero_size 10000 -image_base 100000000
     luaL_openlibs(_state);
     toluafix_open(_state);
 
     // Register our version of the global "print" function
-    const luaL_reg global_functions [] = {
+    const luaL_Reg global_functions [] = {
         {"print", lua_print},
         {"release_print",lua_release_print},
         {nullptr, nullptr}
     };
     luaL_register(_state, "_G", global_functions);
 
-    luaopen_lua_extensions(_state);
     g_luaType.clear();
     register_all_cocos2dx(_state);
-    register_all_libfairygui(_state);
     tolua_opengl_open(_state);
     register_all_cocos2dx_manual(_state);
     register_all_cocos2dx_module_manual(_state);
     register_all_cocos2dx_math_manual(_state);
+    register_all_cocos2dx_experimental(_state);
+    register_all_cocos2dx_experimental_manual(_state);
 
     register_glnode_manual(_state);
 #if CC_USE_PHYSICS
@@ -262,6 +260,7 @@ int LuaStack::executeScriptFile(const char* filename)
     }
 
     FileUtils *utils = FileUtils::getInstance();
+
     //
     // 1. check .luac suffix
     // 2. check .lua suffix
@@ -305,7 +304,7 @@ int LuaStack::executeGlobalFunction(const char* functionName)
     return executeFunction(0);
 }
 
-void LuaStack::clean(void)
+void LuaStack::clean()
 {
     lua_settop(_state, 0);
 }
@@ -340,7 +339,7 @@ void LuaStack::pushString(const char* stringValue, int length)
     lua_pushlstring(_state, stringValue, length);
 }
 
-void LuaStack::pushNil(void)
+void LuaStack::pushNil()
 {
     lua_pushnil(_state);
 }
@@ -747,11 +746,6 @@ void LuaStack::cleanupXXTEAKeyAndSign()
 
 int LuaStack::loadChunksFromZIP(const char *zipFilePath)
 {
-    if (!FileUtils::getInstance()->isFileExist(zipFilePath)) {
-        CCLOGWARN("LuaStack::%s -> zipFilePath=%s is not exist.", __FUNCTION__, zipFilePath);
-        return -1;
-    }
-    
     pushString(zipFilePath);
     luaLoadChunksFromZIP(_state);
     int ret = lua_toboolean(_state, -1);
@@ -776,13 +770,14 @@ int LuaStack::luaLoadChunksFromZIP(lua_State *L)
     do {
         void *buffer = nullptr;
         ZipFile *zip = nullptr;
-
         Data zipFileData(utils->getDataFromFile(zipFilePath));
         unsigned char* bytes = zipFileData.getBytes();
         ssize_t size = zipFileData.getSize();
 
         bool isXXTEA = stack && stack->_xxteaEnabled && size >= stack->_xxteaSignLen
             && memcmp(stack->_xxteaSign, bytes, stack->_xxteaSignLen) == 0;
+
+
         if (isXXTEA) { // decrypt XXTEA
             xxtea_long len = 0;
             buffer = xxtea_decrypt(bytes + stack->_xxteaSignLen,
@@ -806,7 +801,7 @@ int LuaStack::luaLoadChunksFromZIP(lua_State *L)
             std::string filename = zip->getFirstFilename();
             while (filename.length()) {
                 ssize_t bufferSize = 0;
-                unsigned char *zbuffer = zip->getFileData(filename.c_str(), &bufferSize);
+                unsigned char *zbuffer = zip->getFileData(filename, &bufferSize);
                 if (bufferSize) {
                     // remove .lua or .luac extension
                     size_t pos = filename.find_last_of('.');

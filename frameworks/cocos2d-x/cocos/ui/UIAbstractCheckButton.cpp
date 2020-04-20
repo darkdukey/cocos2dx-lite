@@ -1,8 +1,3 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
@@ -30,7 +25,7 @@ THE SOFTWARE.
 
 #include "ui/UIAbstractCheckButton.h"
 #include "2d/CCSprite.h"
-#include "base/CCResourceData.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 NS_CC_BEGIN
 
@@ -60,16 +55,16 @@ _frontCrossDisabledTexType(TextureResType::LOCAL),
 _zoomScale(0.1f),
 _backgroundTextureScaleX(1.0),
 _backgroundTextureScaleY(1.0),
-_backGroundFileName(""),
-_backGroundSelectedFileName(""),
-_frontCrossFileName(""),
-_backGroundDisabledFileName(""),
-_frontCrossDisabledFileName(""),
 _backGroundBoxRendererAdaptDirty(true),
 _backGroundSelectedBoxRendererAdaptDirty(true),
 _frontCrossRendererAdaptDirty(true),
 _backGroundBoxDisabledRendererAdaptDirty(true),
-_frontCrossDisabledRendererAdaptDirty(true)
+_frontCrossDisabledRendererAdaptDirty(true),
+_backGroundFileName(""),
+_backGroundSelectedFileName(""),
+_frontCrossFileName(""),
+_backGroundDisabledFileName(""),
+_frontCrossDisabledFileName("")
 {
     setTouchEnabled(true);
 }
@@ -178,7 +173,8 @@ void AbstractCheckButton::loadTextureBackGroundSelected(const std::string& backG
 {
     _backGroundSelectedFileName = backGroundSelected;
     _isBackgroundSelectedTextureLoaded = !backGroundSelected.empty();
-
+    if (!_isBackgroundSelectedTextureLoaded) return;
+    
     _backGroundSelectedTexType = texType;
     switch (_backGroundSelectedTexType)
     {
@@ -241,6 +237,7 @@ void AbstractCheckButton::loadTextureBackGroundDisabled(const std::string& backG
 {
     _backGroundDisabledFileName = backGroundDisabled;
     _isBackgroundDisabledTextureLoaded = !backGroundDisabled.empty();
+    if (!_isBackgroundDisabledTextureLoaded) return;
 
     _backGroundDisabledTexType = texType;
     switch (_backGroundDisabledTexType)
@@ -274,6 +271,7 @@ void AbstractCheckButton::loadTextureFrontCrossDisabled(const std::string& front
 {
     _frontCrossDisabledFileName = frontCrossDisabled;
     _isFrontCrossDisabledTextureLoaded = !frontCrossDisabled.empty();
+    if (!_isFrontCrossDisabledTextureLoaded) return;
 
     _frontCrossDisabledTexType = texType;
     switch (_frontCrossDisabledTexType)
@@ -624,7 +622,3 @@ ResourceData AbstractCheckButton::getCrossDisabledFile()
 }
 
 NS_CC_END
-
-
-#endif // CC_USE_UI
-

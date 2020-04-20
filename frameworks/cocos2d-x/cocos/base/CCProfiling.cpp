@@ -51,7 +51,7 @@ Profiler* Profiler::getInstance()
 }
 
 // FIXME:: deprecated
-Profiler* Profiler::sharedProfiler(void)
+Profiler* Profiler::sharedProfiler()
 {
     return Profiler::getInstance();
 }
@@ -81,7 +81,7 @@ bool Profiler::init()
     return true;
 }
 
-Profiler::~Profiler(void)
+Profiler::~Profiler()
 {
 }
 
@@ -112,7 +112,7 @@ bool ProfilingTimer::initWithName(const char* timerName)
     return true;
 }
 
-ProfilingTimer::~ProfilingTimer(void)
+ProfilingTimer::~ProfilingTimer()
 {
     
 }
@@ -121,7 +121,7 @@ std::string ProfilingTimer::getDescription() const
 {
     static char s_description[512] = {0};
 
-    snprintf(s_description, sizeof(s_description), "%s ::\tavg1: %ldµ,\tavg2: %ldµ,\tmin: %ldµ,\tmax: %ldµ,\ttotal: %.2fs,\tnr calls: %ld", _nameStr.c_str(), _averageTime1, _averageTime2, minTime, maxTime, totalTime/1000000., numberOfCalls);
+    sprintf(s_description, "%s ::\tavg1: %ldu,\tavg2: %ldu,\tmin: %ldu,\tmax: %ldu,\ttotal: %.2fs,\tnr calls: %ld", _nameStr.c_str(), _averageTime1, _averageTime2, minTime, maxTime, totalTime/1000000., numberOfCalls);
     return s_description;
 }
 

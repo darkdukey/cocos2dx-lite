@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -21,9 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include "editor-support/cocostudio/CCArmature.h"
 #include "editor-support/cocostudio/CCArmatureDataManager.h"
@@ -96,7 +94,7 @@ Armature::Armature()
 }
 
 
-Armature::~Armature(void)
+Armature::~Armature()
 {
     _boneDic.clear();
     _topBoneList.clear();
@@ -155,7 +153,7 @@ bool Armature::init(const std::string& name)
                     CC_BREAK_IF(!movData);
 
                     MovementBoneData *movBoneData = movData->getMovementBoneData(bone->getName());
-                    CC_BREAK_IF(!movBoneData || movBoneData->frameList.size() <= 0);
+                    CC_BREAK_IF(!movBoneData || movBoneData->frameList.empty());
 
                     FrameData *frameData = movBoneData->getFrameData(0);
                     CC_BREAK_IF(!frameData);
@@ -365,12 +363,12 @@ void Armature::setAnimation(ArmatureAnimation *animation)
     _animation = animation;
 }
 
-ArmatureAnimation *Armature::getAnimation() const
+ArmatureAnimation *Armature::getAnimation() const 
 {
     return _animation;
 }
 
-bool Armature::getArmatureTransformDirty() const
+bool Armature::getArmatureTransformDirty() const 
 {
     return _armatureTransformDirty;
 }
@@ -409,9 +407,9 @@ void Armature::draw(cocos2d::Renderer *renderer, const Mat4 &transform, uint32_t
             {
                 Skin *skin = static_cast<Skin *>(node);
                 skin->updateTransform();
-
+                
                 BlendFunc func = bone->getBlendFunc();
-
+                
                 if (func.src != BlendFunc::ALPHA_PREMULTIPLIED.src || func.dst != BlendFunc::ALPHA_PREMULTIPLIED.dst)
                 {
                     skin->setBlendFunc(bone->getBlendFunc());
@@ -460,7 +458,7 @@ void Armature::onEnter()
             return;
     }
 #endif
-
+    
     Node::onEnter();
     scheduleUpdate();
 }
@@ -474,7 +472,7 @@ void Armature::onExit()
             return;
     }
 #endif
-
+    
     Node::onExit();
     unscheduleUpdate();
 }
@@ -492,7 +490,6 @@ void Armature::visit(cocos2d::Renderer *renderer, const Mat4 &parentTransform, u
 
     if (isVisitableByVisitingCamera())
     {
-#if CC_MIGRATION_TO_3_0 > 0
         // IMPORTANT:
         // To ease the migration to v3.0, we still support the Mat4 stack,
         // but it is deprecated and your code should not rely on it
@@ -500,18 +497,16 @@ void Armature::visit(cocos2d::Renderer *renderer, const Mat4 &parentTransform, u
         CCASSERT(nullptr != director, "Director is null when setting matrix stack");
         director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
         director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-#endif // CC_MIGRATION_TO_3_0
-
+        
+        
         sortAllChildren();
         draw(renderer, _modelViewTransform, flags);
-
-#if CC_MIGRATION_TO_3_0 > 0
+        
         // FIX ME: Why need to set _orderOfArrival to 0??
         // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
         // setOrderOfArrival(0);
-
+        
         director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-#endif // CC_MIGRATION_TO_3_0
     }
 }
 
@@ -528,7 +523,7 @@ Rect Armature::getBoundingBox() const
         if (Bone *bone = dynamic_cast<Bone *>(object))
         {
             Rect r = bone->getDisplayManager()->getBoundingBox();
-            if (r.equals(Rect::ZERO))
+            if (r.equals(Rect::ZERO)) 
                 continue;
 
             if(first)
@@ -556,7 +551,7 @@ Rect Armature::getBoundingBox() const
     return RectApplyTransform(boundingBox, getNodeToParentTransform());
 }
 
-Bone *Armature::getBoneAtPoint(float x, float y) const
+Bone *Armature::getBoneAtPoint(float x, float y) const 
 {
     long length = _children.size();
     Bone *bs;
@@ -624,14 +619,14 @@ void Armature::drawContour()
                 points[i].x = p.x;
                 points[i].y = p.y;
             }
-
+            
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #elif _MSC_VER >= 1400 //vs 2005 or higher
 #pragma warning (push)
 #pragma warning (disable: 4996)
 #endif
-
+            
             DrawPrimitives::drawPoly( points, (unsigned int)length, true );
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
@@ -639,7 +634,7 @@ void Armature::drawContour()
 #elif _MSC_VER >= 1400 //vs 2005 or higher
 #pragma warning (pop)
 #endif
-
+            
             delete []points;
         }
     }
@@ -722,7 +717,7 @@ void Armature::setBody(cpBody *body)
                 {
                     detector->setBody(body);
                 }
-            });
+            }
         }
     }
 }
@@ -742,7 +737,3 @@ cpShape *Armature::getShapeList()
 
 
 }
-
-
-#endif // CC_USE_CCS
-

@@ -1,6 +1,26 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
+/****************************************************************************
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
+ http://www.cocos2d-x.org
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 
 
 
@@ -307,19 +327,19 @@ namespace cocostudio
             }
             else if (name == "Scale9OriginX")
             {
-                capInsets.origin.x = std::atof(value.c_str());
+                capInsets.origin.x = atof(value.c_str());
             }
             else if (name == "Scale9OriginY")
             {
-                capInsets.origin.y = std::atof(value.c_str());
+                capInsets.origin.y = atof(value.c_str());
             }
             else if (name == "Scale9Width")
             {
-                capInsets.size.width = std::atof(value.c_str());
+                capInsets.size.width = atof(value.c_str());
             }
             else if (name == "Scale9Height")
             {
-                capInsets.size.height = std::atof(value.c_str());
+                capInsets.size.height = atof(value.c_str());
             }
             else if (name == "ButtonText")
             {
@@ -355,11 +375,11 @@ namespace cocostudio
             }
             else if (name == "ShadowOffsetX")
             {
-                shadowOffset.width = std::atof(value.c_str());
+                shadowOffset.width = atof(value.c_str());
             }
             else if (name == "ShadowOffsetY")
             {
-                shadowOffset.height = std::atof(value.c_str());
+                shadowOffset.height = atof(value.c_str());
             }
             else if (name == "ShadowBlurRadius")
             {
@@ -386,11 +406,11 @@ namespace cocostudio
                     
                     if (name == "X")
                     {
-                        scale9Size.width = std::atof(value.c_str());
+                        scale9Size.width = atof(value.c_str());
                     }
                     else if (name == "Y")
                     {
-                        scale9Size.height = std::atof(value.c_str());
+                        scale9Size.height = atof(value.c_str());
                     }
                     
                     attribute = attribute->Next();
@@ -858,9 +878,7 @@ namespace cocostudio
         Color3B titleColor(textColor->r(), textColor->g(), textColor->b());
         button->setTitleColor(titleColor);
         
-        int titleFontSize = options->fontSize();
-        button->setTitleFontSize(titleFontSize);
-        
+
         std::string titleFontName = options->fontName()->c_str();
         button->setTitleFontName(titleFontName);
         
@@ -868,7 +886,7 @@ namespace cocostudio
         bool fileExist = false;
         std::string errorFilePath = "";
         std::string path = resourceData->path()->c_str();
-        if (path != "")
+        if (!path.empty())
         {
             if (FileUtils::getInstance()->isFileExist(path))
             {
@@ -885,6 +903,9 @@ namespace cocostudio
             }
         }
         
+        int titleFontSize = options->fontSize();
+        button->setTitleFontSize(titleFontSize);
+
         bool displaystate = options->displaystate() != 0;
         button->setBright(displaystate);
         button->setEnabled(displaystate);
@@ -946,7 +967,7 @@ namespace cocostudio
         return button;
     }
     
-    int ButtonReader::getResourceType(std::string key)
+    int ButtonReader::getResourceType(const std::string& key)
     {
         if(key == "Normal" || key == "Default")
         {
@@ -965,5 +986,3 @@ namespace cocostudio
     }
     
 }
-
-#endif // CC_USE_CCS

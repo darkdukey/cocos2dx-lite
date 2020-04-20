@@ -31,11 +31,11 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "renderer/CCTexture2D.h"
 
-#if CC_USE_WIC > 0
+#if CC_USE_WIC
 #include "platform/winrt/WICImageLoader-winrt.h"
 #endif
 
-// premultiply alpha, or the effect will wrong when want to use other pixel format in Texture2D,
+// premultiply alpha, or the effect will be wrong when using other pixel formats in Texture2D,
 // such as RGB888, RGB5A1
 #define CC_RGB_PREMULTIPLY_ALPHA(vr, vg, vb, va) \
     (unsigned)(((unsigned)((unsigned char)(vr) * ((unsigned char)(va) + 1)) >> 8) | \
@@ -160,13 +160,11 @@ public:
      @param    isToRGB        whether the image is saved as RGB format.
      */
     bool saveToFile(const std::string &filename, bool isToRGB = true);
+    void premultiplyAlpha();
+    void reversePremultipliedAlpha();
 
 protected:
-#if CC_USE_STB_IMAGE > 0
-    bool decodeWithStbImage(const unsigned char *data, ssize_t datalen);
-#endif
-    
-#if CC_USE_WIC > 0
+#if CC_USE_WIC
     bool encodeWithWIC(const std::string& filePath, bool isToRGB, GUID containerFormat);
     bool decodeWithWIC(const unsigned char *data, ssize_t dataLen);
 #endif
@@ -185,8 +183,6 @@ protected:
 
     bool saveImageToPNG(const std::string& filePath, bool isToRGB = true);
     bool saveImageToJPG(const std::string& filePath);
-    
-    void premultipliedAlpha();
     
 protected:
     /**

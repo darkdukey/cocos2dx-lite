@@ -27,7 +27,13 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#include "tolua++.hpp"
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "tolua++.h"
+#ifdef __cplusplus
+}
+#endif
 
 #include "network/WebSocket.h"
 

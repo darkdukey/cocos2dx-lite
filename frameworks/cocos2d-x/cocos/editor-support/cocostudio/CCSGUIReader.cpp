@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,18 +24,14 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "editor-support/cocostudio/CCSGUIReader.h"
 
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
-
-#include <fstream>
-#include <iostream>
-#include "ui/CocosGUI.h"
-#include "platform/CCFileUtils.h"
 #include "2d/CCSpriteFrameCache.h"
 #include "base/CCDirector.h"
 #include "base/ccUtils.h"
+#include "platform/CCFileUtils.h"
+#include "ui/CocosGUI.h"
+#include <fstream>
+#include <iostream>
+#include <utility>
 
 #include "editor-support/cocostudio/CCActionManagerEx.h"
 #include "editor-support/cocostudio/WidgetReader/ButtonReader/ButtonReader.h"
@@ -58,14 +55,14 @@ using namespace cocos2d;
 using namespace cocos2d::ui;
 
 namespace cocostudio {
-
+    
 static GUIReader* sharedReader = nullptr;
 
 GUIReader::GUIReader():
 m_strFilePath("")
 {
     ObjectFactory* factoryCreate = ObjectFactory::getInstance();
-
+    
     factoryCreate->registerType(CREATE_CLASS_WIDGET_READER_INFO(ButtonReader));
     factoryCreate->registerType(CREATE_CLASS_WIDGET_READER_INFO(CheckBoxReader));
     factoryCreate->registerType(CREATE_CLASS_WIDGET_READER_INFO(SliderReader));
@@ -79,7 +76,7 @@ m_strFilePath("")
     factoryCreate->registerType(CREATE_CLASS_WIDGET_READER_INFO(PageViewReader));
     factoryCreate->registerType(CREATE_CLASS_WIDGET_READER_INFO(ScrollViewReader));
     factoryCreate->registerType(CREATE_CLASS_WIDGET_READER_INFO(ListViewReader));
-
+    
     factoryCreate->registerType(CREATE_CLASS_GUI_INFO(Button));
     factoryCreate->registerType(CREATE_CLASS_GUI_INFO(CheckBox));
     factoryCreate->registerType(CREATE_CLASS_GUI_INFO(ImageView));
@@ -121,26 +118,26 @@ int GUIReader::getVersionInteger(const char *str)
     {
         return 0;
     }
-    size_t pos = strVersion.find_first_of(".");
+    size_t pos = strVersion.find_first_of('.');
     std::string t = strVersion.substr(0,pos);
     strVersion = strVersion.substr(pos+1,strVersion.length()-1);
-
-    pos = strVersion.find_first_of(".");
+    
+    pos = strVersion.find_first_of('.');
     std::string h = strVersion.substr(0,pos);
     strVersion = strVersion.substr(pos+1,strVersion.length()-1);
-
-    pos = strVersion.find_first_of(".");
+    
+    pos = strVersion.find_first_of('.');
     std::string te = strVersion.substr(0,pos);
     strVersion = strVersion.substr(pos+1,strVersion.length()-1);
-
-    pos = strVersion.find_first_of(".");
+    
+    pos = strVersion.find_first_of('.');
     std::string s = strVersion.substr(0,pos);
-
+    
     int it = atoi(t.c_str());
     int ih = atoi(h.c_str());
     int ite = atoi(te.c_str());
     int is = atoi(s.c_str());
-
+    
     int iVersion = it*1000+ih*100+ite*10+is;
 //    CCLOG("iversion %d",iVersion);
     return iVersion;
@@ -167,22 +164,22 @@ cocos2d::Size GUIReader::getFileDesignSize(const char* fileName) const
     float h = _fileDesignSizes.at(keyHeight).asFloat();
     return Size(w, h);
 }
-
+    
 void GUIReader::registerTypeAndCallBack(const std::string& classType,
                                         ObjectFactory::Instance ins,
                                         Ref *object,
                                         SEL_ParseEvent callBack)
 {
     ObjectFactory* factoryCreate = ObjectFactory::getInstance();
-
+    
     ObjectFactory::TInfo t(classType, ins);
     factoryCreate->registerType(t);
-
+    
     if (object)
     {
         _mapObject.insert(ParseObjectMap::value_type(classType, object));
     }
-
+    
     if (callBack)
     {
         _mapParseSelector.insert(ParseCallBackMap::value_type(classType, callBack));
@@ -190,7 +187,7 @@ void GUIReader::registerTypeAndCallBack(const std::string& classType,
 }
 
 void GUIReader::registerTypeAndCallBack(const std::string& classType,
-                                        ObjectFactory::InstanceFunc ins,
+                                        const ObjectFactory::InstanceFunc& ins,
                                         Ref *object,
                                         SEL_ParseEvent callBack)
 {
@@ -247,15 +244,15 @@ Widget* GUIReader::widgetFromJsonFile(const char *fileName)
         pReader = new (std::nothrow) WidgetPropertiesReader0250();
         widget = pReader->createWidget(jsonDict, m_strFilePath.c_str(), fileName);
     }
-
+    
     CC_SAFE_DELETE(pReader);
     return widget;
 }
-
+    
 std::string WidgetPropertiesReader::getWidgetReaderClassName(Widget* widget)
 {
     std::string readerName;
-
+    
     // 1st., custom widget parse properties of parent widget with parent widget reader
     if (dynamic_cast<Button*>(widget))
     {
@@ -305,7 +302,7 @@ std::string WidgetPropertiesReader::getWidgetReaderClassName(Widget* widget)
     {
         readerName = "ScrollViewReader";
     }
-
+  
     else if (dynamic_cast<Layout*>(widget))
     {
         readerName = "LayoutReader";
@@ -314,7 +311,7 @@ std::string WidgetPropertiesReader::getWidgetReaderClassName(Widget* widget)
     {
         readerName = "WidgetReader";
     }
-
+    
     return readerName;
 }
 
@@ -346,24 +343,24 @@ std::string WidgetPropertiesReader::getGUIClassName(const std::string &name)
     {
         convertedClassName = "TextBMFont";
     }
-
-
+   
+    
     return convertedClassName;
 }
-
+    
 cocos2d::ui::Widget* WidgetPropertiesReader::createGUI(const std::string &classname)
 {
     std::string name = this->getGUIClassName(classname);
 
     Ref* object = ObjectFactory::getInstance()->createObject(name);
-
+    
     return dynamic_cast<ui::Widget*>(object);
 }
 
 WidgetReaderProtocol* WidgetPropertiesReader::createWidgetReaderProtocol(const std::string &classname)
 {
     Ref* object = ObjectFactory::getInstance()->createObject(classname);
-
+    
     return dynamic_cast<WidgetReaderProtocol*>(object);
 }
 
@@ -379,7 +376,7 @@ Widget* GUIReader::widgetFromBinaryFile(const char *fileName)
     auto fileData = FileUtils::getInstance()->getDataFromFile(fullPath);
     auto fileDataBytes = fileData.getBytes();
     auto fileDataSize = fileData.getSize();
-
+    
     const char* fileVersion = "";
     ui::Widget* widget = nullptr;
 
@@ -389,13 +386,13 @@ Widget* GUIReader::widgetFromBinaryFile(const char *fileName)
         if(true == tCocoLoader.ReadCocoBinBuff((char*)fileDataBytes))
         {
             stExpCocoNode*	tpRootCocoNode = tCocoLoader.GetRootCocoNode();
-
+            
             rapidjson::Type tType = tpRootCocoNode->GetType(&tCocoLoader);
             if (rapidjson::kObjectType == tType || rapidjson::kArrayType == tType)
             {
                 stExpCocoNode *tpChildArray = tpRootCocoNode->GetChildArray(&tCocoLoader);
-
-
+                
+                
                 for (int i = 0; i < tpRootCocoNode->GetChildNum(); ++i) {
                     std::string key = tpChildArray[i].GetName(&tCocoLoader);
                     if (key == "version") {
@@ -403,7 +400,7 @@ Widget* GUIReader::widgetFromBinaryFile(const char *fileName)
                         break;
                     }
                 }
-
+                
                 WidgetPropertiesReader * pReader = nullptr;
                 if (fileVersion)
                 {
@@ -425,15 +422,15 @@ Widget* GUIReader::widgetFromBinaryFile(const char *fileName)
                     pReader = new (std::nothrow) WidgetPropertiesReader0250();
                     widget = pReader->createWidgetFromBinary(&tCocoLoader, tpRootCocoNode, fileName);
                 }
-
+                
                 CC_SAFE_DELETE(pReader);
 
             }
         }
     }
-
+    
     return widget;
-
+   
 }
 
 std::string  WidgetPropertiesReader::getWidgetReaderClassName(const std::string& classname)
@@ -477,7 +474,7 @@ void WidgetPropertiesReader::setAnchorPointForWidget(cocos2d::ui::Widget *widget
     }else{
         anchorPointXInFile = widget->getAnchorPoint().x;
     }
-
+    
     bool isAnchorPointYExists = DICTOOL->checkObjectExist_json(options, "anchorPointY");
     float anchorPointYInFile;
     if (isAnchorPointYExists) {
@@ -486,19 +483,19 @@ void WidgetPropertiesReader::setAnchorPointForWidget(cocos2d::ui::Widget *widget
     else{
         anchorPointYInFile = widget->getAnchorPoint().y;
     }
-
+    
     if (isAnchorPointXExists || isAnchorPointYExists) {
         widget->setAnchorPoint(Vec2(anchorPointXInFile, anchorPointYInFile));
     }
 }
 
-
+     
 
 Widget* WidgetPropertiesReader0250::createWidget(const rapidjson::Value& data, const char* fullPath, const char* fileName)
 {
     m_strFilePath = fullPath;
     int texturesCount = DICTOOL->getArrayCount_json(data, "textures");
-
+    
     for (int i=0; i<texturesCount; i++)
     {
         const char* file = DICTOOL->getStringValueFromArray_json(data, "textures", i);
@@ -519,7 +516,7 @@ Widget* WidgetPropertiesReader0250::createWidget(const rapidjson::Value& data, c
     }
     const rapidjson::Value& widgetTree = DICTOOL->getSubDictionary_json(data, "widgetTree");
     Widget* widget = widgetFromJsonDictionary(widgetTree);
-
+    
     /* *********temp********* */
     if (widget->getContentSize().equals(Size::ZERO))
     {
@@ -527,7 +524,7 @@ Widget* WidgetPropertiesReader0250::createWidget(const rapidjson::Value& data, c
         rootWidget->setContentSize(Size(fileDesignWidth, fileDesignHeight));
     }
     /* ********************** */
-
+    
     //    widget->setFileDesignSize(Size(fileDesignWidth, fileDesignHeight));
     const rapidjson::Value& actions = DICTOOL->getSubDictionary_json(data, "animation");
     /* *********temp********* */
@@ -613,7 +610,7 @@ Widget* WidgetPropertiesReader0250::widgetFromJsonDictionary(const rapidjson::Va
         widget = cocos2d::ui::ScrollView::create();
         setPropsForScrollViewFromJsonDictionary(widget, uiOptions);
     }
-
+    
     int childrenCount = DICTOOL->getArrayCount_json(data, "children");
     for (int i=0;i<childrenCount;i++)
     {
@@ -624,7 +621,7 @@ Widget* WidgetPropertiesReader0250::widgetFromJsonDictionary(const rapidjson::Va
             widget->addChild(child);
         }
     }
-
+    
     return widget;
 }
 
@@ -635,11 +632,11 @@ void WidgetPropertiesReader0250::setPropsForWidgetFromJsonDictionary(Widget*widg
     {
         widget->ignoreContentAdaptWithSize(DICTOOL->getBooleanValue_json(options, "ignoreSize"));
     }
-
+    
     float w = DICTOOL->getFloatValue_json(options, "width");
     float h = DICTOOL->getFloatValue_json(options, "height");
     widget->setContentSize(Size(w, h));
-
+    
     widget->setTag(DICTOOL->getIntValue_json(options, "tag"));
 	widget->setActionTag(DICTOOL->getIntValue_json(options, "actiontag"));
     widget->setTouchEnabled(DICTOOL->getBooleanValue_json(options, "touchAble"));
@@ -687,9 +684,9 @@ void WidgetPropertiesReader0250::setColorPropsForWidgetFromJsonDictionary(Widget
     int colorG = cg ? DICTOOL->getIntValue_json(options, "colorG") : 255;
     int colorB = cb ? DICTOOL->getIntValue_json(options, "colorB") : 255;
     widget->setColor(Color3B(colorR, colorG, colorB));
-
+    
     this->setAnchorPointForWidget(widget, options);
-
+    
     bool flipX = DICTOOL->getBooleanValue_json(options, "flipX");
     bool flipY = DICTOOL->getBooleanValue_json(options, "flipY");
     widget->setFlippedX(flipX);
@@ -702,15 +699,15 @@ void WidgetPropertiesReader0250::setPropsForButtonFromJsonDictionary(Widget*widg
     cocos2d::ui::Button* button = static_cast<Button*>(widget);
     bool scale9Enable = DICTOOL->getBooleanValue_json(options, "scale9Enable");
     button->setScale9Enabled(scale9Enable);
-
+    
     std::string tp_n = m_strFilePath;
     std::string tp_p = m_strFilePath;
     std::string tp_d = m_strFilePath;
-
+    
     const char* normalFileName = DICTOOL->getStringValue_json(options, "normal");
     const char* pressedFileName = DICTOOL->getStringValue_json(options, "pressed");
     const char* disabledFileName = DICTOOL->getStringValue_json(options, "disabled");
-
+    
     const char* normalFileName_tp = (normalFileName && (strcmp(normalFileName, "") != 0))?tp_n.append(normalFileName).c_str():nullptr;
     const char* pressedFileName_tp = (pressedFileName && (strcmp(pressedFileName, "") != 0))?tp_p.append(pressedFileName).c_str():nullptr;
     const char* disabledFileName_tp =  (disabledFileName && (strcmp(disabledFileName, "") != 0))?tp_d.append(disabledFileName).c_str():nullptr;
@@ -721,7 +718,7 @@ void WidgetPropertiesReader0250::setPropsForButtonFromJsonDictionary(Widget*widg
         float cy = DICTOOL->getFloatValue_json(options, "capInsetsY");
         float cw = DICTOOL->getFloatValue_json(options, "capInsetsWidth");
         float ch = DICTOOL->getFloatValue_json(options, "capInsetsHeight");
-
+        
         if (useMergedTexture)
         {
             button->loadTextures(normalFileName, pressedFileName, disabledFileName,Widget::TextureResType::PLIST);
@@ -793,20 +790,20 @@ void WidgetPropertiesReader0250::setPropsForCheckBoxFromJsonDictionary(Widget*wi
     const char* frontCrossFileName = DICTOOL->getStringValue_json(options, "frontCross");
     const char* backGroundDisabledFileName = DICTOOL->getStringValue_json(options, "backGroundBoxDisabled");
     const char* frontCrossDisabledFileName = DICTOOL->getStringValue_json(options, "frontCrossDisabled");
-
+    
     std::string tp_b = m_strFilePath;
     std::string tp_bs = m_strFilePath;
     std::string tp_c = m_strFilePath;
     std::string tp_bd = m_strFilePath;
     std::string tp_cd = m_strFilePath;
-
+    
     const char* backGroundFileName_tp = (backGroundFileName && (strcmp(backGroundFileName, "") != 0))?tp_b.append(backGroundFileName).c_str():nullptr;
     const char* backGroundSelectedFileName_tp = (backGroundSelectedFileName && (strcmp(backGroundSelectedFileName, "") != 0))?tp_bs.append(backGroundSelectedFileName).c_str():nullptr;
     const char* frontCrossFileName_tp = (frontCrossFileName && (strcmp(frontCrossFileName, "") != 0))?tp_c.append(frontCrossFileName).c_str():nullptr;
     const char* backGroundDisabledFileName_tp = (backGroundDisabledFileName && (strcmp(backGroundDisabledFileName, "") != 0))?tp_bd.append(backGroundDisabledFileName).c_str():nullptr;
     const char* frontCrossDisabledFileName_tp = (frontCrossDisabledFileName && (strcmp(frontCrossDisabledFileName, "") != 0))?tp_cd.append(frontCrossDisabledFileName).c_str():nullptr;
     bool useMergedTexture = DICTOOL->getBooleanValue_json(options, "useMergedTexture");
-
+    
     if (useMergedTexture)
     {
         checkBox->loadTextures(backGroundFileName, backGroundSelectedFileName, frontCrossFileName,backGroundDisabledFileName,frontCrossDisabledFileName,Widget::TextureResType::PLIST);
@@ -831,14 +828,14 @@ void WidgetPropertiesReader0250::setPropsForImageViewFromJsonDictionary(Widget*w
         scale9Enable = DICTOOL->getBooleanValue_json(options, "scale9Enable");
     }
     imageView->setScale9Enabled(scale9Enable);
-
+    
     std::string tp_i = m_strFilePath;
     const char* imageFileName_tp = nullptr;
     if (imageFileName && (strcmp(imageFileName, "") != 0))
     {
         imageFileName_tp = tp_i.append(imageFileName).c_str();
     }
-
+    
     bool useMergedTexture = DICTOOL->getBooleanValue_json(options, "useMergedTexture");
     if (scale9Enable)
     {
@@ -850,7 +847,7 @@ void WidgetPropertiesReader0250::setPropsForImageViewFromJsonDictionary(Widget*w
         {
             imageView->loadTexture(imageFileName_tp);
         }
-
+        
         bool sw = DICTOOL->checkObjectExist_json(options, "scale9Width");
         bool sh = DICTOOL->checkObjectExist_json(options, "scale9Height");
         if (sw && sh)
@@ -859,13 +856,13 @@ void WidgetPropertiesReader0250::setPropsForImageViewFromJsonDictionary(Widget*w
             float shf = DICTOOL->getFloatValue_json(options, "scale9Height");
             imageView->setContentSize(Size(swf, shf));
         }
-
+        
         float cx = DICTOOL->getFloatValue_json(options, "capInsetsX");
         float cy = DICTOOL->getFloatValue_json(options, "capInsetsY");
         float cw = DICTOOL->getFloatValue_json(options, "capInsetsWidth");
         float ch = DICTOOL->getFloatValue_json(options, "capInsetsHeight");
         imageView->setCapInsets(Rect(cx, cy, cw, ch));
-
+        
     }
     else
     {
@@ -937,7 +934,7 @@ void WidgetPropertiesReader0250::setPropsForLabelAtlasFromJsonDictionary(Widget*
         std::string tp_c = m_strFilePath;
         const char* cmft = DICTOOL->getStringValue_json(options, "charMapFile");
         const char* cmf_tp = tp_c.append(cmft).c_str();
-
+        
         labelAtlas->setProperty(DICTOOL->getStringValue_json(options, "stringValue"),cmf_tp,DICTOOL->getIntValue_json(options, "itemWidth"),DICTOOL->getIntValue_json(options,"itemHeight"),DICTOOL->getStringValue_json(options, "startCharMap"));
         labelAtlas->setProperty(DICTOOL->getStringValue_json(options, "stringValue"),cmf_tp,DICTOOL->getIntValue_json(options, "itemWidth") / CC_CONTENT_SCALE_FACTOR() ,DICTOOL->getIntValue_json(options,"itemHeight") / CC_CONTENT_SCALE_FACTOR(), DICTOOL->getStringValue_json(options, "startCharMap"));
     }
@@ -959,27 +956,27 @@ void WidgetPropertiesReader0250::setPropsForLayoutFromJsonDictionary(Widget*widg
     int cr = DICTOOL->getIntValue_json(options, "bgColorR");
     int cg = DICTOOL->getIntValue_json(options, "bgColorG");
     int cb = DICTOOL->getIntValue_json(options, "bgColorB");
-
+    
     int scr = DICTOOL->getIntValue_json(options, "bgStartColorR");
     int scg = DICTOOL->getIntValue_json(options, "bgStartColorG");
     int scb = DICTOOL->getIntValue_json(options, "bgStartColorB");
-
+    
     int ecr = DICTOOL->getIntValue_json(options, "bgEndColorR");
     int ecg = DICTOOL->getIntValue_json(options, "bgEndColorG");
     int ecb = DICTOOL->getIntValue_json(options, "bgEndColorB");
-
+    
     float bgcv1 = DICTOOL->getFloatValue_json(options, "vectorX");
     float bgcv2 = DICTOOL->getFloatValue_json(options, "vectorY");
     panel->setBackGroundColorVector(Vec2(bgcv1, bgcv2));
-
+    
     int co = DICTOOL->getIntValue_json(options, "bgColorOpacity");
-
+    
     int colorType = DICTOOL->getIntValue_json(options, "colorType");
     panel->setBackGroundColorType(Layout::BackGroundColorType(colorType));
     panel->setBackGroundColor(Color3B(scr, scg, scb),Color3B(ecr, ecg, ecb));
     panel->setBackGroundColor(Color3B(cr, cg, cb));
     panel->setBackGroundColorOpacity(co);
-
+    
     std::string tp_b = m_strFilePath;
     const char* imageFileName = DICTOOL->getStringValue_json(options, "backGroundImage");
     const char* imageFileName_tp = (imageFileName && (strcmp(imageFileName, "") != 0))?tp_b.append(imageFileName).c_str():nullptr;
@@ -1002,7 +999,7 @@ void WidgetPropertiesReader0250::setPropsForLayoutFromJsonDictionary(Widget*widg
     }
     else
     {
-
+        
         if (useMergedTexture)
         {
             panel->setBackGroundImage(imageFileName,Widget::TextureResType::PLIST);
@@ -1032,7 +1029,7 @@ void WidgetPropertiesReader0250::setPropsForSliderFromJsonDictionary(Widget*widg
 {
     setPropsForWidgetFromJsonDictionary(widget, options);
     cocos2d::ui::Slider* slider = static_cast<cocos2d::ui::Slider*>(widget);
-
+    
     bool barTextureScale9Enable = DICTOOL->getBooleanValue_json(options, "barTextureScale9Enable");
     slider->setScale9Enabled(barTextureScale9Enable);
     bool bt = DICTOOL->checkObjectExist_json(options, "barFileName");
@@ -1073,11 +1070,11 @@ void WidgetPropertiesReader0250::setPropsForSliderFromJsonDictionary(Widget*widg
     std::string tp_n = m_strFilePath;
     std::string tp_p = m_strFilePath;
     std::string tp_d = m_strFilePath;
-
+    
     const char* normalFileName = DICTOOL->getStringValue_json(options, "ballNormal");
     const char* pressedFileName = DICTOOL->getStringValue_json(options, "ballPressed");
     const char* disabledFileName = DICTOOL->getStringValue_json(options, "ballDisabled");
-
+    
     const char* normalFileName_tp = (normalFileName && (strcmp(normalFileName, "") != 0))?tp_n.append(normalFileName).c_str():nullptr;
     const char* pressedFileName_tp = (pressedFileName && (strcmp(pressedFileName, "") != 0))?tp_p.append(pressedFileName).c_str():nullptr;
     const char* disabledFileName_tp =  (disabledFileName && (strcmp(disabledFileName, "") != 0))?tp_d.append(disabledFileName).c_str():nullptr;
@@ -1090,7 +1087,7 @@ void WidgetPropertiesReader0250::setPropsForSliderFromJsonDictionary(Widget*widg
         slider->loadSlidBallTextures(normalFileName_tp,pressedFileName_tp,disabledFileName_tp);
     }
     slider->setPercent(DICTOOL->getIntValue_json(options, "percent"));
-
+    
     std::string tp_b = m_strFilePath;
     const char* imageFileName = DICTOOL->getStringValue_json(options, "progressBarFileName");
     const char* imageFileName_tp = (imageFileName && (strcmp(imageFileName, "") != 0))?tp_b.append(imageFileName).c_str():nullptr;
@@ -1135,7 +1132,7 @@ void WidgetPropertiesReader0250::setPropsForTextFieldFromJsonDictionary(Widget*w
     {
         textField->setTouchSize(Size(DICTOOL->getFloatValue_json(options, "touchSizeWidth"), DICTOOL->getFloatValue_json(options,"touchSizeHeight")));
     }
-
+    
     float dw = DICTOOL->getFloatValue_json(options, "width");
     float dh = DICTOOL->getFloatValue_json(options, "height");
     if (dw > 0.0f || dh > 0.0f)
@@ -1144,7 +1141,7 @@ void WidgetPropertiesReader0250::setPropsForTextFieldFromJsonDictionary(Widget*w
     }
     bool maxLengthEnable = DICTOOL->getBooleanValue_json(options, "maxLengthEnable");
     textField->setMaxLengthEnabled(maxLengthEnable);
-
+    
     if (maxLengthEnable)
     {
         int maxLength = DICTOOL->getIntValue_json(options, "maxLength");
@@ -1182,20 +1179,20 @@ void WidgetPropertiesReader0250::setPropsForLoadingBarFromJsonDictionary(Widget 
 
 void WidgetPropertiesReader0250::setPropsForLabelBMFontFromJsonDictionary(Widget *widget, const rapidjson::Value&options)
 {
-
+    
     setPropsForWidgetFromJsonDictionary(widget, options);
-
+    
     cocos2d::ui::TextBMFont* labelBMFont = static_cast<cocos2d::ui::TextBMFont*>(widget);
-
+    
     std::string tp_c = m_strFilePath;
     const char* cmft = DICTOOL->getStringValue_json(options, "fileName");
     const char* cmf_tp = tp_c.append(cmft).c_str();
-
+    
     labelBMFont->setFntFile(cmf_tp);
-
+    
     const char* text = DICTOOL->getStringValue_json(options, "text");
     labelBMFont->setString(text);
-
+    
     setColorPropsForWidgetFromJsonDictionary(widget,options);
 }
     
@@ -1208,6 +1205,7 @@ void WidgetPropertiesReader0250::setPropsForAllCustomWidgetFromJsonDictionary(co
                                                                               cocos2d::ui::Widget* /*widget*/,
                                                                               const rapidjson::Value& /*customOptions*/)
 {
+    
 }
 
 Widget* WidgetPropertiesReader0250::createWidgetFromBinary(CocoLoader* /*cocoLoader*/,
@@ -1235,7 +1233,7 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
     m_strFilePath = fullPath;
 
     int texturesCount = DICTOOL->getArrayCount_json(data, "textures");
-
+    
     for (int i=0; i<texturesCount; i++)
     {
         const char* file = DICTOOL->getStringValueFromArray_json(data, "textures", i);
@@ -1256,7 +1254,7 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
     }
     const rapidjson::Value& widgetTree = DICTOOL->getSubDictionary_json(data, "widgetTree");
     Widget* widget = widgetFromJsonDictionary(widgetTree);
-
+    
     /* *********temp********* */
     if (widget->getContentSize().equals(Size::ZERO))
     {
@@ -1264,7 +1262,7 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
         rootWidget->setContentSize(Size(fileDesignWidth, fileDesignHeight));
     }
     /* ********************** */
-
+    
     //    widget->setFileDesignSize(Size(fileDesignWidth, fileDesignHeight));
     const rapidjson::Value& actions = DICTOOL->getSubDictionary_json(data, "animation");
     /* *********temp********* */
@@ -1275,19 +1273,19 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
     ActionManagerEx::getInstance()->initWithDictionary(fileName,actions,rootWidget);
     return widget;
 }
-
+    
  cocos2d::ui::Widget* WidgetPropertiesReader0300::createWidgetFromBinary(CocoLoader* cocoLoader,stExpCocoNode*	cocoNode, const char* fileName)
 {
-
+    
     stExpCocoNode *tpChildArray = cocoNode->GetChildArray(cocoLoader);
-    float fileDesignWidth;
-    float fileDesignHeight;
-
+    float fileDesignWidth = 0.0f;
+    float fileDesignHeight = 0.0f;
+    
     Widget* widget =  nullptr;
 
     for (int i = 0; i < cocoNode->GetChildNum(); ++i) {
         std::string key = tpChildArray[i].GetName(cocoLoader);
-
+       
         if (key == "textures") {
             int texturesCount = tpChildArray[i].GetChildNum();
             for (int j=0; j<texturesCount; j++)
@@ -1302,7 +1300,7 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
         }else if (key == "designHeight"){
             fileDesignHeight = utils::atof(tpChildArray[i].GetValue(cocoLoader));
         }else if (key == "widgetTree"){
-
+            
             if (fileDesignWidth <= 0 || fileDesignHeight <= 0) {
                 CCLOGERROR("Read design size error!\n");
                 Size winSize = Director::getInstance()->getWinSize();
@@ -1312,16 +1310,16 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
             {
                 GUIReader::getInstance()->storeFileDesignSize(fileName, Size(fileDesignWidth, fileDesignHeight));
             }
-
-
+            
+            
             stExpCocoNode *widgetTreeNode = &tpChildArray[i];
             rapidjson::Type tType  = tpChildArray[i].GetType(cocoLoader);
-
+            
             if (rapidjson::kObjectType == tType)
             {
                 widget = widgetFromBinary(cocoLoader, widgetTreeNode);
             }
-
+            
             if (widget->getContentSize().equals(Size::ZERO))
             {
                 Layout* rootWidget = dynamic_cast<Layout*>(widget);
@@ -1329,7 +1327,7 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
             }
         }
     }
-
+    
     /* ********************** */
     /* ********************** */
     stExpCocoNode *optionChildNode = cocoNode->GetChildArray(cocoLoader);
@@ -1353,11 +1351,11 @@ Widget* WidgetPropertiesReader0300::widgetFromBinary(CocoLoader* cocoLoader,  st
     stExpCocoNode *childrenNode = nullptr;
     int elementCount = cocoNode->GetChildNum();
     std::string classname;
-
+    
     for (int i = 0; i < elementCount; ++i) {
         std::string key = stChildArray[i].GetName(cocoLoader);
         std::string value = stChildArray[i].GetValue(cocoLoader);
-
+        
         if (key == "classname" )
         {
             if (!value.empty())
@@ -1376,11 +1374,11 @@ Widget* WidgetPropertiesReader0300::widgetFromBinary(CocoLoader* cocoLoader,  st
         }
 
     }
-
+    
     std::string readerName = this->getWidgetReaderClassName(classname);
-
+    
     WidgetReaderProtocol* reader = this->createWidgetReaderProtocol(readerName);
-
+    
     if (reader)
     {
         // widget parse with widget reader
@@ -1391,8 +1389,8 @@ Widget* WidgetPropertiesReader0300::widgetFromBinary(CocoLoader* cocoLoader,  st
         // 1st., custom widget parse properties of parent widget with parent widget reader
         readerName = this->getWidgetReaderClassName(widget);
         reader = this->createWidgetReaderProtocol(readerName);
-
-
+        
+        
         if (reader && widget) {
             setPropsForAllWidgetFromBinary(reader, widget, cocoLoader, optionsNode);
             // 2nd., custom widget parse with custom reader
@@ -1406,7 +1404,7 @@ Widget* WidgetPropertiesReader0300::widgetFromBinary(CocoLoader* cocoLoader,  st
                     break;
                 }
             }
-
+            
             rapidjson::Document customJsonDict;
             customJsonDict.Parse<0>(customProperty);
             if (customJsonDict.HasParseError())
@@ -1417,23 +1415,23 @@ Widget* WidgetPropertiesReader0300::widgetFromBinary(CocoLoader* cocoLoader,  st
         }else{
             CCLOG("Widget or WidgetReader doesn't exists!!!  Please check your csb file.");
         }
-
+      
     }
-
+    
     //parse children
     if (nullptr != childrenNode) {
         rapidjson::Type tType22  = childrenNode->GetType(cocoLoader);
         if (tType22 == rapidjson::kArrayType) {
-
+            
             int childrenCount = childrenNode->GetChildNum();
             stExpCocoNode* innerChildArray = childrenNode->GetChildArray(cocoLoader);
             for (int i=0; i < childrenCount; ++i) {
                 rapidjson::Type tType  = innerChildArray[i].GetType(cocoLoader);
-
+                
                 if (tType == rapidjson::kObjectType) {
-
+                    
                     Widget *child = widgetFromBinary(cocoLoader, &innerChildArray[i]);
-
+                    
                     if (child)
                     {
                         PageView* pageView = dynamic_cast<PageView*>(widget);
@@ -1464,15 +1462,15 @@ Widget* WidgetPropertiesReader0300::widgetFromBinary(CocoLoader* cocoLoader,  st
                             }
                         }
                     }
-
+                    
                 }
             }
         }
     }
-
+    
     return widget;
 }
-
+    
 void WidgetPropertiesReader0300::setPropsForAllWidgetFromBinary(WidgetReaderProtocol* reader,
                                                                 cocos2d::ui::Widget* widget,
                                                                 CocoLoader* cocoLoader,
@@ -1495,9 +1493,9 @@ Widget* WidgetPropertiesReader0300::widgetFromJsonDictionary(const rapidjson::Va
     Widget* widget = this->createGUI(classname);
 //    CCLOG("classname = %s", classname);
     std::string readerName = this->getWidgetReaderClassName(classname);
-
+    
     WidgetReaderProtocol* reader = this->createWidgetReaderProtocol(readerName);
-
+    
     if (reader)
     {
         // widget parse with widget reader
@@ -1506,12 +1504,12 @@ Widget* WidgetPropertiesReader0300::widgetFromJsonDictionary(const rapidjson::Va
     else
     {
         readerName = this->getWidgetReaderClassName(widget);
-
+        
         reader = dynamic_cast<WidgetReaderProtocol*>(ObjectFactory::getInstance()->createObject(readerName));
-
+        
         if (reader && widget) {
             setPropsForAllWidgetFromJsonDictionary(reader, widget, uiOptions);
-
+            
             // 2nd., custom widget parse with custom reader
             const char* customProperty = DICTOOL->getStringValue_json(uiOptions, "customProperty");
             rapidjson::Document customJsonDict;
@@ -1524,9 +1522,9 @@ Widget* WidgetPropertiesReader0300::widgetFromJsonDictionary(const rapidjson::Va
         }else{
             CCLOG("Widget or WidgetReader doesn't exists!!!  Please check your json file.");
         }
-
+       
     }
-
+    
     int childrenCount = DICTOOL->getArrayCount_json(data, "children");
     for (int i = 0; i < childrenCount; i++)
     {
@@ -1563,32 +1561,28 @@ Widget* WidgetPropertiesReader0300::widgetFromJsonDictionary(const rapidjson::Va
     }
     return widget;
 }
-
+    
 void WidgetPropertiesReader0300::setPropsForAllWidgetFromJsonDictionary(WidgetReaderProtocol *reader, Widget *widget, const rapidjson::Value &options)
 {
     reader->setPropsFromJsonDictionary(widget, options);
 }
-
+    
 void WidgetPropertiesReader0300::setPropsForAllCustomWidgetFromJsonDictionary(const std::string &classType,
                                                                               cocos2d::ui::Widget *widget,
                                                                               const rapidjson::Value &customOptions)
 {
     GUIReader* guiReader = GUIReader::getInstance();
-
+    
     std::map<std::string, Ref*> *object_map = guiReader->getParseObjectMap();
     Ref* object = (*object_map)[classType];
-
+    
     std::map<std::string, SEL_ParseEvent> *selector_map = guiReader->getParseCallBackMap();
     SEL_ParseEvent selector = (*selector_map)[classType];
-
+    
     if (object && selector)
     {
         (object->*selector)(classType, widget, customOptions);
-    }
+    }    
 }
-
+    
 }
-
-
-#endif // CC_USE_CCS
-

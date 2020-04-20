@@ -94,35 +94,35 @@ std::string PrettyPrinter::getResult()
 void PrettyPrinter::visitObject(const Ref *p)
 {
     char buf[50] = {0};
-    snprintf(buf, sizeof(buf), "%p", p);
+    sprintf(buf, "%p", p);
     _result += buf;
 }
 
 void PrettyPrinter::visit(const __Bool * p)
 {
     char buf[50] = {0};
-    snprintf(buf, sizeof(buf), "%s", p->getValue() ? "true" : "false");
+    sprintf(buf, "%s", p->getValue() ? "true" : "false");
    _result += buf;
 }
 
 void PrettyPrinter::visit(const __Integer *p)
 {
     char buf[50] = {0};
-    snprintf(buf, sizeof(buf), "%d", p->getValue());
+    sprintf(buf, "%d", p->getValue());
     _result += buf;
 }
 
 void PrettyPrinter::visit(const __Float *p)
 {
     char buf[50] = {0};
-    snprintf(buf, sizeof(buf), "%f", p->getValue());
+    sprintf(buf, "%f", p->getValue());
     _result += buf;
 }
 
 void PrettyPrinter::visit(const __Double *p)
 {
     char buf[50] = {0};
-    snprintf(buf, sizeof(buf), "%lf", p->getValue());
+    sprintf(buf, "%lf", p->getValue());
     _result += buf;
 }
 
@@ -146,7 +146,7 @@ void PrettyPrinter::visit(const __Array *p)
         if (i > 0) {
             _result += "\n";
         }
-        snprintf(buf, sizeof(buf), "%s%02d: ", _indentStr.c_str(), i);
+        sprintf(buf, "%s%02d: ", _indentStr.c_str(), i);
         _result += buf;
         PrettyPrinter v(_indentLevel);
 //FIXME:james        obj->acceptVisitor(v);
@@ -175,7 +175,7 @@ void PrettyPrinter::visit(const __Dictionary *p)
         if (!bFirstElement) {
             _result += "\n";
         }
-        snprintf(buf, sizeof(buf), "%s%s: ", _indentStr.c_str(),element->getStrKey());
+        sprintf(buf, "%s%s: ", _indentStr.c_str(),element->getStrKey());
         _result += buf;
         PrettyPrinter v(_indentLevel);
 //FIXME:james        element->getObject()->acceptVisitor(v);
@@ -203,7 +203,7 @@ void PrettyPrinter::visit(const __Set *p)
         if (i > 0) {
             _result += "\n";
         }
-        _result += _indentStr.c_str();
+        _result += _indentStr;
         PrettyPrinter v(_indentLevel);
 //FIXME:james        (*it)->acceptVisitor(v);
         _result += v.getResult();

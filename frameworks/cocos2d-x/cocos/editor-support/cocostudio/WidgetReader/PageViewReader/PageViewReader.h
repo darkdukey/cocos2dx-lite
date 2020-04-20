@@ -1,9 +1,6 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
-/****************************************************************************
+﻿/****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -54,11 +51,9 @@ namespace cocostudio
         void setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* pageViewOptions);
         cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* pageViewOptions);
         
-        int getResourceType(std::string key);
+        int getResourceType(const std::string& key);
         
     };
 }
 
 #endif /* defined(__TestCpp__PageViewReader__) */
-
-#endif // CC_USE_CCS

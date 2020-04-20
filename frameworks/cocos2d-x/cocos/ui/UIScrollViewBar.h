@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
 Copyright (c) 2015 Neo Kim (neo.kim@neofect.com)
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -186,7 +182,3 @@ private:
 NS_CC_END
 
 #endif /* defined(__UISCROLLVIEWBAR_H__) */
-
-
-#endif // CC_USE_UI
-

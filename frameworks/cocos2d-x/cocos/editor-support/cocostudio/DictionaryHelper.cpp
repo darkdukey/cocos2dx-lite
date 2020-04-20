@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,23 +26,18 @@ THE SOFTWARE.
 #include "platform/CCPlatformMacros.h"
 #include "editor-support/cocostudio/DictionaryHelper.h"
 
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
-
 namespace cocostudio {
-
+    
 static DictionaryHelper* sharedHelper = nullptr;
 
 DictionaryHelper::DictionaryHelper()
 {
-
+    
 }
 
 DictionaryHelper::~DictionaryHelper()
 {
-
+    
 }
 
 DictionaryHelper* DictionaryHelper::getInstance()
@@ -81,7 +77,7 @@ int DictionaryHelper::getIntValue_json(const rapidjson::Value& root, const char*
         CC_BREAK_IF(root[key].IsNull());
         nRet = root[key].GetInt();
     } while (0);
-
+    
     return nRet;
 }
 
@@ -95,7 +91,7 @@ float DictionaryHelper::getFloatValue_json(const rapidjson::Value& root,const ch
         CC_BREAK_IF(root[key].IsNull());
         fRet = (float)root[key].GetDouble();
     } while (0);
-
+    
     return fRet;
 }
 
@@ -108,7 +104,7 @@ bool DictionaryHelper::getBooleanValue_json(const rapidjson::Value& root,const c
         CC_BREAK_IF(root[key].IsNull());
         bRet = root[key].GetBool();
     } while (0);
-
+    
     return bRet;
 }
 
@@ -121,7 +117,7 @@ const char* DictionaryHelper::getStringValue_json(const rapidjson::Value& root,c
         CC_BREAK_IF(root[key].IsNull());
         sRet = root[key].GetString();
     } while (0);
-
+    
     return sRet;
 }
 
@@ -136,7 +132,7 @@ int DictionaryHelper::getArrayCount_json(const rapidjson::Value& root, const cha
         CC_BREAK_IF(root[key].IsNull());
         nRet = (int)(root[key].Size());
     } while (0);
-
+    
     return nRet;
 }
 
@@ -151,7 +147,7 @@ int DictionaryHelper::getIntValueFromArray_json(const rapidjson::Value& root,con
         CC_BREAK_IF(root[arrayKey][idx].IsNull());
         nRet = root[arrayKey][idx].GetInt();
     } while (0);
-
+    
     return nRet;
 }
 
@@ -165,7 +161,7 @@ float DictionaryHelper::getFloatValueFromArray_json(const rapidjson::Value& root
         CC_BREAK_IF(root[arrayKey][idx].IsNull());
         fRet = (float)root[arrayKey][idx].GetDouble();
     } while (0);
-
+    
     return fRet;
 }
 
@@ -178,7 +174,7 @@ bool DictionaryHelper::getBoolValueFromArray_json(const rapidjson::Value& root,c
         CC_BREAK_IF(root[arrayKey][idx].IsNull());
         bRet = root[arrayKey][idx].GetBool();
     } while (0);
-
+    
     return bRet;
 }
 
@@ -191,7 +187,7 @@ const char* DictionaryHelper::getStringValueFromArray_json(const rapidjson::Valu
         CC_BREAK_IF(root[arrayKey][idx].IsNull());
         sRet = root[arrayKey][idx].GetString();
     } while (0);
-
+    
     return sRet;
 }
 
@@ -207,7 +203,7 @@ bool DictionaryHelper::checkObjectExist_json(const rapidjson::Value &root)
         CC_BREAK_IF(root.IsNull());
         bRet = true;
     } while (0);
-
+    
     return bRet;
 }
 
@@ -218,14 +214,14 @@ bool DictionaryHelper::checkObjectExist_json(const rapidjson::Value &root,const 
         CC_BREAK_IF(root.IsNull());
         bRet = root.HasMember(key);
     } while (0);
-
+    
     return bRet;
 }
 
 bool DictionaryHelper::checkObjectExist_json(const rapidjson::Value &root, int index)
 {
     bool bRet = false;
-    do {
+    do {   
         CC_BREAK_IF(root.IsNull());
         CC_BREAK_IF(!root.IsArray());
         CC_BREAK_IF(index < 0 || root.Size() <= (unsigned int )index);
@@ -236,7 +232,3 @@ bool DictionaryHelper::checkObjectExist_json(const rapidjson::Value &root, int i
 }
 
 }
-
-
-#endif // CC_USE_CCS
-

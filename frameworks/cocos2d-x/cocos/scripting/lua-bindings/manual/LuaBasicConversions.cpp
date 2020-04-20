@@ -1897,7 +1897,6 @@ bool luaval_to_std_vector_int(lua_State* L, int lo, std::vector<int>* ret, const
     return ok;
 }
 
-#if 0
 bool luaval_to_mesh_vertex_attrib(lua_State* L, int lo, cocos2d::MeshVertexAttrib* ret, const char* funcName)
 {
     if (nullptr == L || nullptr == ret || lua_gettop(L) < lo)
@@ -1941,7 +1940,6 @@ bool luaval_to_mesh_vertex_attrib(lua_State* L, int lo, cocos2d::MeshVertexAttri
     return ok;
 
 }
-#endif
 
 bool luaval_to_std_vector_float(lua_State* L, int lo, std::vector<float>* ret, const char* funcName)
 {
@@ -3187,7 +3185,6 @@ void vertexattrib_to_luaval(lua_State* L, const cocos2d::VertexAttrib& verAttrib
     lua_rawset(L, -3);
 }
 
-#if 0
 void mesh_vertex_attrib_to_luaval(lua_State* L, const cocos2d::MeshVertexAttrib& inValue)
 {
     if (nullptr == L)
@@ -3211,7 +3208,7 @@ void mesh_vertex_attrib_to_luaval(lua_State* L, const cocos2d::MeshVertexAttrib&
     lua_pushnumber(L, (lua_Number)inValue.attribSizeBytes);
     lua_rawset(L, -3);
 }
-#endif
+
 
 void ccvector_std_string_to_luaval(lua_State* L, const std::vector<std::string>& inValue)
 {

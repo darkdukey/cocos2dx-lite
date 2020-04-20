@@ -125,7 +125,7 @@ int Layer::executeScriptTouchesHandler(EventTouch::EventCode eventType, const st
     return 0;
 }
 
-bool Layer::ccTouchBegan(Touch* /*pTouch*/, Event* /*pEvent*/) {return false;};
+bool Layer::ccTouchBegan(Touch* /*pTouch*/, Event* /*pEvent*/) {return false;}
 void Layer::ccTouchMoved(Touch* /*pTouch*/, Event* /*pEvent*/) {}
 void Layer::ccTouchEnded(Touch* /*pTouch*/, Event* /*pEvent*/) {}
 void Layer::ccTouchCancelled(Touch* /*pTouch*/, Event* /*pEvent*/) {}
@@ -882,14 +882,14 @@ LayerRadialGradient::LayerRadialGradient()
 , _startColorRend(Color4F::BLACK)
 , _endColor(Color4B::BLACK)
 , _endColorRend(Color4F::BLACK)
+, _center(Vec2(0,0))
 , _radius(0.f)
 , _expand(0.f)
-, _center(Vec2(0,0))
+, _uniformLocationStartColor(0)
+, _uniformLocationEndColor(0)
 , _uniformLocationCenter(0)
 , _uniformLocationRadius(0)
 , _uniformLocationExpand(0)
-, _uniformLocationEndColor(0)
-, _uniformLocationStartColor(0)
 , _blendFunc(BlendFunc::ALPHA_NON_PREMULTIPLIED)
 { }
 

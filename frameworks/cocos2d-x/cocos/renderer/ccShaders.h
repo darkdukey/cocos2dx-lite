@@ -1,7 +1,8 @@
 /****************************************************************************
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2012 		cocos2d-x.org
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -75,6 +76,21 @@ extern CC_DLL const GLchar * ccLabelOutline_frag;
 
 extern CC_DLL const GLchar * ccLabel_vert;
 
+extern CC_DLL const GLchar * cc3D_PositionTex_vert;
+extern CC_DLL const GLchar * cc3D_SkinPositionTex_vert;
+extern CC_DLL const GLchar * cc3D_ColorTex_frag;
+extern CC_DLL const GLchar * cc3D_Color_frag;
+extern CC_DLL const GLchar * cc3D_PositionNormalTex_vert;
+extern CC_DLL const GLchar * cc3D_SkinPositionNormalTex_vert;
+extern CC_DLL const GLchar * cc3D_ColorNormalTex_frag;
+extern CC_DLL const GLchar * cc3D_ColorNormal_frag;
+extern CC_DLL const GLchar * cc3D_Particle_vert;
+extern CC_DLL const GLchar * cc3D_Particle_tex_frag;
+extern CC_DLL const GLchar * cc3D_Particle_color_frag;
+extern CC_DLL const GLchar * cc3D_Skybox_vert;
+extern CC_DLL const GLchar * cc3D_Skybox_frag;
+extern CC_DLL const GLchar * cc3D_Terrain_vert;
+extern CC_DLL const GLchar * cc3D_Terrain_frag;
 extern CC_DLL const GLchar * ccCameraClearVert;
 extern CC_DLL const GLchar * ccCameraClearFrag;
 // ETC1 ALPHA supports.

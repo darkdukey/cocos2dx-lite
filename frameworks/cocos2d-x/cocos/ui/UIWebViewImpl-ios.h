@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
- Copyright (c) 2014-2017 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -88,6 +84,12 @@ public:
     virtual void setVisible(bool visible);
 
     void setBounces(bool bounces);
+    
+    virtual void setOpacityWebView(float opacity);
+    
+    virtual float getOpacityWebView() const;
+    
+    virtual void setBackgroundTransparent();
 
 private:
     UIWebViewWrapper *_uiWebViewWrapper;
@@ -100,7 +102,3 @@ private:
 
 /// @endcond
 #endif /* __COCOS2D_UI_WEBVIEWIMPL_IOS_H_ */
-
-
-#endif // CC_USE_UI
-

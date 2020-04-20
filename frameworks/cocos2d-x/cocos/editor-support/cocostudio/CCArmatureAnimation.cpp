@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,15 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 #include "editor-support/cocostudio/CCArmatureAnimation.h"
+
 #include "editor-support/cocostudio/CCArmature.h"
-#include "editor-support/cocostudio/CCBone.h"
 #include "editor-support/cocostudio/CCArmatureDefine.h"
-#include "editor-support/cocostudio/CCUtilMath.h"
+#include "editor-support/cocostudio/CCBone.h"
 #include "editor-support/cocostudio/CCDatas.h"
+#include "editor-support/cocostudio/CCUtilMath.h"
+#include <utility>
 
 using namespace cocos2d;
 
@@ -67,14 +67,14 @@ ArmatureAnimation::ArmatureAnimation()
     , _frameEventCallFunc(nullptr)
     , _movementEventTarget(nullptr)
     , _frameEventTarget(nullptr)
-
+    
     , _movementEventListener(nullptr)
     , _frameEventListener(nullptr)
 {
 
 }
 
-ArmatureAnimation::~ArmatureAnimation(void)
+ArmatureAnimation::~ArmatureAnimation()
 {
     CC_SAFE_RELEASE_NULL(_animationData);
 
@@ -231,7 +231,7 @@ void ArmatureAnimation::play(const std::string& animationName, int durationTo,  
         movementBoneData = static_cast<MovementBoneData *>(_movementData->movBoneDataDic.at(bone->getName()));
 
         Tween *tween = bone->getTween();
-        if(movementBoneData && movementBoneData->frameList.size() > 0)
+        if(movementBoneData && !movementBoneData->frameList.empty())
         {
             _tweenList.push_back(tween);
             movementBoneData->duration = _movementData->duration;
@@ -324,7 +324,7 @@ void ArmatureAnimation::gotoAndPlay(int frameIndex)
     _currentPercent = (float)_curFrameIndex / ((float)_movementData->duration-1);
     _currentFrame = _nextFrameIndex * _currentPercent;
 
-
+    
     for (const auto &tween : _tweenList)
     {
         tween->gotoAndPlay(frameIndex);
@@ -349,56 +349,56 @@ ssize_t ArmatureAnimation::getMovementCount() const
 void ArmatureAnimation::update(float dt)
 {
     ProcessBase::update(dt);
-
+    
     for (const auto &tween : _tweenList)
     {
         tween->update(dt);
     }
 
-    if(_frameEventQueue.size() > 0 || _movementEventQueue.size() > 0)
+    if(!_frameEventQueue.empty() || !_movementEventQueue.empty())
     {
         _armature->retain();
         _armature->autorelease();
     }
 
-    while (_frameEventQueue.size() > 0)
+    while (!_frameEventQueue.empty())
     {
         FrameEvent *event = _frameEventQueue.front();
         _frameEventQueue.pop();
 
         _ignoreFrameEvent = true;
-
+        
         if(_frameEventTarget)
         {
             (_frameEventTarget->*_frameEventCallFunc)(event->bone, event->frameEventName, event->originFrameIndex, event->currentFrameIndex);
         }
-
+        
         if (_frameEventListener)
         {
             _frameEventListener(event->bone, event->frameEventName, event->originFrameIndex, event->currentFrameIndex);
         }
-
-
+        
+        
         _ignoreFrameEvent = false;
 
         CC_SAFE_DELETE(event);
     }
 
-    while (_movementEventQueue.size() > 0)
+    while (!_movementEventQueue.empty())
     {
         MovementEvent *event = _movementEventQueue.front();
         _movementEventQueue.pop();
-
+        
         if(_movementEventTarget)
         {
             (_movementEventTarget->*_movementEventCallFunc)(event->armature, event->movementType, event->movementID);
         }
-
+        
         if (_movementEventListener)
         {
             _movementEventListener(event->armature, event->movementType, event->movementID);
         }
-
+        
         CC_SAFE_DELETE(event);
     }
 }
@@ -484,11 +484,11 @@ void ArmatureAnimation::setFrameEventCallFunc(Ref *target, SEL_FrameEventCallFun
     _frameEventCallFunc = callFunc;
 }
 
-void ArmatureAnimation::setMovementEventCallFunc(std::function<void(Armature *armature, MovementEventType movementType, const std::string& movementID)> listener)
+void ArmatureAnimation::setMovementEventCallFunc(const std::function<void(Armature *armature, MovementEventType movementType, const std::string& movementID)>& listener)
 {
     _movementEventListener = listener;
 }
-void ArmatureAnimation::setFrameEventCallFunc(std::function<void(Bone *bone, const std::string& frameEventName, int originFrameIndex, int currentFrameIndex)> listener)
+void ArmatureAnimation::setFrameEventCallFunc(const std::function<void(Bone *bone, const std::string& frameEventName, int originFrameIndex, int currentFrameIndex)>& listener)
 {
     _frameEventListener = listener;
 }
@@ -560,7 +560,3 @@ void ArmatureAnimation::updateMovementList()
 }
 
 }
-
-
-#endif // CC_USE_CCS
-

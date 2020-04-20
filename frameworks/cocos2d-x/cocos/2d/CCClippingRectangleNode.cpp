@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+
 #include "2d/CCClippingRectangleNode.h"
 #include "base/CCDirector.h"
 #include "renderer/CCRenderer.h"

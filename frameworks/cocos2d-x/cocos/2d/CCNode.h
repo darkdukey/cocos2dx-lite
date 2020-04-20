@@ -74,8 +74,7 @@ enum {
     kNodeOnExit,
     kNodeOnEnterTransitionDidFinish,
     kNodeOnExitTransitionDidStart,
-    kNodeOnCleanup,
-    kNodeOnDestroy
+    kNodeOnCleanup
 };
 
 class EventListener;
@@ -411,7 +410,7 @@ public:
      *
      * @return The x coordinate of the node.
      */
-    virtual float getPositionX(void) const;
+    virtual float getPositionX() const;
     /** Sets the y coordinate of the node in its parent's coordinate system.
      *
      * @param y The y coordinate of the node.
@@ -421,7 +420,7 @@ public:
      *
      * @return The y coordinate of the node.
      */
-    virtual float getPositionY(void) const;
+    virtual float getPositionY() const;
 
     /**
      * Sets the position (X, Y, and Z) in its parent's coordinate system.
@@ -813,7 +812,7 @@ public:
      * @param name The name to search for, supports c++11 regular expression.
      * Search syntax options:
      * `//`: Can only be placed at the begin of the search string. This indicates that it will search recursively.
-     * `..`: The search should move up to the node's parent. Can only be placed at the end of string.
+     * `/..`: The search should move up to the node's parent. Can only be placed at the end of string.
      * `/` : When placed anywhere but the start of the search string, this indicates that the search should move to the node's children.
      *
      * @code
@@ -835,7 +834,7 @@ public:
      *
      * @since v3.2
      */
-    virtual void enumerateChildren(const std::string &name, std::function<bool(Node* node)> callback) const;
+    virtual void enumerateChildren(const std::string &name, const std::function<bool(Node* node)>& callback) const;
     /**
      * Returns the array of the node's children.
      *
@@ -934,7 +933,7 @@ public:
 
     /**
      * Sorts the children array once before drawing, instead of every time when a child is added or reordered.
-     * This approach can improves the performance massively.
+     * This approach can improve the performance massively.
      * @note Don't call this manually unless a child added needs to be removed in the same frame.
      */
     virtual void sortAllChildren();
@@ -968,7 +967,7 @@ public:
      *
      * @return An integer that identifies the node.
      *
-     * Please use `getTag()` instead.
+     * Please use `getName()` instead.
      */
      virtual int getTag() const;
     /**
@@ -1364,7 +1363,7 @@ public:
      * Only one "update" method could be scheduled per node.
      * @lua NA
      */
-    void scheduleUpdate(void);
+    void scheduleUpdate();
 
     /**
      * Schedules the "update" method with a custom priority.
@@ -1382,7 +1381,7 @@ public:
      * Unschedules the "update" method.
      * @see scheduleUpdate();
      */
-    void unscheduleUpdate(void);
+    void unscheduleUpdate();
 
     /**
      * Schedules a custom selector.
@@ -1503,12 +1502,12 @@ public:
      * Resumes all scheduled selectors, actions and event listeners.
      * This method is called internally by onEnter.
      */
-    virtual void resume(void);
+    virtual void resume();
     /**
      * Pauses all scheduled selectors, actions and event listeners.
      * This method is called internally by onExit.
      */
-    virtual void pause(void);
+    virtual void pause();
 
     /**
      * Resumes all scheduled selectors, actions and event listeners.
@@ -1867,7 +1866,7 @@ CC_CONSTRUCTOR_ACCESS:
 
 protected:
     /// lazy allocs
-    void childrenAlloc(void);
+    void childrenAlloc();
     
     /// helper that reorder a child
     void insertChild(Node* child, int z);
@@ -1887,8 +1886,8 @@ protected:
     virtual void disableCascadeColor();
     virtual void updateColor() {}
     
-    bool doEnumerate(std::string name, std::function<bool (Node *)> callback) const;
-    bool doEnumerateRecursive(const Node* node, const std::string &name, std::function<bool (Node *)> callback) const;
+    bool doEnumerate(std::string name, const std::function<bool (Node *)>& callback) const;
+    bool doEnumerateRecursive(const Node* node, const std::string &name, const std::function<bool (Node *)>& callback) const;
     
     //check whether this camera mask is visible by the current visiting camera
     bool isVisitableByVisitingCamera() const;
@@ -2057,6 +2056,48 @@ private:
  * @return true if the point is in content rectangle, false otherwise.
  */
 bool CC_DLL isScreenPointInRect(const Vec2 &pt, const Camera* camera, const Mat4& w2l, const Rect& rect, Vec3 *p);
+
+// NodeRGBA
+
+/** @class __NodeRGBA
+ * @brief __NodeRGBA is a subclass of Node that implements the RGBAProtocol protocol.
+ 
+ All features from Node are valid, plus the following new features:
+ - opacity
+ - RGB colors
+ 
+ Opacity/Color propagates into children that conform to the RGBAProtocol if cascadeOpacity/cascadeColor is enabled.
+ @since v2.1
+ @js NA
+ */
+class CC_DLL __NodeRGBA : public Node, public __RGBAProtocol
+{
+public:
+    // overrides
+    virtual GLubyte getOpacity() const override { return Node::getOpacity(); }
+    virtual GLubyte getDisplayedOpacity() const  override { return Node::getDisplayedOpacity(); }
+    virtual void setOpacity(GLubyte opacity) override { return Node::setOpacity(opacity); }
+    virtual void updateDisplayedOpacity(GLubyte parentOpacity) override { return Node::updateDisplayedOpacity(parentOpacity); }
+    virtual bool isCascadeOpacityEnabled() const  override { return Node::isCascadeOpacityEnabled(); }
+    virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) override { return Node::setCascadeOpacityEnabled(cascadeOpacityEnabled); }
+
+    virtual const Color3B& getColor() const override { return Node::getColor(); }
+    virtual const Color3B& getDisplayedColor() const override { return Node::getDisplayedColor(); }
+    virtual void setColor(const Color3B& color) override { return Node::setColor(color); }
+    virtual void updateDisplayedColor(const Color3B& parentColor) override { return Node::updateDisplayedColor(parentColor); }
+    virtual bool isCascadeColorEnabled() const override { return Node::isCascadeColorEnabled(); }
+    virtual void setCascadeColorEnabled(bool cascadeColorEnabled) override { return Node::setCascadeColorEnabled(cascadeColorEnabled); }
+
+    virtual void setOpacityModifyRGB(bool bValue) override { return Node::setOpacityModifyRGB(bValue); }
+    virtual bool isOpacityModifyRGB() const override { return Node::isOpacityModifyRGB(); }
+
+CC_CONSTRUCTOR_ACCESS:
+    __NodeRGBA();
+    virtual ~__NodeRGBA() {}
+
+private:
+    CC_DISALLOW_COPY_AND_ASSIGN(__NodeRGBA);
+};
 
 // end of _2d group
 /// @}

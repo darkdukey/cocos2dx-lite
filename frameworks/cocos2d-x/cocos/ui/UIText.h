@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -49,7 +45,7 @@ namespace ui {
 /**
  *  For creating a system font or a TTF font Text
  */
-class CC_GUI_DLL Text : public Widget
+class CC_GUI_DLL Text : public Widget, public cocos2d::BlendProtocol
 {
 
     DECLARE_CLASS_GUI_INFO
@@ -334,6 +330,24 @@ public:
      * @warning No support system font.
      */
     virtual Sprite * getLetter(int lettetIndex);
+    
+    /**
+     * Sets the source blending function.
+     *
+     * @param blendFunc A structure with source and destination factor to specify pixel arithmetic. e.g. {GL_ONE, GL_ONE}, {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA}.
+     * @js NA
+     * @lua NA
+     */
+    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
+    
+    /**
+     * Returns the blending function that is currently being used.
+     *
+     * @return A BlendFunc structure with source and destination factor which specified pixel arithmetic.
+     * @js NA
+     * @lua NA
+     */
+    virtual const BlendFunc &getBlendFunc() const override;
 
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
@@ -372,7 +386,3 @@ NS_CC_END
 /// @}
 
 #endif /* defined(__CocoGUI__Label__) */
-
-
-#endif // CC_USE_UI
-

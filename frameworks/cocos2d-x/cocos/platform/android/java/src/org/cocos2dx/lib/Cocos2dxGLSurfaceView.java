@@ -90,7 +90,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 
     public Cocos2dxGLSurfaceView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-
+        
         this.initView();
     }
 
@@ -144,7 +144,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
        return mCocos2dxGLSurfaceView;
        }
 
-       public static void queueAccelerometer(final float x, final float y, final float z, final long timestamp) {
+       public static void queueAccelerometer(final float x, final float y, final float z, final long timestamp) {   
        mCocos2dxGLSurfaceView.queueEvent(new Runnable() {
         @Override
             public void run() {
@@ -199,7 +199,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
             }
         });
         this.setRenderMode(RENDERMODE_WHEN_DIRTY);
-        //super.onPause();
+        // super.onPause();
     }
 
     @Override
@@ -408,11 +408,6 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
             default:
                 return super.onKeyUp(keyCode, event);
         }
-    }
-
-    @Override
-    public void surfaceRedrawNeeded(SurfaceHolder holder) {
-        this.requestRender();
     }
 
     // ===========================================================

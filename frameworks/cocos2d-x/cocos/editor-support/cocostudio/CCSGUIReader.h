@@ -1,5 +1,6 @@
 ﻿/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,11 +25,6 @@ THE SOFTWARE.
 
 #ifndef __CCSGUIREADER_H__
 #define __CCSGUIREADER_H__
-
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 
 #include "ui/UILayout.h"
 #include "editor-support/cocostudio/DictionaryHelper.h"
@@ -90,7 +86,7 @@ public:
                                  SEL_ParseEvent callBack);
 
     void registerTypeAndCallBack(const std::string& classType,
-                                 cocos2d::ObjectFactory::InstanceFunc ins,
+                                 const cocos2d::ObjectFactory::InstanceFunc& ins,
                                  Ref* object,
                                  SEL_ParseEvent callBack);
 protected:
@@ -240,7 +236,3 @@ public:
 
 
 #endif /* defined(__CCSGUIReader__) */
-
-
-#endif // CC_USE_CCS
-

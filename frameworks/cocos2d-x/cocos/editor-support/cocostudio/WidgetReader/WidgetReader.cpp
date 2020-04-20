@@ -1,6 +1,26 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
+/****************************************************************************
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
+ http://www.cocos2d-x.org
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 
 
 
@@ -460,11 +480,11 @@ namespace cocostudio
             }
             else if (attriname == "RotationSkewX")
             {
-                rotationSkew.x = std::atof(value.c_str());
+                rotationSkew.x = atof(value.c_str());
             }
             else if (attriname == "RotationSkewY")
             {
-                rotationSkew.y = std::atof(value.c_str());
+                rotationSkew.y = atof(value.c_str());
             }
             else if (attriname == "Rotation")
             {
@@ -552,19 +572,19 @@ namespace cocostudio
             }
             else if (attriname == P_Layout_LeftMargin)
             {
-                leftMargin = std::atof(value.c_str());
+                leftMargin = atof(value.c_str());
             }
             else if (attriname == P_Layout_RightMargin)
             {
-                rightMargin = std::atof(value.c_str());
+                rightMargin = atof(value.c_str());
             }
             else if (attriname == P_Layout_TopMargin)
             {
-                topMargin = std::atof(value.c_str());
+                topMargin = atof(value.c_str());
             }
             else if (attriname == P_Layout_BottomMargin)
             {
-                bottomMargin = std::atof(value.c_str());
+                bottomMargin = atof(value.c_str());
             }
 
             attribute = attribute->Next();
@@ -585,11 +605,11 @@ namespace cocostudio
                     
                     if (attriname == "X")
                     {
-                        position.x = std::atof(value.c_str());
+                        position.x = atof(value.c_str());
                     }
                     else if (attriname == "Y")
                     {
-                        position.y = std::atof(value.c_str());
+                        position.y = atof(value.c_str());
                     }
                     
                     attribute = attribute->Next();
@@ -606,11 +626,11 @@ namespace cocostudio
                     
                     if (attriname == "ScaleX")
                     {
-                        scale.x = std::atof(value.c_str());
+                        scale.x = atof(value.c_str());
                     }
                     else if (attriname == "ScaleY")
                     {
-                        scale.y = std::atof(value.c_str());
+                        scale.y = atof(value.c_str());
                     }
                     
                     attribute = attribute->Next();
@@ -627,11 +647,11 @@ namespace cocostudio
                     
                     if (attriname == "ScaleX")
                     {
-                        anchorPoint.x = std::atof(value.c_str());
+                        anchorPoint.x = atof(value.c_str());
                     }
                     else if (attriname == "ScaleY")
                     {
-                        anchorPoint.y = std::atof(value.c_str());
+                        anchorPoint.y = atof(value.c_str());
                     }
                     
                     attribute = attribute->Next();
@@ -677,11 +697,11 @@ namespace cocostudio
                     
                     if (attriname == "X")
                     {
-                        size.x = std::atof(value.c_str());
+                        size.x = atof(value.c_str());
                     }
                     else if (attriname == "Y")
                     {
-                        size.y = std::atof(value.c_str());
+                        size.y = atof(value.c_str());
                     }
                     
                     attribute = attribute->Next();
@@ -698,11 +718,11 @@ namespace cocostudio
 
                     if (attriname == "X")
                     {
-                        positionXPercent = std::atof(value.c_str());
+                        positionXPercent = atof(value.c_str());
                     }
                     else if (attriname == "Y")
                     {
-                        positionYPercent = std::atof(value.c_str());
+                        positionYPercent = atof(value.c_str());
                     }
 
                     attribute = attribute->Next();
@@ -719,11 +739,11 @@ namespace cocostudio
 
                     if (attriname == "X")
                     {
-                        sizeXPercent = std::atof(value.c_str());
+                        sizeXPercent = atof(value.c_str());
                     }
                     else if (attriname == "Y")
                     {
-                        sizeYPercent = std::atof(value.c_str());
+                        sizeYPercent = atof(value.c_str());
                     }
 
                     attribute = attribute->Next();
@@ -971,5 +991,3 @@ namespace cocostudio
 
 
 
-
-#endif // CC_USE_CCS

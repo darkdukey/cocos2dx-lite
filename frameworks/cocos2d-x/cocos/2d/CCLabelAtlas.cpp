@@ -51,7 +51,7 @@ LabelAtlas* LabelAtlas::create()
     {
         CC_SAFE_RELEASE_NULL(ret);
     }
-
+    
     return ret;
 }
 
@@ -85,7 +85,7 @@ bool LabelAtlas::initWithString(const std::string& string, Texture2D* texture, i
 }
 
 LabelAtlas* LabelAtlas::create(const std::string& string, const std::string& fntFile)
-{
+{    
     LabelAtlas *ret = new (std::nothrow) LabelAtlas();
     if (ret)
     {
@@ -93,20 +93,20 @@ LabelAtlas* LabelAtlas::create(const std::string& string, const std::string& fnt
         {
             ret->autorelease();
         }
-        else
+        else 
         {
             CC_SAFE_RELEASE_NULL(ret);
         }
     }
-
+    
     return ret;
 }
 
 bool LabelAtlas::initWithString(const std::string& theString, const std::string& fntFile)
 {
     std::string pathStr = FileUtils::getInstance()->fullPathForFilename(fntFile);
-    std::string relPathStr = pathStr.substr(0, pathStr.find_last_of("/"))+"/";
-
+    std::string relPathStr = pathStr.substr(0, pathStr.find_last_of('/'))+"/";
+    
     ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(pathStr);
 
     CCASSERT(dict["version"].asInt() == 1, "Unsupported version. Upgrade cocos2d version");
@@ -147,7 +147,7 @@ void LabelAtlas::updateAtlasValues()
     }
 
     CCASSERT(n <= _textureAtlas->getCapacity(), "updateAtlasValues: Invalid String length");
-    V2F_C4B_T2F_Quad* quads = _textureAtlas->getQuads();
+    V3F_C4B_T2F_Quad* quads = _textureAtlas->getQuads();
     for(ssize_t i = 0; i < n; i++) {
 
         unsigned char a = s[i] - _mapStartChar;
@@ -178,16 +178,16 @@ void LabelAtlas::updateAtlasValues()
 
         quads[i].bl.vertices.x = (float) (i * _itemWidth);
         quads[i].bl.vertices.y = 0;
-        // quads[i].bl.vertices.z = 0.0f;
+        quads[i].bl.vertices.z = 0.0f;
         quads[i].br.vertices.x = (float)(i * _itemWidth + _itemWidth);
         quads[i].br.vertices.y = 0;
-        // quads[i].br.vertices.z = 0.0f;
+        quads[i].br.vertices.z = 0.0f;
         quads[i].tl.vertices.x = (float)(i * _itemWidth);
         quads[i].tl.vertices.y = (float)(_itemHeight);
-        // quads[i].tl.vertices.z = 0.0f;
+        quads[i].tl.vertices.z = 0.0f;
         quads[i].tr.vertices.x = (float)(i * _itemWidth + _itemWidth);
         quads[i].tr.vertices.y = (float)(_itemHeight);
-        // quads[i].tr.vertices.z = 0.0f;
+        quads[i].tr.vertices.z = 0.0f;
         Color4B c(_displayedColor.r, _displayedColor.g, _displayedColor.b, _displayedOpacity);
         quads[i].tl.colors = c;
         quads[i].tr.colors = c;
@@ -222,7 +222,7 @@ void LabelAtlas::setString(const std::string &label)
     _quadsToDraw = len;
 }
 
-const std::string& LabelAtlas::getString(void) const
+const std::string& LabelAtlas::getString() const
 {
     return _string;
 }

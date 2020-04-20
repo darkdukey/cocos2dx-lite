@@ -1,10 +1,6 @@
-
-
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -146,7 +142,3 @@ NS_CC_END
 // end of ui group
 /// @}
 #endif /* defined(__cocos2d_libs__CCLayoutManager__) */
-
-
-#endif // CC_USE_UI
-

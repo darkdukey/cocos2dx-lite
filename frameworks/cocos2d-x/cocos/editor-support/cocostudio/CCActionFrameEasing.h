@@ -1,5 +1,6 @@
-/****************************************************************************
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+﻿/****************************************************************************
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,9 +25,6 @@ THE SOFTWARE.
 
 #ifndef __ActionFrameEasing_H__
 #define __ActionFrameEasing_H__
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
 
 #include "base/CCRef.h"
 #include "editor-support/cocostudio/CocosStudioExport.h"
@@ -77,7 +75,3 @@ public:
 }
 
 #endif
-
-
-#endif // CC_USE_CCS
-

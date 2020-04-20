@@ -104,6 +104,8 @@ const char* GLProgram::SHADER_3D_SKINPOSITION_TEXTURE = "Shader3DSkinPositionTex
 const char* GLProgram::SHADER_3D_POSITION_NORMAL = "Shader3DPositionNormal";
 const char* GLProgram::SHADER_3D_POSITION_NORMAL_TEXTURE = "Shader3DPositionNormalTexture";
 const char* GLProgram::SHADER_3D_SKINPOSITION_NORMAL_TEXTURE = "Shader3DSkinPositionNormalTexture";
+const char* GLProgram::SHADER_3D_POSITION_BUMPEDNORMAL_TEXTURE = "Shader3DPositionBumpedNormalTexture";
+const char* GLProgram::SHADER_3D_SKINPOSITION_BUMPEDNORMAL_TEXTURE = "Shader3DSkinPositionBumpedNormalTexture";
 const char* GLProgram::SHADER_3D_PARTICLE_COLOR = "Shader3DParticleColor";
 const char* GLProgram::SHADER_3D_PARTICLE_TEXTURE = "Shader3DParticleTexture";
 const char* GLProgram::SHADER_3D_SKYBOX = "Shader3DSkybox";
@@ -188,7 +190,6 @@ GLProgram* GLProgram::createWithByteArrays(const GLchar* vShaderByteArray, const
     return nullptr;
 }
 
-
 GLProgram* GLProgram::createWithFilenames(const std::string& vShaderFilename, const std::string& fShaderFilename)
 {
     return createWithFilenames(vShaderFilename, fShaderFilename, EMPTY_DEFINE);
@@ -235,7 +236,7 @@ GLProgram::~GLProgram()
         GL::deleteProgram(_program);
     }
 
-    
+
     clearHashUniforms();
 }
 
@@ -486,8 +487,11 @@ bool GLProgram::compileShader(GLuint * shader, GLenum type, const GLchar* source
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
         headersDef = (type == GL_VERTEX_SHADER ? "precision mediump float;\n precision mediump int;\n" : "precision mediump float;\n precision mediump int;\n");
 // Bugfix to make shader variables types constant to be understood by the current Android Virtual Devices or Emulators. This will also eliminate the 0x501 and 0x502 OpenGL Errors during emulation.
+// Changed shader data types mediump to highp to remove possible sprite joggling on some Android phones.
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-        headersDef = "#version 100\n precision mediump float;\n precision mediump int;\n";
+        headersDef = (type == GL_VERTEX_SHADER ?
+            "#version 100\n precision highp float;\n precision highp int;\n" :
+            "#version 100\n precision highp float;\n precision highp int;\n");
 #elif (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32 && CC_TARGET_PLATFORM != CC_PLATFORM_LINUX && CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
         headersDef = (type == GL_VERTEX_SHADER ? "precision highp float;\n precision highp int;\n" : "precision mediump float;\n precision mediump int;\n");
 #endif
@@ -928,7 +932,7 @@ void GLProgram::setUniformsForBuiltins(const Mat4 &matrixMV)
 
     if (_flags.usesP)
         setUniformLocationWithMatrix4fv(_builtInUniforms[UNIFORM_P_MATRIX], matrixP.m, 1);
-    
+
     if (_flags.usesMultiViewP)
     {
         Mat4 mats[4];
@@ -947,7 +951,7 @@ void GLProgram::setUniformsForBuiltins(const Mat4 &matrixMV)
         Mat4 matrixMVP = matrixP * matrixMV;
         setUniformLocationWithMatrix4fv(_builtInUniforms[UNIFORM_MVP_MATRIX], matrixMVP.m, 1);
     }
-    
+
     if (_flags.usesMultiViewMVP)
     {
         Mat4 mats[4];
@@ -1025,4 +1029,3 @@ inline void GLProgram::clearHashUniforms()
 }
 
 NS_CC_END
-

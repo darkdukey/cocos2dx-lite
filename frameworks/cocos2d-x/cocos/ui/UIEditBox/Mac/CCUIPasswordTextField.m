@@ -23,9 +23,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 #import "ui/UIEditBox/Mac/CCUIPasswordTextField.h"
 #include "ui/UIEditBox/Mac/CCUITextFieldFormatter.h"
 
@@ -102,22 +99,26 @@
 @end
 
 @interface CCUIPasswordTextField()
-@property (nonatomic, retain) NSMutableDictionary *placeholderAttributes;
+{
+
+}
 
 @end
 
 @implementation CCUIPasswordTextField
-{
-}
+
 -(id) initWithFrame:(NSRect)frameRect
 {
-    if ([super initWithFrame:frameRect]) {
-     
+    if (self = [super initWithFrame:frameRect]) {
         [self setLineBreakMode:NSLineBreakByTruncatingTail];
-
     }
     
     return self;
+}
+
+-(void)dealloc
+{
+    [super dealloc];
 }
 
 +(void)load
@@ -215,5 +216,3 @@
     return [self.formatter maximumLength];
 }
 @end
-
-#endif

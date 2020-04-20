@@ -2,6 +2,7 @@
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2012 James Chen
  Copyright (c) 2015 Mazyad Alabduljaleel
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -24,9 +25,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/ccConfig.h"
-#if CC_USE_UI > 0
-
 #import <UIKit/UIKit.h>
 #import "ui/UIEditBox/iOS/UITextField+CCUITextInput.h"
 
@@ -38,5 +36,3 @@
 @property (nonatomic, retain) UIFont *placeholderFont;
 
 @end
-
-#endif // CC_USE_UI

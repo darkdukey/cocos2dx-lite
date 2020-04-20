@@ -1,6 +1,26 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
+/****************************************************************************
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
+ http://www.cocos2d-x.org
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 
 
 
@@ -111,19 +131,19 @@ namespace cocostudio
             }
             else if (name == "Scale9OriginX")
             {
-                capInsets.origin.x = std::atof(value.c_str());
+                capInsets.origin.x = atof(value.c_str());
             }
             else if (name == "Scale9OriginY")
             {
-                capInsets.origin.y = std::atof(value.c_str());
+                capInsets.origin.y = atof(value.c_str());
             }
             else if (name == "Scale9Width")
             {
-                capInsets.size.width = std::atof(value.c_str());
+                capInsets.size.width = atof(value.c_str());
             }
             else if (name == "Scale9Height")
             {
-                capInsets.size.height = std::atof(value.c_str());
+                capInsets.size.height = atof(value.c_str());
             }
             
             attribute = attribute->Next();
@@ -146,11 +166,11 @@ namespace cocostudio
                     
                     if (name == "X")
                     {
-                        scale9Size.width = std::atof(value.c_str());
+                        scale9Size.width = atof(value.c_str());
                     }
                     else if (name == "Y")
                     {
-                        scale9Size.height = std::atof(value.c_str());
+                        scale9Size.height = atof(value.c_str());
                     }
                     
                     attribute = attribute->Next();
@@ -241,11 +261,11 @@ namespace cocostudio
                     
                     if (name == "ScaleX")
                     {
-                        colorVector.x = std::atof(value.c_str());
+                        colorVector.x = atof(value.c_str());
                     }
                     else if (name == "ScaleY")
                     {
-                        colorVector.y = std::atof(value.c_str());
+                        colorVector.y = atof(value.c_str());
                     }
                     
                     attribute = attribute->Next();
@@ -355,7 +375,7 @@ namespace cocostudio
         auto imageFileNameDic = options->backGroundImageData();
         int imageFileNameType = imageFileNameDic->resourceType();
         std::string imageFileName = imageFileNameDic->path()->c_str();
-        if (imageFileName != "")
+        if (!imageFileName.empty())
         {
             switch (imageFileNameType)
             {
@@ -452,7 +472,7 @@ namespace cocostudio
         return pageView;
     }
     
-    int PageViewReader::getResourceType(std::string key)
+    int PageViewReader::getResourceType(const std::string& key)
     {
         if(key == "Normal" || key == "Default")
         {
@@ -471,5 +491,3 @@ namespace cocostudio
     }
     
 }
-
-#endif // CC_USE_CCS

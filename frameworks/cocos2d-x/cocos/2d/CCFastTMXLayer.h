@@ -69,10 +69,10 @@ namespace experimental{
  * "value" by default is 0, but you can change it from Tiled by adding the "cc_alpha_func" property to the layer.
  * The value 0 should work for most cases, but if you have tiles that are semi-transparent, then you might want to use a different
  * value, like 0.5.
-
+ 
  * For further information, please see the programming guide:
  * http://www.cocos2d-iphone.org/wiki/doku.php/prog_guide:tiled_maps
-
+ 
  * @since v3.2
  * @js NA
  */
@@ -99,7 +99,7 @@ public:
     virtual ~TMXLayer();
 
     /** Returns the tile gid at a given tile coordinate. It also returns the tile flags.
-     *
+     * 
      * @param tileCoordinate The tile coordinate.
      * @param flags A TMXTileFlags.
      * @return The tile gid at a given tile coordinate. It also returns the tile flags.
@@ -147,13 +147,13 @@ public:
 
     /** Creates the tiles. */
     void setupTiles();
-
+    
     /** Get the tile layer name.
      *
      * @return The tile layer name.
      */
     const std::string& getLayerName() { return _layerName; }
-
+    
     /** Set the tile layer name.
      *
      * @param layerName The new layer name.
@@ -165,45 +165,45 @@ public:
      * @return Size of the layer in tiles.
      */
     const Size& getLayerSize() const { return _layerSize; }
-
-    /** Set the size of the layer in tiles.
+    
+    /** Set the size of the layer in tiles. 
      *
      * @param size The new size of the layer in tiles.
      */
     void setLayerSize(const Size& size) { _layerSize = size; }
-
+    
     /** Size of the map's tile (could be different from the tile's size).
      *
      * @return Size of the map's tile (could be different from the tile's size).
      */
     const Size& getMapTileSize() const { return _mapTileSize; }
-
-    /** Set the size of the map's tile.
+    
+    /** Set the size of the map's tile. 
      *
      * @param size The new size of the map's tile.
      */
     void setMapTileSize(const Size& size) { _mapTileSize = size; }
-
+    
     /** Pointer to the map of tiles.
      * @js NA
      * @lua NA
      * @return The pointer to the map of tiles.
      */
     const uint32_t* getTiles() const { return _tiles; };
-
+    
     /** Set the pointer to the map of tiles.
      *
      * @param tiles The pointer to the map of tiles.
      */
     void setTiles(uint32_t* tiles) { _tiles = tiles; _quadsDirty = true;};
-
+    
     /** Tileset information for the layer.
      *
      * @return Tileset information for the layer.
      */
     TMXTilesetInfo* getTileSet() const { return _tileSet; }
-
-    /** Set the tileset information for the layer.
+    
+    /** Set the tileset information for the layer. 
      *
      * @param info The new tileset information for the layer.
      */
@@ -212,31 +212,31 @@ public:
         CC_SAFE_RELEASE(_tileSet);
         _tileSet = info;
     }
-
+    
     /** Layer orientation, which is the same as the map orientation.
      *
      * @return Layer orientation, which is the same as the map orientation.
      */
     int getLayerOrientation() const { return _layerOrientation; }
-
-    /** Set Layer orientation, which is the same as the map orientation.
+    
+    /** Set Layer orientation, which is the same as the map orientation. 
      *
      * @param orientation Layer orientation, which is the same as the map orientation.
      */
     void setLayerOrientation(int orientation) { _layerOrientation = orientation; }
-
-    /** Properties from the layer. They can be added using Tiled.
+    
+    /** Properties from the layer. They can be added using Tiled. 
      *
      * @return Properties from the layer. They can be added using Tiled.
      */
     const ValueMap& getProperties() const { return _properties; }
-
+    
     /** Properties from the layer. They can be added using Tiled.
      *
      * @return Properties from the layer. They can be added using Tiled.
      */
     ValueMap& getProperties() { return _properties; }
-
+    
     /** Set the properties to the layer.
      *
      * @param properties The properties to the layer.
@@ -255,7 +255,7 @@ public:
      * @return Returns the tile (Sprite) at a given a tile coordinate.
      */
     Sprite* getTileAt(const Vec2& tileCoordinate);
-
+    
     /** Set an sprite to the tile,with the tile coordinate and gid.
      *
      * @param sprite A Sprite.
@@ -279,26 +279,28 @@ protected:
 
     /* The layer recognizes some special properties, like cc_vertexz */
     void parseInternalProperties();
-
+    
     Mat4 tileToNodeTransform();
     Rect tileBoundsForClipTransform(const Mat4 &tileToClip);
-
+    
     int getVertexZForPos(const Vec2& pos);
-
+    
     //Flip flags is packed into gid
     void setFlaggedTileGIDByIndex(int index, uint32_t gid);
-
+    
     //
     void updateTotalQuads();
-
+    
     void onDraw(Primitive* primitive);
     int getTileIndexByPos(int x, int y) const { return x + y * (int) _layerSize.width; }
-
+    
     void updateVertexBuffer();
     void updateIndexBuffer();
     void updatePrimitives();
-protected:
 
+    virtual void setOpacity(GLubyte opacity) override;
+protected:
+    
     //! name of the layer
     std::string _layerName;
 
@@ -316,7 +318,7 @@ protected:
     ValueMap _properties;
 
     Texture2D *_texture;
-
+    
     /** container for sprite children. map<index, pair<sprite, gid> > */
     std::map<int, std::pair<Sprite*, int> > _spriteContainer;
 
@@ -325,16 +327,16 @@ protected:
     Size _screenGridSize;
     Rect _screenGridRect;
     int _screenTileCount;
-
+    
     int _vertexZvalue;
     bool _useAutomaticVertexZ;
-
+    
     /** tile coordinate to node coordinate transform */
     Mat4 _tileToNodeTransform;
     /** data for rendering */
     bool _quadsDirty;
     std::vector<int> _tileToQuadIndex;
-    std::vector<V2F_C4B_T2F_Quad> _totalQuads;
+    std::vector<V3F_C4B_T2F_Quad> _totalQuads;
 #ifdef CC_FAST_TILEMAP_32_BIT_INDICES
     std::vector<GLuint> _indices;
 #else
@@ -344,15 +346,15 @@ protected:
     std::unordered_map<int/*vertexZ*/, int/*number to quads*/> _indicesVertexZNumber;
     std::vector<PrimitiveCommand> _renderCommands;
     bool _dirty;
-
+    
     VertexBuffer* _vertexBuffer;
-
+    
     VertexData* _vData;
-
+    
     IndexBuffer* _indexBuffer;
-
+    
     Map<int , Primitive*> _primitives;
-
+    
 public:
     /** Possible orientations of the TMX map */
     static const int FAST_TMX_ORIENTATION_ORTHO;

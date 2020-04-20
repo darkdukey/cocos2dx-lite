@@ -1,9 +1,6 @@
-
-#include "base/ccConfig.h"
-#if CC_USE_CCS > 0
-
 /****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -99,7 +96,7 @@ namespace cocostudio
             }
             else if (attriname == "Volume")
             {
-                volume = std::atof(value.c_str());
+                volume = atof(value.c_str());
             }
             else if (attriname == "Name")
             {
@@ -198,6 +195,8 @@ namespace cocostudio
         return component;
     }
     
+    Node* ComAudioReader::createNodeWithFlatBuffers(const flatbuffers::Table* /*nodeOptions*/)
+    {
+        return nullptr;
+    }
 }
-
-#endif // CC_USE_CCS

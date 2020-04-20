@@ -28,9 +28,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-#include <spine/Cocos2dAttachmentLoader.h>
-#include <spine/extension.h>
-#include <spine/AttachmentVertices.h>
+#include "spine/Cocos2dAttachmentLoader.h"
+#include "spine/extension.h"
+#include "spine/AttachmentVertices.h"
 
 USING_NS_CC;
 using namespace spine;
@@ -51,7 +51,7 @@ void _Cocos2dAttachmentLoader_configureAttachment (spAttachmentLoader* loader, s
 		spRegionAttachment* regionAttachment = SUB_CAST(spRegionAttachment, attachment);
 		spAtlasRegion* region = (spAtlasRegion*)regionAttachment->rendererObject;
 		AttachmentVertices* attachmentVertices = new AttachmentVertices((Texture2D*)region->page->rendererObject, 4, quadTriangles, 6);
-		V2F_C4B_T2F* vertices = attachmentVertices->_triangles->verts;
+		V3F_C4B_T2F* vertices = attachmentVertices->_triangles->verts;
 		for (int i = 0, ii = 0; i < 4; ++i, ii += 2) {
 			vertices[i].texCoords.u = regionAttachment->uvs[ii];
 			vertices[i].texCoords.v = regionAttachment->uvs[ii + 1];
@@ -64,7 +64,7 @@ void _Cocos2dAttachmentLoader_configureAttachment (spAttachmentLoader* loader, s
 		spAtlasRegion* region = (spAtlasRegion*)meshAttachment->rendererObject;
 		AttachmentVertices* attachmentVertices = new AttachmentVertices((Texture2D*)region->page->rendererObject,
 			meshAttachment->super.worldVerticesLength >> 1, meshAttachment->triangles, meshAttachment->trianglesCount);
-		V2F_C4B_T2F* vertices = attachmentVertices->_triangles->verts;
+		V3F_C4B_T2F* vertices = attachmentVertices->_triangles->verts;
 		for (int i = 0, ii = 0, nn = meshAttachment->super.worldVerticesLength; ii < nn; ++i, ii += 2) {
 			vertices[i].texCoords.u = meshAttachment->uvs[ii];
 			vertices[i].texCoords.v = meshAttachment->uvs[ii + 1];
