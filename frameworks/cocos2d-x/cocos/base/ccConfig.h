@@ -31,6 +31,9 @@ THE SOFTWARE.
 
 #include "platform/CCPlatformConfig.h"
 
+#define CC_USE_3D_PHYSICS 0
+#define CC_USE_NAVMESH 0
+
 /**
  * @file
  * cocos2d (cc) configuration file.

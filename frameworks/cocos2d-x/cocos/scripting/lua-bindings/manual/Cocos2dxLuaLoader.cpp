@@ -41,11 +41,6 @@ extern "C"
         static const std::string NOT_BYTECODE_FILE_EXT = ".lua";
 
         std::string filename(luaL_checkstring(L, 1));
-        int i = filename.find("Connection");
-        if (i != -1)
-        {
-            int j = 0;
-        }
         size_t pos = filename.rfind(BYTECODE_FILE_EXT);
         if (pos != std::string::npos && pos == filename.length() - BYTECODE_FILE_EXT.length())
             filename = filename.substr(0, pos);
